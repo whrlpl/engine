@@ -13,4 +13,8 @@ That being said, there are a few things I want to achieve (which pretty much all
 - Code as clean and simple as possible
 
 ## Features
-Wow! Even the features have new features! Well, actually, there's nothing here yet.
+Wow! Even the features have new features!
+
+- It renders nice cubes
+- It renders nice sprites
+- ???
