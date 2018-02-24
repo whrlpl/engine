@@ -44,23 +44,20 @@ namespace OpenTKTest.Render
                 _initialized = true;
             }
             texture.Bind();
+
+            spriteMaterial.SetVariable("flipX", false);
+            spriteMaterial.SetVariable("flipY", false);
             switch (flipMode)
             {
                 case FlipMode.FlipX:
                     spriteMaterial.SetVariable("flipX", true);
-                    spriteMaterial.SetVariable("flipY", false);
                     break;
                 case FlipMode.FlipY:
-                    spriteMaterial.SetVariable("flipX", false);
                     spriteMaterial.SetVariable("flipY", true);
                     break;
                 case FlipMode.FlipXAndY:
                     spriteMaterial.SetVariable("flipX", true);
                     spriteMaterial.SetVariable("flipY", true);
-                    break;
-                default:
-                    spriteMaterial.SetVariable("flipX", false);
-                    spriteMaterial.SetVariable("flipY", false);
                     break;
             }
             spriteMaterial.SetVariable("albedoTexture", 0);
@@ -90,12 +87,12 @@ namespace OpenTKTest.Render
             Matrix4 view = Matrix4.LookAt(new Vector3(0.0f, 0.0f, 4.0f), new Vector3(0.0f, 0.0f, -4.0f), new Vector3(0.0f, 1.0f, 0.0f));
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45), windowRatio, 0.1f, 100.0f);
             Matrix4 model = Matrix4.Identity;
-            Matrix4 mvp = model * view * projection * Matrix4.CreateFromAxisAngle(new Vector3(1.0f, 1.0f, 0.0f), TimeController.currentTime) * Matrix4.CreateScale(size);
+            Matrix4 mvp = model * view * projection * Matrix4.CreateFromAxisAngle(new Vector3(1.0f, 1.0f, 0.0f), Time.currentTime) * Matrix4.CreateScale(size);
 
             defaultMaterial.SetVariable("albedoTexture", 0);
             defaultMaterial.SetVariable("mvp", mvp);
             defaultMaterial.SetVariable("textureRepetitions", textureRepetitions);
-            defaultMaterial.SetVariable("time", TimeController.currentTime);
+            defaultMaterial.SetVariable("time", Time.currentTime);
             GL.DrawElements(BeginMode.Triangles, 108, DrawElementsType.UnsignedInt, 0);
         }
 
@@ -219,15 +216,7 @@ namespace OpenTKTest.Render
 
         protected static Texture GetTextureFromString(string texture)
         {
-            var instance = GetInstance();
-            //if (instance.activeTexture?.name != texture)
-            //{
-                Texture t = FileCache.GetTexture(texture);
-                //t.Bind();
-                instance.activeTexture = t;
-                return t;
-            //}
-            //return instance.activeTexture;
+            return FileCache.GetTexture(texture).Bind();
         }
 
         public static void RenderQuad(Vector2 position, Vector2 size, string texture, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)

@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using OpenTK.Graphics;
 using OpenTKTest.Render;
 using System;
 using System.Collections.Generic;
@@ -23,11 +24,11 @@ namespace GameLogic.UI
         public int size;
         public int kerning;
         public string filename;
-        public Color color;
+        public Color4 color;
         public int baseCharWidth;
         public int baseCharHeight;
         public Dictionary<char, FontCharacter> characters = new Dictionary<char, FontCharacter>();
-        public Font(string file, Color color_, int size_ = 16, int kerning_ = 0)
+        public Font(string file, Color4 color_, int size_ = 16, int kerning_ = 0)
         {
             filename = file;
             color = color_;
@@ -41,10 +42,10 @@ namespace GameLogic.UI
                 byte[] data = ttf.GetCodepointBitmap(c, scale, scale, out fontChar.width, out fontChar.height, out fontChar.xOffset, out fontChar.yOffset);
                 if (fontChar.width <= 0 || fontChar.height <= 0)
                     continue;
-                List<Color> data_colorized = new List<Color>();
+                List<Color4> data_colorized = new List<Color4>();
                 foreach (byte b in data)
                 {
-                    data_colorized.Add(new Color(Color.Black, b));
+                    data_colorized.Add(new Color4(255, 255, 255, b));
                 }
                 Texture tex = Texture.FromData(data_colorized.ToArray(), fontChar.width, fontChar.height);
                 fontChar.texture = tex;

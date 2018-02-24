@@ -19,7 +19,7 @@ namespace OpenTKTest.Render
         public bool animated = true;
         public int animFrame = -1;
 
-        public static Texture FromData(Color[] data, int width, int height)
+        public static Texture FromData(Color4[] data, int width, int height)
         {
             Texture temp = new Texture()
             {

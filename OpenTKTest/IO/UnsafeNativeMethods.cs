@@ -25,11 +25,11 @@ namespace OpenTKTest.IO
         public delegate void SpectateGameHandler(string secret);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void JoinRequestHandler(JoinRequest request);
+        public delegate void JoinRequestHandler(DiscordJoinRequest request);
 
         //--------------------------------------------------------------------------------
 
-        public struct EventHandlers
+        public struct DiscordEventHandlers
         {
             public ReadyHandler ready;
             public DisconnectedHandler disconnected;
@@ -41,7 +41,7 @@ namespace OpenTKTest.IO
 
         //--------------------------------------------------------------------------------
 
-        public struct RichPresence
+        public struct DiscordRichPresence
         {
             public string state;
             public string details;
@@ -62,7 +62,7 @@ namespace OpenTKTest.IO
 
         //--------------------------------------------------------------------------------
 
-        public struct JoinRequest
+        public struct DiscordJoinRequest
         {
             public string userId;
             public string username;
@@ -71,7 +71,7 @@ namespace OpenTKTest.IO
 
         //--------------------------------------------------------------------------------
 
-        public enum Reply
+        public enum DiscordReply
         {
             No = 0,
             Yes = 1,
@@ -82,11 +82,11 @@ namespace OpenTKTest.IO
 
         [DllImport("discord-rpc.dll", CharSet = CharSet.Unicode)]
         private static extern void Discord_Initialize([MarshalAs(UnmanagedType.LPWStr)]string applicationID,
-            ref EventHandlers handlers,
+            ref DiscordEventHandlers handlers,
             bool autoRegister,
             [MarshalAs(UnmanagedType.LPWStr)]string optionalSteamId);
 
-        public static void Initialize(string appID, EventHandlers handlers)
+        public static void DiscordInitialize(string appID, DiscordEventHandlers handlers)
         {
             Discord_Initialize(appID, ref handlers, true, String.Empty);
         }
@@ -96,7 +96,7 @@ namespace OpenTKTest.IO
         [DllImport("discord-rpc.dll")]
         private static extern void Discord_ClearPresence();
 
-        public static void ClearPresence()
+        public static void DiscordClearPresence()
         {
             Discord_ClearPresence();
         }
@@ -106,7 +106,7 @@ namespace OpenTKTest.IO
         [DllImport("discord-rpc.dll")]
         private static extern void Discord_UpdatePresence(IntPtr presence);
 
-        public static void UpdatePresence(RichPresence presence)
+        public static void DiscordUpdatePresence(DiscordRichPresence presence)
         {
             IntPtr ptrPresence = Marshal.AllocHGlobal(Marshal.SizeOf(presence));
             Marshal.StructureToPtr(presence, ptrPresence, false);
@@ -118,7 +118,7 @@ namespace OpenTKTest.IO
         [DllImport("discord-rpc.dll")]
         private static extern void Discord_Shutdown();
 
-        public static void Shutdown()
+        public static void DiscordShutdown()
         {
             Discord_Shutdown();
         }
@@ -128,16 +128,16 @@ namespace OpenTKTest.IO
         [DllImport("discord-rpc.dll")]
         private static extern void Discord_RunCallbacks();
 
-        public static void RunCallbacks()
+        public static void DiscordRunCallbacks()
         {
             Discord_RunCallbacks();
         }
         //--------------------------------------------------------------------------------
 
         [DllImport("discord-rpc.dll", CharSet = CharSet.Unicode)]
-        private static extern void Discord_Respond(string userId, Reply reply);
+        private static extern void Discord_Respond(string userId, DiscordReply reply);
 
-        public static void Respond(string userID, Reply reply)
+        public static void DiscordRespond(string userID, DiscordReply reply)
         {
             Discord_Respond(userID, reply);
         }

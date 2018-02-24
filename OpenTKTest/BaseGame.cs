@@ -4,7 +4,6 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTKTest.IO;
 using OpenTKTest.Render;
-using OpenTKTest.Game;
 
 namespace OpenTKTest
 {
@@ -20,24 +19,20 @@ namespace OpenTKTest
         public string windowTitle = "%{gamename} %{gamever} | ogl %{glver} | %{fps} fps";
         #endregion
 
-        public World world;
-
         public delegate void actionDelegate();
         public abstract void Initialize();
         public abstract void Render();
         public abstract void Update();
 
-        public BaseGame() : base(1280, 720, new GraphicsMode(ColorFormat.Empty, 32), "WINDOW", GameWindowFlags.Default, DisplayDevice.Default, 4, 6, GraphicsContextFlags.Default)
+        public BaseGame() : base(1280, 720, new GraphicsMode(ColorFormat.Empty, 32), "Window", GameWindowFlags.Default, DisplayDevice.Default, 4, 6, GraphicsContextFlags.Default)
         {
             UpdateWindowTitle();
             lastFrameCollection = DateTime.Now;
-            Blocks.LoadBlocksFromFolder("Content\\Blocks");
-            FileCache.AddTexture("blank", Texture.FromData(new Color[] { Color.White }, 1, 1));
-            FileCache.LoadTexturesFromFolder("Content\\Blocks");
-            world = new World();
-            world.Init();
+            FileCache.AddTexture("blank", Texture.FromData(new Color4[] { Color4.White }, 1, 1));
+            FileCache.LoadTexturesFromFolder("Content");
             DiscordController.Init();
             Analytics.CreateInstance();
+
             Initialize();
         }
 
@@ -55,9 +50,7 @@ namespace OpenTKTest
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            //GC.Collect(1, GCCollectionMode.Optimized, false);
-
-            TimeController.AddTime((float)e.Time);
+            Time.AddTime((float)e.Time);
             DateTime frameStart = DateTime.Now;
             GL.ClearColor(Color4.CornflowerBlue);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -94,9 +87,9 @@ namespace OpenTKTest
                 .Replace("%{glver}", GL.GetString(StringName.Version))
                 .Replace("%{glslver}", GL.GetString(StringName.ShadingLanguageVersion))
                 .Replace("%{glvendor}", GL.GetString(StringName.Vendor))
-                .Replace("%{timef}", TimeController.GetFlicks().ToString())
-                .Replace("%{times}", TimeController.GetSeconds().ToString())
-                .Replace("%{timems}", TimeController.GetMilliseconds().ToString())
+                .Replace("%{timef}", Time.GetFlicks().ToString())
+                .Replace("%{times}", Time.GetSeconds().ToString())
+                .Replace("%{timems}", Time.GetMilliseconds().ToString())
                 .Replace("%{fps}", framesLastSecond.ToString()); // formatted window title
         }
     }

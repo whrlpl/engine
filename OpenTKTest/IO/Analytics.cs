@@ -51,11 +51,8 @@ namespace OpenTKTest.IO
 
         public static List<KeyValuePair<string, string>> GetTelemetrics()
         {
-            var tmp = new KeyValuePairListBuilder<string, string>()
-                .Add("version", "0")
-                .Add("singleplayer", "true")
-                .Add("players_seen", "100"); // etc
-            return tmp.GetList();
+            var tmp = new List<KeyValuePair<string, string>>();
+            return tmp;
         }
 
         public static string GetSystemProperties()

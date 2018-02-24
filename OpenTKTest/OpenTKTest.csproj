@@ -76,20 +76,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseGame.cs" />
-    <Compile Include="Game\Blocks.cs" />
-    <Compile Include="Game\World.cs" />
     <Compile Include="IO\Analytics.cs" />
     <Compile Include="IO\DiscordController.cs" />
     <Compile Include="IO\UnsafeNativeMethods.cs" />
     <Compile Include="IO\FileCache.cs" />
-    <Compile Include="IO\TimeController.cs" />
+    <Compile Include="IO\Time.cs" />
     <Compile Include="Pattern\Exceptions.cs" />
-    <Compile Include="Pattern\ListBuilder.cs" />
     <Compile Include="Pattern\Singleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Render\BaseRenderer.cs" />
-    <Compile Include="Game\Block.cs" />
-    <Compile Include="Render\Color.cs" />
     <Compile Include="Render\Material.cs" />
     <Compile Include="Render\Shader.cs" />
     <Compile Include="Render\Texture.cs" />

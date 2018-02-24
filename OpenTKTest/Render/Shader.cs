@@ -22,8 +22,7 @@ namespace OpenTKTest.Render
                 GL.ShaderSource(glShader, sr.ReadToEnd());
                 GL.CompileShader(glShader);
                 fileName = file;
-                int status = 0;
-                GL.GetShader(glShader, ShaderParameter.CompileStatus, out status);
+                GL.GetShader(glShader, ShaderParameter.CompileStatus, out var status);
 
                 if (status == 0)
                     throw new Exception(GL.GetShaderInfoLog(glShader));

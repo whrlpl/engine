@@ -47,21 +47,6 @@ namespace OpenTKTest.Render
             if (locations.TryGetValue(variable, out var locationCached))
                 return locationCached;
             return -1;
-#if !CACHELOCATIONS
-            var location = GL.GetUniformLocation(shaderProgram, variable);
-            if (location == (int)ErrorCode.InvalidValue ||
-                location == (int)ErrorCode.InvalidOperation ||
-                location == -1)
-            {
-#if DEBUG
-                throw new Exception("Error getting GLSL variable.");
-#else
-                Console.WriteLine("Error getting GLSL uniform '" + variable + "'.");
-#endif
-            }
-            locations.Add(variable, location);
-            return location;
-#endif
         }
 
         public void SetVariable(string variable, bool value)

@@ -8,7 +8,7 @@ namespace OpenTKTest.IO
 {
     public class DiscordController
     {
-        protected static UnsafeNativeMethods.RichPresence testPresence = new UnsafeNativeMethods.RichPresence()
+        protected static UnsafeNativeMethods.DiscordRichPresence testPresence = new UnsafeNativeMethods.DiscordRichPresence()
         {
             state = "Playing Solo",
             details = "Deathmatch",
@@ -20,7 +20,7 @@ namespace OpenTKTest.IO
             instance = true
         };
 
-        protected static UnsafeNativeMethods.RichPresence defaultPresence = new UnsafeNativeMethods.RichPresence()
+        protected static UnsafeNativeMethods.DiscordRichPresence defaultPresence = new UnsafeNativeMethods.DiscordRichPresence()
         {
             state = "Idle",
             largeImageKey = "default",
@@ -29,20 +29,20 @@ namespace OpenTKTest.IO
 
         public static void Init()
         {
-            UnsafeNativeMethods.EventHandlers eventHandlers = new UnsafeNativeMethods.EventHandlers()
+            UnsafeNativeMethods.DiscordEventHandlers eventHandlers = new UnsafeNativeMethods.DiscordEventHandlers()
             {
                 errored = OnErrored,
                 joinGame = OnJoinGame,
                 joinRequest = OnJoinRequest,
                 spectateGame = OnSpectateGame
             };
-            UnsafeNativeMethods.Initialize("408670906404175883", eventHandlers);
+            UnsafeNativeMethods.DiscordInitialize("408670906404175883", eventHandlers);
         }
 
         public static void Update()
         {
-            UnsafeNativeMethods.RunCallbacks();
-            UnsafeNativeMethods.UpdatePresence(defaultPresence);
+            UnsafeNativeMethods.DiscordRunCallbacks();
+            UnsafeNativeMethods.DiscordUpdatePresence(defaultPresence);
         }
 
         private static void OnSpectateGame(string secret)
@@ -50,7 +50,7 @@ namespace OpenTKTest.IO
             throw new NotImplementedException("Spectating is not implemented yet.");
         }
 
-        private static void OnJoinRequest(UnsafeNativeMethods.JoinRequest request)
+        private static void OnJoinRequest(UnsafeNativeMethods.DiscordJoinRequest request)
         {
             throw new NotImplementedException("Joining is not implemented yet.");
         }
