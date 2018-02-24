@@ -198,6 +198,7 @@ namespace OpenTKTest.Render
         {
             return new Vector2((2 / windowSize.X * dpiUpscale) * -pixels.X + 1, (2 / windowSize.Y * dpiUpscale) * pixels.Y - 1);
         }
+
         protected Vector2 _PixelsToNDCSize(Vector2 pixels)
         {
             return new Vector2((2 / windowSize.X * dpiUpscale) * pixels.X / 2, (2 / windowSize.Y * dpiUpscale) * pixels.Y / 2);
@@ -216,7 +217,7 @@ namespace OpenTKTest.Render
 
         protected static Texture GetTextureFromString(string texture)
         {
-            return FileCache.GetTexture(texture).Bind();
+            return FileCache.GetTexture(texture);
         }
 
         public static void RenderQuad(Vector2 position, Vector2 size, string texture, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
