@@ -28,7 +28,7 @@ namespace OpenTKTest.Render
                 if (status == 0)
                     throw new Exception(GL.GetShaderInfoLog(glShader));
                 else
-                    Console.WriteLine("Shader " + file + " compilation was a success");
+                    Console.WriteLine("Shader " + file + " compiled");
             }
         }
     }

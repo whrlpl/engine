@@ -12,8 +12,6 @@ namespace OpenTKTest.Render
 {
     public class Material
     {
-        private Shader fragmentShader;
-        private Shader vertexShader;
         private int shaderProgram;
         private Dictionary<string, int> locations = new Dictionary<string, int>();
 
@@ -30,14 +28,11 @@ namespace OpenTKTest.Render
         public void Link()
         {
             GL.LinkProgram(shaderProgram);
-            int uniformCount;
-            GL.GetProgram(shaderProgram, GetProgramParameterName.ActiveUniforms, out uniformCount);
+            GL.GetProgram(shaderProgram, GetProgramParameterName.ActiveUniforms, out var uniformCount);
             for (int i = 0; i < uniformCount; ++i)
             {
                 StringBuilder uniformName = new StringBuilder();
-                int size, length;
-                ActiveUniformType type;
-                GL.GetActiveUniform(shaderProgram, i, 2048, out length, out size, out type, uniformName);
+                GL.GetActiveUniform(shaderProgram, i, 2048, out var length, out var size, out var type, uniformName);
                 locations.Add(uniformName.ToString(), i);
             }
         }
@@ -49,8 +44,7 @@ namespace OpenTKTest.Render
 
         protected int GetVariableLocation(string variable)
         {
-            int locationCached;
-            if (locations.TryGetValue(variable, out locationCached))
+            if (locations.TryGetValue(variable, out var locationCached))
                 return locationCached;
             return -1;
 #if !CACHELOCATIONS
@@ -68,6 +62,11 @@ namespace OpenTKTest.Render
             locations.Add(variable, location);
             return location;
 #endif
+        }
+
+        public void SetVariable(string variable, bool value)
+        {
+            GL.ProgramUniform1(shaderProgram, GetVariableLocation(variable), (value) ? 1 : 0);
         }
 
         public void SetVariable(string variable, float value)

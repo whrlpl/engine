@@ -5,28 +5,32 @@ VisualStudioVersion = 15.0.27205.2004
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKTest", "OpenTKTest\OpenTKTest.csproj", "{772D98CB-FB30-4C9A-B78A-698E31972F22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLogic", "GameLogic\GameLogic.csproj", "{C3966631-8546-4F26-B4E6-3969A57390C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{772D98CB-FB30-4C9A-B78A-698E31972F22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{772D98CB-FB30-4C9A-B78A-698E31972F22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{772D98CB-FB30-4C9A-B78A-698E31972F22}.Debug|x64.ActiveCfg = Debug|x64
 		{772D98CB-FB30-4C9A-B78A-698E31972F22}.Debug|x64.Build.0 = Debug|x64
-		{772D98CB-FB30-4C9A-B78A-698E31972F22}.Debug|x86.ActiveCfg = Debug|x86
-		{772D98CB-FB30-4C9A-B78A-698E31972F22}.Debug|x86.Build.0 = Debug|x86
 		{772D98CB-FB30-4C9A-B78A-698E31972F22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{772D98CB-FB30-4C9A-B78A-698E31972F22}.Release|Any CPU.Build.0 = Release|Any CPU
 		{772D98CB-FB30-4C9A-B78A-698E31972F22}.Release|x64.ActiveCfg = Release|x64
 		{772D98CB-FB30-4C9A-B78A-698E31972F22}.Release|x64.Build.0 = Release|x64
-		{772D98CB-FB30-4C9A-B78A-698E31972F22}.Release|x86.ActiveCfg = Release|x86
-		{772D98CB-FB30-4C9A-B78A-698E31972F22}.Release|x86.Build.0 = Release|x86
+		{C3966631-8546-4F26-B4E6-3969A57390C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3966631-8546-4F26-B4E6-3969A57390C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3966631-8546-4F26-B4E6-3969A57390C6}.Debug|x64.ActiveCfg = Debug|x64
+		{C3966631-8546-4F26-B4E6-3969A57390C6}.Debug|x64.Build.0 = Debug|x64
+		{C3966631-8546-4F26-B4E6-3969A57390C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3966631-8546-4F26-B4E6-3969A57390C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3966631-8546-4F26-B4E6-3969A57390C6}.Release|x64.ActiveCfg = Release|x64
+		{C3966631-8546-4F26-B4E6-3969A57390C6}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

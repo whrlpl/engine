@@ -8,8 +8,11 @@ out vec4 frag_color;
 uniform float textureRepetitions;
 uniform sampler2D albedoTexture;
 uniform vec4 tint;
+uniform bool flipX;
+uniform bool flipY;
 //----------------------------------------
 
 void main() {
-	frag_color = texture(albedoTexture, vec2(outTexCoord.x * textureRepetitions, outTexCoord.y * textureRepetitions));
+	frag_color = texture(albedoTexture, vec2(((flipX) ? -outTexCoord.x : outTexCoord.x) * textureRepetitions, 
+		((flipY) ? -outTexCoord.y : outTexCoord.y) * textureRepetitions));
 }

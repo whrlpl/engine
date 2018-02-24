@@ -36,7 +36,7 @@ namespace OpenTKTest.Game
                 {
                     // Add block
                     var blockTexture = "block_" + currentBlockId;
-                    FileCache.AddTexture(blockTexture, Texture.LoadFromFile(file));
+                    FileCache.AddTexture(blockTexture, Texture.FromFile(file));
                     instance.blocks.Add(currentBlockId, new Block()
                     {
                         texture = blockTexture,

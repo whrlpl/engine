@@ -19,7 +19,35 @@ namespace OpenTKTest.Render
         public bool animated = true;
         public int animFrame = -1;
 
-        public static Texture LoadFromFile(string fileName)
+        public static Texture FromData(Color[] data, int width, int height)
+        {
+            Texture temp = new Texture()
+            {
+                name = string.Empty
+            };
+
+            using (var stream = new MemoryStream())
+            {
+                GL.GenTextures(1, out temp.glTexture);
+                GL.BindTexture(TextureTarget.Texture2D, temp.glTexture);
+                temp.data = new byte[data.Length * 4];
+                for (int i = 0; i < data.Length; ++i)
+                {
+                    temp.data[i * 4] = (byte)data[i].B;
+                    temp.data[i * 4 + 1] = (byte)data[i].G;
+                    temp.data[i * 4 + 2] = (byte)data[i].R;
+                    temp.data[i * 4 + 3] = (byte)data[i].A;
+                }
+                IntPtr ptr = Marshal.AllocHGlobal(temp.data.Length);
+                Marshal.Copy(temp.data, 0, ptr, temp.data.Length);
+                PixelFormat imageFormat = PixelFormat.Bgra;
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, imageFormat, PixelType.UnsignedByte, ptr);
+                Marshal.FreeHGlobal(ptr);
+            }
+            return temp;
+        }
+
+        public static Texture FromFile(string fileName)
         {
             Texture temp = new Texture()
             {

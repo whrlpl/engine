@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace OpenTKTest.Pattern
 {
+    [Serializable]
     public class TextureNotFoundException : Exception
     {
         public TextureNotFoundException(string message) : base(message)
@@ -14,6 +15,7 @@ namespace OpenTKTest.Pattern
         }
     }
 
+    [Serializable]
     public class TextureAlreadyExistsException : Exception
     {
         public TextureAlreadyExistsException(string message) : base(message)
@@ -21,6 +23,7 @@ namespace OpenTKTest.Pattern
         }
     }
 
+    [Serializable]
     public class TextureLoadException : Exception
     {
         public TextureLoadException(string message) : base(message)

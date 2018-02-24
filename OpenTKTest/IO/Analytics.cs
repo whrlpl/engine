@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Management;
+using System.Net;
 
 namespace OpenTKTest.IO
 {
@@ -26,8 +27,10 @@ namespace OpenTKTest.IO
 
         protected void Init()
         {
-            Console.WriteLine(GetTelemetrics());
-            // TODO: Upload to server
+            foreach (KeyValuePair<string, string> datakvp in GetTelemetrics())
+            {
+                Console.WriteLine(datakvp.Key + ": " + datakvp.Value);
+            }
         }
 
         protected string GetDeviceInfo(string device)
@@ -46,7 +49,16 @@ namespace OpenTKTest.IO
             return temp;
         }
 
-        public static string GetTelemetrics()
+        public static List<KeyValuePair<string, string>> GetTelemetrics()
+        {
+            var tmp = new KeyValuePairListBuilder<string, string>()
+                .Add("version", "0")
+                .Add("singleplayer", "true")
+                .Add("players_seen", "100"); // etc
+            return tmp.GetList();
+        }
+
+        public static string GetSystemProperties()
         {
             var instance = GetInstance();
             var temp = "";

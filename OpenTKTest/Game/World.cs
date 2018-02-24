@@ -26,7 +26,7 @@ namespace OpenTKTest.Game
             //for (int y = -10; y < 10; ++y)
             //    blockPositions.Add(new Vector3(x, y, -4.0f), Blocks.GetBlock(0x01));
             blockPositions.Add(new Vector3(0, 0, -4.0f), Blocks.GetBlock(0x03));
-            blockPositions.Add(new Vector3(-2.0f, -2.0f, -4.0f), Blocks.GetBlock(0x01));
+            //blockPositions.Add(new Vector3(-2.0f, -2.0f, -4.0f), Blocks.GetBlock(0x01));
             //blockPositions.Add(new Vector2(0, 0), Blocks.GetBlock(0x00));
         }
     }

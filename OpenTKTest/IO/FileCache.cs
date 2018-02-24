@@ -2,6 +2,7 @@
 using OpenTKTest.Render;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,16 +26,21 @@ namespace OpenTKTest.IO
 #endif
         }
 
+        public static void LoadTexturesFromFolder(string folder)
+        {
+            foreach (string file in Directory.GetFiles(folder))
+            {
+                if (file.EndsWith(".png") || file.EndsWith(".jpg") || file.EndsWith(".bmp"))
+                    AddTexture(file, Texture.FromFile(file));
+            }
+        }
+
         public static void AddTexture(string name, Texture texture)
         {
             var instance = GetInstance();
 
             if (instance.textureCache.ContainsKey(name))
-#if DEBUG
-                throw new TextureAlreadyExistsException("The texture " + name + " has already been added (and will be replaced in release builds)");
-#else
                 instance.textureCache.Remove(name);
-#endif
             instance.textureCache.Add(name, texture);
         }
     }

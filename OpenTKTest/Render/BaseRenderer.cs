@@ -12,17 +12,27 @@ using System.Threading.Tasks;
 
 namespace OpenTKTest.Render
 {
+    public enum FlipMode
+    {
+        None,
+        FlipX,
+        FlipY,
+        FlipXAndY
+    }
+
     public class BaseRenderer : Singleton<BaseRenderer>
     {
         Texture activeTexture;
-        int shaderProgram;
         int VAO, VBO, EBO;
         int cubeVAO, cubeVBO, cubeEBO;
         Material defaultMaterial;
         Material spriteMaterial;
         protected bool _initialized;
 
-        protected void _RenderQuad(Vector2 position, Vector2 size, string texture, float textureRepetitions, Color4 tint, float rotation)
+        public Vector2 windowSize;
+        public float dpiUpscale = 1.0f;
+
+        protected void _RenderQuad(Vector2 position, Vector2 size, Texture texture, float textureRepetitions, Color4 tint, float rotation, FlipMode flipMode)
         {
             GL.BindVertexArray(VAO);
             GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
@@ -33,11 +43,25 @@ namespace OpenTKTest.Render
                 _Init();
                 _initialized = true;
             }
-            if (activeTexture?.name != texture)
+            texture.Bind();
+            switch (flipMode)
             {
-                Texture t = FileCache.GetTexture(texture);
-                t.Bind();
-                activeTexture = t;
+                case FlipMode.FlipX:
+                    spriteMaterial.SetVariable("flipX", true);
+                    spriteMaterial.SetVariable("flipY", false);
+                    break;
+                case FlipMode.FlipY:
+                    spriteMaterial.SetVariable("flipX", false);
+                    spriteMaterial.SetVariable("flipY", true);
+                    break;
+                case FlipMode.FlipXAndY:
+                    spriteMaterial.SetVariable("flipX", true);
+                    spriteMaterial.SetVariable("flipY", true);
+                    break;
+                default:
+                    spriteMaterial.SetVariable("flipX", false);
+                    spriteMaterial.SetVariable("flipY", false);
+                    break;
             }
             spriteMaterial.SetVariable("albedoTexture", 0);
             spriteMaterial.SetVariable("textureRepetitions", textureRepetitions);
@@ -48,7 +72,7 @@ namespace OpenTKTest.Render
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
 
-        protected void _RenderCube(Vector3 position, Vector3 size, string texture, float textureRepetitions, Color4 tint)
+        protected void _RenderCube(Vector3 position, Vector3 size, Texture texture, float textureRepetitions, Color4 tint)
         {
             GL.BindVertexArray(cubeVAO);
             GL.BindBuffer(BufferTarget.ArrayBuffer, cubeVBO);
@@ -60,19 +84,13 @@ namespace OpenTKTest.Render
                 _Init();
                 _initialized = true;
             }
-            if (activeTexture?.name != texture)
-            {
-                Texture t = FileCache.GetTexture(texture);
-                t.Bind();
-                activeTexture = t;
-            }
             int[] viewport = new int[4];
             GL.GetInteger(GetPName.Viewport, viewport);
             float windowRatio = (float)viewport[2] / viewport[3];
             Matrix4 view = Matrix4.LookAt(new Vector3(0.0f, 0.0f, 4.0f), new Vector3(0.0f, 0.0f, -4.0f), new Vector3(0.0f, 1.0f, 0.0f));
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45), windowRatio, 0.1f, 100.0f);
             Matrix4 model = Matrix4.Identity;
-            Matrix4 mvp = model * view * projection * Matrix4.CreateFromAxisAngle(new Vector3(0.0f, 1.0f, 1.0f), TimeController.currentTime) * Matrix4.CreateScale(size);
+            Matrix4 mvp = model * view * projection * Matrix4.CreateFromAxisAngle(new Vector3(1.0f, 1.0f, 0.0f), TimeController.currentTime) * Matrix4.CreateScale(size);
 
             defaultMaterial.SetVariable("albedoTexture", 0);
             defaultMaterial.SetVariable("mvp", mvp);
@@ -100,15 +118,15 @@ namespace OpenTKTest.Render
 
             float[] cubeVertices = {
                 // front
-                -1.0f, -1.0f,  1.0f,    1, 0, //0
-                -1.0f,  1.0f,  1.0f,    1, 1, //1
-                 1.0f,  1.0f,  1.0f,    0, 0, //2
-                 1.0f, -1.0f,  1.0f,    0, 1, //3
+                -1.0f, -1.0f,  1.0f,    1, 1, //0
+                -1.0f,  1.0f,  1.0f,    0, 1, //1
+                 1.0f,  1.0f,  1.0f,    1, 1, //2
+                 1.0f, -1.0f,  1.0f,    1, 0, //3
                 // back
-                -1.0f, -1.0f, -1.0f,    0, 0, //4
-                -1.0f,  1.0f, -1.0f,    1, 0, //5
-                 1.0f,  1.0f, -1.0f,    1, 1, //6
-                 1.0f, -1.0f, -1.0f,    0, 1, //7
+                -1.0f, -1.0f, -1.0f,    0, 1, //4
+                -1.0f,  1.0f, -1.0f,    0, 0, //5
+                 1.0f,  1.0f, -1.0f,    1, 0, //6
+                 1.0f, -1.0f, -1.0f,    1, 1, //7
             };
 
             uint[] cubeBuffers = {
@@ -181,33 +199,57 @@ namespace OpenTKTest.Render
 
         protected Vector2 _PixelsToNDC(Vector2 pixels)
         {
-            Vector2 windowSize = new Vector2(1280, 720);
-            return new Vector2((2 / windowSize.X) * -pixels.X + 1, (2 / windowSize.Y) * pixels.Y - 1);
+            return new Vector2((2 / windowSize.X * dpiUpscale) * -pixels.X + 1, (2 / windowSize.Y * dpiUpscale) * pixels.Y - 1);
         }
         protected Vector2 _PixelsToNDCSize(Vector2 pixels)
         {
-            Vector2 windowSize = new Vector2(1280, 720);
-            return new Vector2((2 / windowSize.X) * pixels.X / 2, (2 / windowSize.Y) * pixels.Y / 2);
+            return new Vector2((2 / windowSize.X * dpiUpscale) * pixels.X / 2, (2 / windowSize.Y * dpiUpscale) * pixels.Y / 2);
         }
 
-        public static void RenderQuad(Vector2 position, Vector2 size, string texture, float textureRepetitions = 1, float rotation = 0)
+
+        public static void RenderQuad(Vector2 position, Vector2 size, Texture texture, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
         {
-            GetInstance()._RenderQuad(position, size, texture, textureRepetitions, Color4.White, rotation);
+            GetInstance()._RenderQuad(position, size, texture, textureRepetitions, Color4.White, rotation, flipMode);
         }
 
-        public static void RenderQuad(Vector2 position, Vector2 size, string texture, Color4 tint, float textureRepetitions = 1, float rotation = 0)
+        public static void RenderQuad(Vector2 position, Vector2 size, Texture texture, Color4 tint, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
         {
-            GetInstance()._RenderQuad(position, size, texture, textureRepetitions, tint, rotation);
+            GetInstance()._RenderQuad(position, size, texture, textureRepetitions, tint, rotation, flipMode);
+        }
+
+        protected static Texture GetTextureFromString(string texture)
+        {
+            var instance = GetInstance();
+            //if (instance.activeTexture?.name != texture)
+            //{
+                Texture t = FileCache.GetTexture(texture);
+                //t.Bind();
+                instance.activeTexture = t;
+                return t;
+            //}
+            //return instance.activeTexture;
+        }
+
+        public static void RenderQuad(Vector2 position, Vector2 size, string texture, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
+        {
+            GetTextureFromString(texture);
+            GetInstance()._RenderQuad(position, size, GetTextureFromString(texture), textureRepetitions, Color4.White, rotation, flipMode);
+        }
+
+        public static void RenderQuad(Vector2 position, Vector2 size, string texture, Color4 tint, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
+        {
+            GetTextureFromString(texture);
+            GetInstance()._RenderQuad(position, size, GetTextureFromString(texture), textureRepetitions, tint, rotation, flipMode);
         }
 
         public static void RenderCube(Vector3 position, Vector3 size, string texture, Color4 tint, float textureRepetitions = 1)
         {
-            GetInstance()._RenderCube(position, size, texture, textureRepetitions, tint);
+            GetInstance()._RenderCube(position, size, GetTextureFromString(texture), textureRepetitions, tint);
         }
 
         public static void RenderCube(Vector3 position, Vector3 size, string texture, float textureRepetitions = 1)
         {
-            GetInstance()._RenderCube(position, size, texture, textureRepetitions, Color4.White);
+            GetInstance()._RenderCube(position, size, GetTextureFromString(texture), textureRepetitions, Color4.White);
         }
     }
 }

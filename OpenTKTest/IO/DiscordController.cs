@@ -8,7 +8,7 @@ namespace OpenTKTest.IO
 {
     public class DiscordController
     {
-        protected static DiscordRPC.RichPresence testPresence = new DiscordRPC.RichPresence()
+        protected static UnsafeNativeMethods.RichPresence testPresence = new UnsafeNativeMethods.RichPresence()
         {
             state = "Playing Solo",
             details = "Deathmatch",
@@ -20,7 +20,7 @@ namespace OpenTKTest.IO
             instance = true
         };
 
-        protected static DiscordRPC.RichPresence defaultPresence = new DiscordRPC.RichPresence()
+        protected static UnsafeNativeMethods.RichPresence defaultPresence = new UnsafeNativeMethods.RichPresence()
         {
             state = "Idle",
             largeImageKey = "default",
@@ -29,40 +29,40 @@ namespace OpenTKTest.IO
 
         public static void Init()
         {
-            DiscordRPC.EventHandlers eventHandlers = new DiscordRPC.EventHandlers()
+            UnsafeNativeMethods.EventHandlers eventHandlers = new UnsafeNativeMethods.EventHandlers()
             {
-                errored = onErrored,
-                joinGame = onJoinGame,
-                joinRequest = onJoinRequest,
-                spectateGame = onSpectateGame
+                errored = OnErrored,
+                joinGame = OnJoinGame,
+                joinRequest = OnJoinRequest,
+                spectateGame = OnSpectateGame
             };
-            DiscordRPC.Initialize("408670906404175883", eventHandlers);
+            UnsafeNativeMethods.Initialize("408670906404175883", eventHandlers);
         }
 
         public static void Update()
         {
-            DiscordRPC.RunCallbacks();
-            DiscordRPC.UpdatePresence(defaultPresence);
+            UnsafeNativeMethods.RunCallbacks();
+            UnsafeNativeMethods.UpdatePresence(defaultPresence);
         }
 
-        private static void onSpectateGame(string secret)
+        private static void OnSpectateGame(string secret)
         {
             throw new NotImplementedException("Spectating is not implemented yet.");
         }
 
-        private static void onJoinRequest(DiscordRPC.JoinRequest request)
+        private static void OnJoinRequest(UnsafeNativeMethods.JoinRequest request)
         {
             throw new NotImplementedException("Joining is not implemented yet.");
         }
 
-        private static void onJoinGame(string secret)
+        private static void OnJoinGame(string secret)
         {
             throw new NotImplementedException("Joining is not implemented yet.");
         }
 
-        private static void onErrored(int errorCode, string message)
+        private static void OnErrored(int errorCode, string message)
         {
-            throw new Exception("DiscordRPC failed with error " + errorCode + ":\n" + message);
+            throw new Exception("UnsafeNativeMethods failed with error " + errorCode + ":\n" + message);
         }
     }
 }
