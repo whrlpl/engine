@@ -79,4 +79,32 @@ namespace OpenTKTest.Render
             GL.ProgramUniformMatrix4(shaderProgram, GetVariableLocation(variable), false, ref value);
         }
     }
+    
+    public class MaterialBuilder
+    {
+        private Material instance;
+        public MaterialBuilder Build()
+        {
+            instance = new Material();
+            return this;
+        }
+
+        public MaterialBuilder Attach(Shader shader)
+        {
+            instance.Attach(shader);
+            return this;
+        }
+
+        public MaterialBuilder Link()
+        {
+            instance.Link();
+            return this;
+        }
+
+        public Material GetMaterial()
+        {
+            return instance;
+        }
+    }
+
 }

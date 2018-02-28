@@ -34,48 +34,27 @@ namespace GameLogic.UI
             color = color_;
             size = size_;
             kerning = kerning_;
-            var ttf = new TrueTypeSharp.TrueTypeFont(file);
-            for (char c = (char)0; c <= (char)127; ++c)
+            var ttfInstance = new TrueTypeSharp.TrueTypeFont(file);
+            for (int c = 0; c <= 127; ++c)
             {
                 FontCharacter fontChar;
-                var scale = ttf.GetScaleForPixelHeight(size);
-                byte[] data = ttf.GetCodepointBitmap(c, scale, scale, out fontChar.width, out fontChar.height, out fontChar.xOffset, out fontChar.yOffset);
+                List<Color4> data_colorized = new List<Color4>();
+                var scale = ttfInstance.GetScaleForPixelHeight(size);
+                byte[] data = ttfInstance.GetCodepointBitmap((char)c, scale, scale, out fontChar.width, out fontChar.height, out fontChar.xOffset, out fontChar.yOffset);
+
                 if (fontChar.width <= 0 || fontChar.height <= 0)
                     continue;
-                List<Color4> data_colorized = new List<Color4>();
                 foreach (byte b in data)
-                {
-                    data_colorized.Add(new Color4(255, 255, 255, b));
-                }
-                Texture tex = Texture.FromData(data_colorized.ToArray(), fontChar.width, fontChar.height);
-                fontChar.texture = tex;
-                characters.Add(c, fontChar);
-            }
-            baseCharHeight = characters['L'].height; // TODO: proper calculations
-            baseCharWidth = characters['L'].width;
-            this.ttf = ttf;
-        }
+                    data_colorized.Add(new Color4(0, 0, 0, b));
 
-        public int GetStringWidth(string text)
-        {
-            int stringWidth = 0;
-            foreach (char c in text)
-            {
-                if (c == ' ')
-                {
-                    stringWidth += baseCharWidth;
-                }
-                else if (characters.ContainsKey(c))
-                {
-                    FontCharacter fontChar = characters[c];
-                    stringWidth += fontChar.width + kerning;
-                }
-                else
-                {
-                    stringWidth += baseCharWidth;
-                }
+                Texture tex = Texture.FromData(data_colorized.ToArray(), fontChar.width, fontChar.height);
+                tex.name = file + "_" + c;
+                fontChar.texture = tex;
+                characters.Add((char)c, fontChar);
             }
-            return stringWidth;
+            baseCharHeight = characters['L'].height;
+            baseCharWidth = characters['L'].width;
+            ttf = ttfInstance;
         }
     }
 }

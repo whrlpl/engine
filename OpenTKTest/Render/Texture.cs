@@ -14,7 +14,6 @@ namespace OpenTKTest.Render
     public class Texture
     {
         public string name;
-        public byte[] data;
         public int glTexture = 0;
         public bool animated = true;
         public int animFrame = -1;
@@ -26,20 +25,21 @@ namespace OpenTKTest.Render
                 name = string.Empty
             };
 
+            byte[] rawData;
             using (var stream = new MemoryStream())
             {
                 GL.GenTextures(1, out temp.glTexture);
                 GL.BindTexture(TextureTarget.Texture2D, temp.glTexture);
-                temp.data = new byte[data.Length * 4];
+                rawData = new byte[data.Length * 4];
                 for (int i = 0; i < data.Length; ++i)
                 {
-                    temp.data[i * 4] = (byte)data[i].B;
-                    temp.data[i * 4 + 1] = (byte)data[i].G;
-                    temp.data[i * 4 + 2] = (byte)data[i].R;
-                    temp.data[i * 4 + 3] = (byte)data[i].A;
+                    rawData[i * 4] = (byte)(data[i].B * 255);
+                    rawData[i * 4 + 1] = (byte)(data[i].G * 255);
+                    rawData[i * 4 + 2] = (byte)(data[i].R * 255);
+                    rawData[i * 4 + 3] = (byte)(data[i].A * 255);
                 }
-                IntPtr ptr = Marshal.AllocHGlobal(temp.data.Length);
-                Marshal.Copy(temp.data, 0, ptr, temp.data.Length);
+                IntPtr ptr = Marshal.AllocHGlobal(rawData.Length);
+                Marshal.Copy(rawData, 0, ptr, rawData.Length);
                 PixelFormat imageFormat = PixelFormat.Bgra;
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, imageFormat, PixelType.UnsignedByte, ptr);
                 Marshal.FreeHGlobal(ptr);
@@ -53,6 +53,7 @@ namespace OpenTKTest.Render
             {
                 name = fileName
             };
+            byte[] rawData;
             using (var sr = new StreamReader(fileName))
                 using (var f = Image.FromStream(sr.BaseStream))
                     using (var stream = new MemoryStream())
@@ -60,10 +61,10 @@ namespace OpenTKTest.Render
                         GL.GenTextures(1, out temp.glTexture);
                         GL.BindTexture(TextureTarget.Texture2D, temp.glTexture);
                         f.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
-                        temp.data = new byte[stream.Length];
-                        stream.Read(temp.data, 0, (int)stream.Length);
-                        IntPtr ptr = Marshal.AllocHGlobal(temp.data.Length);
-                        Marshal.Copy(temp.data, 0, ptr, temp.data.Length);
+                        rawData = new byte[stream.Length];
+                        stream.Read(rawData, 0, (int)stream.Length);
+                        IntPtr ptr = Marshal.AllocHGlobal(rawData.Length);
+                        Marshal.Copy(rawData, 0, ptr, rawData.Length);
                         PixelFormat imageFormat = PixelFormat.Bgra;
                         if (f.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb || f.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppRgb)
                             imageFormat = PixelFormat.Bgr;

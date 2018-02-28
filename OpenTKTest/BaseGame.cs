@@ -58,6 +58,7 @@ namespace OpenTKTest
             GL.DepthMask(true);
             GL.Enable(EnableCap.CullFace);
             GL.DepthFunc(DepthFunction.Lequal);
+            //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
 
             Render();
 

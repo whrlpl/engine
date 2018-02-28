@@ -286,3 +286,5 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+/GameLogic/Content/DeLorean VRay
+/OpenTKTest/Content/snoverchillbillboard2.png
