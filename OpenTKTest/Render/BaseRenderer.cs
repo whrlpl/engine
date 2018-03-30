@@ -24,12 +24,15 @@ namespace OpenTKTest.Render
     {
         int VAO, VBO, EBO;
         int cubeVAO, cubeVBO, cubeEBO;
+        int framebuffer;
+
         static Material defaultMaterial;
         static Material spriteMaterial;
         protected bool _initialized;
 
         public Vector2 windowSize;
         public float dpiUpscale = 1.0f;
+        public Camera camera;
 
         protected void _RenderQuad(Vector2 position, Vector2 size, Texture texture, float textureRepetitions, Color4 tint, float rotation, FlipMode flipMode, Material material)
         {
@@ -68,24 +71,20 @@ namespace OpenTKTest.Render
         {
             GL.BindVertexArray(obj.VAO);
             GL.BindBuffer(BufferTarget.ArrayBuffer, obj.VBO);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, obj.EBO);
 
             defaultMaterial?.Use();
             if (!_initialized) _Init();
-            int[] viewport = new int[4];
-            GL.GetInteger(GetPName.Viewport, viewport);
-            float windowRatio = (float)viewport[2] / viewport[3];
-            Matrix4 view = Matrix4.LookAt(position, new Vector3(0.0f, 0.0f, -4.0f), new Vector3(0.0f, 1.0f, 0.0f));
-            Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45), windowRatio, 0.1f, 100.0f);
             Matrix4 model = Matrix4.Identity;
-            Matrix4 mvp = model * view * projection * Matrix4.CreateFromAxisAngle(new Vector3(1.0f, 1.0f, 0.0f), Time.currentTime) * Matrix4.CreateScale(size);
+            Matrix4 mvp = model * camera.vp /** Matrix4.CreateFromAxisAngle(new Vector3(1.0f, 1.0f, 0.0f), Time.currentTime) */ * Matrix4.CreateScale(size);
 
             defaultMaterial.SetVariable("albedoTexture", 0);
             defaultMaterial.SetVariable("mvp", mvp);
             defaultMaterial.SetVariable("textureRepetitions", 0);
+            defaultMaterial.SetVariable("tint", Color4.Red);
             defaultMaterial.SetVariable("time", Time.currentTime);
 
-            GL.DrawArrays(PrimitiveType.Triangles, 0, obj.vertices.Count);
+            GL.DrawElements(BeginMode.Triangles, obj.indices.Count - 1, DrawElementsType.UnsignedInt, 0);
         }
 
         protected void _RenderCube(Vector3 position, Vector3 size, Texture texture, float textureRepetitions, Color4 tint)
@@ -207,12 +206,10 @@ namespace OpenTKTest.Render
             GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
             GL.EnableVertexAttribArray(1);
 
-            GL.Enable(EnableCap.Multisample);            
-            GL.Enable(EnableCap.Blend);
-            GL.Enable(EnableCap.DepthTest);
-            GL.Enable(EnableCap.DepthClamp);
-            GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Fastest);
-            GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.OneMinusSrcAlpha);
+            PostProcessing.GetInstance().Init();
+
+            camera = new Camera();
+
             _initialized = true;
         }
 
@@ -225,7 +222,6 @@ namespace OpenTKTest.Render
         {
             return new Vector2((2 / windowSize.X * dpiUpscale) * pixels.X / 2, (2 / windowSize.Y * dpiUpscale) * pixels.Y / 2);
         }
-
 
         public static void RenderQuad(Vector2 position, Vector2 size, Texture texture, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
         {

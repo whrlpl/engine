@@ -10,64 +10,53 @@ using OpenTKTest.Pattern;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTKTest.IO;
+using GameLogic.Screens;
 
 namespace GameLogic
 {
     class TDBRGame : BaseGame
     {
-        private UI.Label testLabel, secondaryLabel, tertiaryLabel;
-        private OpenTKTest.IO.Object testModel;
+        //private OpenTKTest.IO.Object testModel;
+        private Screen currentScreen;
+
+        public static System.Drawing.Size windowSize;
+
         public override void Update()
         {
-            
+            currentScreen.Update();
+            if (windowSize != Size)
+            {
+                windowSize = Size;
+            }
         }
 
         public override void Render()
         {
             BaseRenderer.RenderQuad(new Vector2(0, 0), new Vector2(Size.Width, Size.Height), "blank", Color4.Black);
-            BaseRenderer.RenderModel(testModel, new Vector3(0, 0.0f, 2.0f), new Vector3(0.2f, 0.2f, 0.2f));
-            testLabel.Render();
-            secondaryLabel.Render();
-            tertiaryLabel.Render();
+            currentScreen.Render();
+            //tertiaryLabel.Render();
         }
 
         public override void Initialize()
         {
-            List<Color4> worldCloudData = new List<Color4>();
-            Random r = new Random();
-            int resolution = 4;
-            for (int i = 0; i < Math.Pow(resolution, 2); ++i)
-            {
-                // Round to nearest
-                byte cloudColor = (byte)(r.Next(0, 2) * 255);
-                worldCloudData.Add(new Color4(cloudColor, cloudColor, cloudColor, 255));
-            }
-
-            testModel = ObjLoader.Load("Content\\monkey.obj");
-            testModel.GenerateBuffers();
-
+            //testModel = ObjLoader.Load("Content\\lamborghini.obj");
             this.windowTitle = "idk %{gamever} | ogl %{glver} | %{fps} fps";
-
-            testLabel = new UI.Label()
+            windowSize = Size;
+            currentScreen = new MenuScreen();
+            currentScreen.Init();
+            // Hook in to add a special watermark render component
+            currentScreen.AddComponent(new UI.Label()
             {
-                text = "TEST GAME",
-                font = new UI.Font("Content\\Fonts\\Asimov.ttf", Color4.White, 72, 25),
+                text = "Beta build",
+                font = new UI.Font("Content\\Fonts\\Catamaran-Light.ttf", Color4.White, 32),
                 position = new Vector2(10, 50)
-            };
-
-            secondaryLabel = new UI.Label()
-            {
-                text = "cool subtext",
-                font = new UI.Font("Content\\Fonts\\Asimov.ttf", Color4.White, 48, 1),
-                position = new Vector2(10, 105)
-            };
-
-            tertiaryLabel = new UI.Label()
-            {
-                text = "Play Solo\nPlay Duo\nPlay Squad\nOptions\nExit",
-                font = new UI.Font("Content\\Fonts\\DefaultFont.ttf", Color4.White, 24),
-                position = new Vector2(10, 145)
-            };
+            });
+            //tertiaryLabel = new UI.Label()
+            //{
+            //    text = "Play Solo\nPlay Duo\nPlay Squad\nOptions\nExit",
+            //    font = new UI.Font("Content\\Fonts\\DefaultFont.ttf", Color4.White, 24),
+            //    position = new Vector2(10, 145)
+            //};
         }
     }
 }

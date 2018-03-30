@@ -60,6 +60,7 @@ namespace OpenTKTest
             GL.DepthFunc(DepthFunction.Lequal);
             //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
 
+            BaseRenderer.GetInstance().camera?.Update();
             Render();
 
             this.SwapBuffers();
@@ -78,6 +79,11 @@ namespace OpenTKTest
                 lastFrameCollection = DateTime.Now;
             }
             #endregion
+        }
+
+        protected override void OnUpdateFrame(FrameEventArgs e)
+        {
+            Update();
         }
 
         protected void UpdateWindowTitle()

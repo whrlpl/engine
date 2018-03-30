@@ -1,0 +1,53 @@
+﻿using OpenTK;
+using OpenTK.Graphics;
+using OpenTKTest;
+using OpenTKTest.Render;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GameLogic.Screens
+{
+    public class LaunchScreen : Screen
+    {
+        public override void Init()
+        {
+            Size size = TDBRGame.windowSize;
+            AddComponents(new List<RenderComponent>() {
+                new UI.Label()
+                {
+                    text = "ASIMOV",
+                    font = new UI.Font("Content\\Fonts\\Catamaran-Thin.ttf", Color4.White, 100, 24),
+                    position = new Vector2(size.Width / 2, size.Height / 2),
+                    centered = true
+                },
+                new UI.Label()
+                {
+                    text = "press any key to start.",
+                    font = new UI.Font("Content\\Fonts\\Catamaran-Bold.ttf", Color4.White, 48, 0),
+                    position = new Vector2(size.Width / 2, size.Height / 2 + 75),
+                    centered = true
+                },
+                new UI.Label()
+                {
+                    text = "Copyright © 2018 Alex 'agthrs' Guthrie",
+                    font = new UI.Font("Content\\Fonts\\Catamaran-Bold.ttf", Color4.White, 24, 0),
+                    position = new Vector2(size.Width / 2, size.Height - 35),
+                    centered = true
+                }
+            });
+            base.Init();
+        }
+
+
+        public override void Update()
+        {
+            // TODO: find some method of anchoring rendercomponents (e.g. centre of screen on resize)
+            // testLabel.position = new Vector2(Size.Width / 2, Size.Height / 2);
+            base.Update();
+        }
+    }
+}

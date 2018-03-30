@@ -9,30 +9,35 @@ using System.Threading.Tasks;
 
 namespace OpenTKTest.IO
 {
-    public class Object
+    public class Object // TODO: make this a renderComponent
     {
         public List<Vector3> vertices = new List<Vector3>();
-        public List<Vector3> texCoords = new List<Vector3>();
+        public List<uint> indices = new List<uint>();
+        public List<Vector2> texCoords = new List<Vector2>();
         public List<Vector3> normals = new List<Vector3>();
-        public int VAO, VBO;
+        public int VAO, VBO, EBO;
 
         public void GenerateBuffers()
         {
             // Generate VAO, VBO
             GL.GenVertexArrays(1, out VAO);
             GL.GenBuffers(1, out VBO);
+            GL.GenBuffers(1, out EBO);
 
             // Buffer data
+            uint[] indices_ = indices.ToArray();
             float[] vertices_ = new float[vertices.Count * 3];
             for (int i = 0; i < vertices.Count; ++i)
             {
-                vertices_[i * 3] = vertices[i].X;
+                vertices_[i * 3+ 2] = vertices[i].X;
                 vertices_[i * 3 + 1] = vertices[i].Y;
-                vertices_[i * 3 + 2] = vertices[i].Z;
+                vertices_[i * 3] = vertices[i].Z;
             }
             GL.BindVertexArray(VAO);
             GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
             GL.BufferData(BufferTarget.ArrayBuffer, vertices_.Length * sizeof(float), vertices_, BufferUsageHint.StaticDraw);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, indices_.Length * sizeof(uint), indices_, BufferUsageHint.StaticDraw);
 
             GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0 * sizeof(float));
             GL.EnableVertexAttribArray(0);
@@ -69,7 +74,7 @@ namespace OpenTKTest.IO
                                 var y = baseLine.Remove(0, baseLine.IndexOf(' ') + 1);
                                     y = y.Remove(y.LastIndexOf(' ') - 1);
                                 var z = baseLine.Remove(0, baseLine.LastIndexOf(' ') + 1);
-                                tempVertices.Add(new Vector3(float.Parse(x), float.Parse(y), float.Parse(z)));
+                                temp.vertices.Add(new Vector3(float.Parse(x), float.Parse(y), float.Parse(z)));
                             }
                             else if (parameterCount == 4)
                             {
@@ -82,7 +87,28 @@ namespace OpenTKTest.IO
                             }
                             break;
                         case "vt": // Texture coordinate (uv[w])
-                            Console.WriteLine("Texture coordinates are not implemented yet.");
+                            if (parameterCount == 2)
+                            {
+                                // Only uv
+                                var baseLine = line.Remove(0, line.IndexOf(' ') + 1);
+                                var u = baseLine.Remove(baseLine.IndexOf(' '));
+                                var v = baseLine.Remove(0, baseLine.LastIndexOf(' ') + 1);
+                                temp.texCoords.Add(new Vector2(float.Parse(u), float.Parse(v)));
+                            }
+                            else if (parameterCount == 3)
+                            {
+                                // uvw
+                                var baseLine = line.Remove(0, line.IndexOf(' ') + 1);
+                                var u = baseLine.Remove(baseLine.IndexOf(' '));
+                                var v = baseLine.Remove(0, baseLine.IndexOf(' ') + 1);
+                                v = v.Remove(v.LastIndexOf(' ') - 1);
+                                var w = baseLine.Remove(0, baseLine.LastIndexOf(' ') + 1);
+                                temp.normals.Add(new Vector3(float.Parse(u), float.Parse(v), float.Parse(w)));
+                            }
+                            else
+                            {
+                                throw new Exception("obj file is not valid.");
+                            }
                             break;
                         case "vn": // Vertex normal (xyz)
                             // Check whether the optional parameter is present or not
@@ -114,9 +140,9 @@ namespace OpenTKTest.IO
                                 foreach (string p in tmp)
                                     foreach (string s in p.Split(' '))
                                         parameters.Add(s);
-                                vertexIndices.Add(int.Parse(parameters[0]));
-                                vertexIndices.Add(int.Parse(parameters[3]));
-                                vertexIndices.Add(int.Parse(parameters[6]));
+                                temp.indices.Add(uint.Parse(parameters[0]) - 1);
+                                temp.indices.Add(uint.Parse(parameters[3]) - 1);
+                                temp.indices.Add(uint.Parse(parameters[6]) - 1);
                             }
                             else
                             {
@@ -142,17 +168,12 @@ namespace OpenTKTest.IO
                         default:
                             throw new Exception("obj file is not valid.");
                     }
-
-                    for (int i = 0; i < vertexIndices.Count; ++i)
-                    {
-                        int vertexIndex = vertexIndices[i];
-                        temp.vertices.Add(tempVertices[vertexIndex - 1]);
-                    }
                 }
             }
+            temp.GenerateBuffers();
             return temp;
         }
 
-        public static int CountInstancesOfCharInString(string s, char c) { var count = 0; foreach (char c_ in s) if (c_ == c) ++count; return count; }
+        public static int CountInstancesOfCharInString(string s, char c) { var i = 0; foreach (char c_ in s) if (c_ == c) ++i; return i; }
     }
 }

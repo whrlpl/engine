@@ -87,7 +87,10 @@
     <Compile Include="Pattern\Singleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Render\BaseRenderer.cs" />
+    <Compile Include="Render\Camera.cs" />
     <Compile Include="Render\Material.cs" />
+    <Compile Include="Render\RenderComponent.cs" />
+    <Compile Include="Render\Screen.cs" />
     <Compile Include="Render\Shader.cs" />
     <Compile Include="Render\Texture.cs" />
   </ItemGroup>
@@ -95,6 +98,7 @@
     <None Include="App.config" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
+    <None Include="Shaders\blur.glsl" />
     <None Include="Shaders\clouds.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -121,9 +125,6 @@
     <Content Include="Content\guns and fries.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\snoverchillbillboard2.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\stone.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -136,6 +137,7 @@
     <Content Include="discord-rpc.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Compile Include="Render\PostProcessing.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
