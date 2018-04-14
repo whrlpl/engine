@@ -62,6 +62,15 @@ namespace OpenTKTest.Bytecode.Interpreter
                                     stringValue = reader.ReadString()
                                 });
                                 break;
+                            case Instruction.JUMP:
+                                {
+                                    DataValue loc = Pop();
+                                    if (loc.type == DataType.Integer)
+                                        reader.BaseStream.Seek(loc.intValue, SeekOrigin.Begin);
+                                    else
+                                        InvalidDataType(instruction);
+                                    break;
+                                }
                             case Instruction.CONSOLELOG:
                                 {
                                     DataValue val = Pop();

@@ -19,7 +19,6 @@ namespace OpenTKTest.Bytecode.Shared
         MULTIPLY,
         DIVIDE,
         SUBTRACT,
-
-        NULL
+        JUMP
     }
 }

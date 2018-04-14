@@ -12,7 +12,25 @@ namespace OpenTKTest.Bytecode.Compiler
     {
         public ByteWriter(Stream output) : base(output) { }
 
+        public void Write(Instruction value)
+        {
+            Console.WriteLine("Wrote " + value);
+            base.Write((byte)value);
+        }
+
         public override void Write(byte value)
+        {
+            Console.WriteLine("Wrote " + value);
+            base.Write(value);
+        }
+
+        public override void Write(int value)
+        {
+            Console.WriteLine("Wrote " + value);
+            base.Write(value);
+        }
+
+        public override void Write(string value)
         {
             Console.WriteLine("Wrote " + value);
             base.Write(value);
@@ -82,8 +100,8 @@ namespace OpenTKTest.Bytecode.Compiler
                         words[0] = s;
                     }
 
-                    Instruction instructionOpcode = Instruction.NULL;
-                    for (int i = 0; i < words.Length; ++i)
+                    Instruction instructionOpcode;
+                    for (int i = words.Length - 1; i >= 0; --i) // parses in REVERSE order
                     {
                         string word = words[i];
                         if (word == null) continue;
@@ -96,7 +114,7 @@ namespace OpenTKTest.Bytecode.Compiler
                             {
                                 if (instruction.ToString() == word)
                                 {
-                                    writer.Write((byte)instruction);
+                                    writer.Write((Instruction)instruction);
                                     instructionOpcode = (Instruction)instruction;
                                     instructionFound = true;
                                 }
@@ -110,11 +128,24 @@ namespace OpenTKTest.Bytecode.Compiler
                             // Recognize operand type
                             if (word.StartsWith("\""))
                             {
+                                writer.Write(Instruction.STRING_LITERAL);
                                 writer.Write(word.Remove(0, 1).Remove(word.Length - 2));
                             }
                             else
                             {
-                                writer.Write(int.Parse(word.Replace(" ", ""))); // number
+                                // number
+                                // check if there is more than one
+                                string[] numbers;
+                                if (word.Contains(' '))
+                                    numbers = word.Split(' ');
+                                else
+                                    numbers = new[] { word };
+
+                                foreach (string number in numbers)
+                                {
+                                    writer.Write(Instruction.INTEGER_LITERAL);
+                                    writer.Write(int.Parse(number.Replace(" ", "")));
+                                }
                             }
                         }
                     }
