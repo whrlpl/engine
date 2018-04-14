@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenTKTest.Pattern
+namespace OpenTKTest.Core.Pattern
 {
     [Serializable]
     public class TextureNotFoundException : Exception

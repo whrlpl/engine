@@ -2,10 +2,10 @@
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
-using OpenTKTest.IO;
-using OpenTKTest.Render;
+using OpenTKTest.Core.IO;
+using OpenTKTest.Core.Render;
 
-namespace OpenTKTest
+namespace OpenTKTest.Core
 {
     public abstract class BaseGame : OpenTK.GameWindow
     {

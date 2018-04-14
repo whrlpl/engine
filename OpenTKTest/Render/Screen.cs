@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenTKTest.Render
+namespace OpenTKTest.Core.Render
 {
     // Base screen & render functions
+    // TODO: bytecode API for screens & screen switching
     public class Screen
     {
         private List<RenderComponent> renderComponents = new List<RenderComponent>();

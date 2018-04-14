@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("OpenTKTest.Core")]
+[assembly: AssemblyTitle("BytecodeCompiler")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Sublime Labs")]
-[assembly: AssemblyProduct("OpenTKTest.Core")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2017")]
+[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyProduct("BytecodeCompiler")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("772d98cb-fb30-4c9a-b78a-698e31972f22")]
+[assembly: Guid("b3b207fe-4f2d-43e6-aee1-db33a0cd6f25")]
 
 // Version information for an assembly consists of the following four values:
 //

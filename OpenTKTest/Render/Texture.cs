@@ -9,7 +9,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using System.Runtime.InteropServices;
 
-namespace OpenTKTest.Render
+namespace OpenTKTest.Core.Render
 {
     public class Texture
     {
@@ -17,6 +17,8 @@ namespace OpenTKTest.Render
         public int glTexture = 0;
         public bool animated = true;
         public int animFrame = -1;
+        public int width;
+        public int height;
 
         public static Texture FromData(Color4[] data, int width, int height)
         {
@@ -42,6 +44,8 @@ namespace OpenTKTest.Render
                 Marshal.Copy(rawData, 0, ptr, rawData.Length);
                 PixelFormat imageFormat = PixelFormat.Bgra;
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, imageFormat, PixelType.UnsignedByte, ptr);
+                temp.width = width;
+                temp.height = height;
                 Marshal.FreeHGlobal(ptr);
             }
             return temp;
@@ -69,6 +73,8 @@ namespace OpenTKTest.Render
                         if (f.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb || f.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppRgb)
                             imageFormat = PixelFormat.Bgr;
                         GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, f.Width, f.Height - 1, 0, imageFormat, PixelType.UnsignedByte, ptr);
+                        temp.width = f.Width;
+                        temp.height = f.Height;
                         Marshal.FreeHGlobal(ptr);
                     }
             return temp;

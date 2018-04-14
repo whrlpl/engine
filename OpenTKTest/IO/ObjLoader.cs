@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenTKTest.IO
+namespace OpenTKTest.Core.IO
 {
     public class Object // TODO: make this a renderComponent
     {

@@ -1,8 +1,8 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
-using OpenTKTest.IO;
-using OpenTKTest.Pattern;
+using OpenTKTest.Core.IO;
+using OpenTKTest.Core.Pattern;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenTKTest.Render
+namespace OpenTKTest.Core.Render
 {
     public enum FlipMode
     {
@@ -24,22 +24,35 @@ namespace OpenTKTest.Render
     {
         int VAO, VBO, EBO;
         int cubeVAO, cubeVBO, cubeEBO;
-        int framebuffer;
 
-        static Material defaultMaterial;
-        static Material spriteMaterial;
+        static Material defaultMaterial, spriteMaterial, gradientMaterial;
         protected bool _initialized;
 
         public Vector2 windowSize;
         public float dpiUpscale = 1.0f;
         public Camera camera;
 
+        protected void _RenderGradient(Vector2 position, Vector2 size)
+        {
+            GL.BindVertexArray(VAO);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
+            gradientMaterial?.Use();
+            if (!_initialized) _Init();
+
+            gradientMaterial.SetVariable("color1", new Color4(0, 0, 0, 0));
+            gradientMaterial.SetVariable("color2", new Color4(1, 1, 1, 1));
+            gradientMaterial.SetVariable("position", _PixelsToNDC(position));
+            gradientMaterial.SetVariable("size", _PixelsToNDCSize(size));
+            GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
+        }
+
         protected void _RenderQuad(Vector2 position, Vector2 size, Texture texture, float textureRepetitions, Color4 tint, float rotation, FlipMode flipMode, Material material)
         {
             GL.BindVertexArray(VAO);
             GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
-            material?.Use();
+            spriteMaterial?.Use();
             if (!_initialized) _Init();
             texture.Bind();
 
@@ -67,7 +80,7 @@ namespace OpenTKTest.Render
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
 
-        protected void _RenderModel(IO.Object obj, Vector3 position, Vector3 size)
+        protected void _RenderModel(IO.Object obj, Vector3 position, Vector3 size, Vector3 rotation)
         {
             GL.BindVertexArray(obj.VAO);
             GL.BindBuffer(BufferTarget.ArrayBuffer, obj.VBO);
@@ -76,7 +89,7 @@ namespace OpenTKTest.Render
             defaultMaterial?.Use();
             if (!_initialized) _Init();
             Matrix4 model = Matrix4.Identity;
-            Matrix4 mvp = model * camera.vp /** Matrix4.CreateFromAxisAngle(new Vector3(1.0f, 1.0f, 0.0f), Time.currentTime) */ * Matrix4.CreateScale(size);
+            Matrix4 mvp = model * camera.vp * Matrix4.CreateRotationX(rotation.X) * Matrix4.CreateRotationY(rotation.Y) * Matrix4.CreateRotationZ(rotation.Z) * Matrix4.CreateScale(size)/* * Matrix4.CreateTranslation(position)*/;
 
             defaultMaterial.SetVariable("albedoTexture", 0);
             defaultMaterial.SetVariable("mvp", mvp);
@@ -124,6 +137,13 @@ namespace OpenTKTest.Render
                 .Build()
                 .Attach(new Shader("Shaders\\spritevert.glsl", ShaderType.VertexShader))
                 .Attach(new Shader("Shaders\\spritefrag.glsl", ShaderType.FragmentShader))
+                .Link()
+                .GetMaterial();
+
+            gradientMaterial = new MaterialBuilder()
+                .Build()
+                .Attach(new Shader("Shaders\\spritevert.glsl", ShaderType.VertexShader))
+                .Attach(new Shader("Shaders\\grad.glsl", ShaderType.FragmentShader))
                 .Link()
                 .GetMaterial();
 
@@ -223,25 +243,19 @@ namespace OpenTKTest.Render
             return new Vector2((2 / windowSize.X * dpiUpscale) * pixels.X / 2, (2 / windowSize.Y * dpiUpscale) * pixels.Y / 2);
         }
 
-        public static void RenderQuad(Vector2 position, Vector2 size, Texture texture, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
-        {
-            GetInstance()._RenderQuad(position, size, texture, textureRepetitions, Color4.White, rotation, flipMode, spriteMaterial);
-        }
-
-        public static void RenderQuad(Vector2 position, Vector2 size, Texture texture, Color4 tint, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
-        {
-            GetInstance()._RenderQuad(position, size, texture, textureRepetitions, tint, rotation, flipMode, spriteMaterial);
-        }
-
-        public static void RenderQuad(Vector2 position, Vector2 size, Texture texture, Color4 tint, Material material, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
+        public static void RenderQuad(Vector2 position, Vector2 size, Texture texture, Color4 tint, Material material = null, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
         {
             GetInstance()._RenderQuad(position, size, texture, textureRepetitions, tint, rotation, flipMode, material);
         }
 
-
-        public static void RenderQuad(Vector2 position, Vector2 size, Texture texture, Material material, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
+        public static void RenderQuad(Vector2 position, Vector2 size, string texture, Color4 tint, Material material = null, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
         {
-            GetInstance()._RenderQuad(position, size, texture, textureRepetitions, Color4.White, rotation, flipMode, material);
+            GetInstance()._RenderQuad(position, size, GetTextureFromString(texture), textureRepetitions, tint, rotation, flipMode, material);
+        }
+
+        public static void RenderGradient(Vector2 position, Vector2 size)
+        {
+            GetInstance()._RenderGradient(position, size);
         }
 
         protected static Texture GetTextureFromString(string texture)
@@ -249,29 +263,14 @@ namespace OpenTKTest.Render
             return FileCache.GetTexture(texture);
         }
 
-        public static void RenderQuad(Vector2 position, Vector2 size, string texture, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
-        {
-            GetInstance()._RenderQuad(position, size, GetTextureFromString(texture), textureRepetitions, Color4.White, rotation, flipMode, spriteMaterial);
-        }
-
-        public static void RenderQuad(Vector2 position, Vector2 size, string texture, Color4 tint, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
-        {
-            GetInstance()._RenderQuad(position, size, GetTextureFromString(texture), textureRepetitions, tint, rotation, flipMode, spriteMaterial);
-        }
-
         public static void RenderCube(Vector3 position, Vector3 size, string texture, Color4 tint, float textureRepetitions = 1)
         {
-            GetInstance()._RenderCube(position, size, GetTextureFromString(texture), textureRepetitions, tint);
+            GetInstance()._RenderCube(position, size, GetTextureFromString(texture), textureRepetitions, tint); // is there really a point in this
         }
 
-        public static void RenderCube(Vector3 position, Vector3 size, string texture, float textureRepetitions = 1)
+        public static void RenderModel(IO.Object obj, Vector3 position, Vector3 size, Vector3 rotation)
         {
-            GetInstance()._RenderCube(position, size, GetTextureFromString(texture), textureRepetitions, Color4.White);
-        }
-
-        public static void RenderModel(IO.Object obj, Vector3 position, Vector3 size)
-        {
-            GetInstance()._RenderModel(obj, position, size);
+            GetInstance()._RenderModel(obj, position, size, rotation);
         }
     }
 }

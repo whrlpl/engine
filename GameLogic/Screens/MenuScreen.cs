@@ -1,7 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
-using OpenTKTest;
-using OpenTKTest.Render;
+using OpenTKTest.Core;
+using OpenTKTest.Core.Render;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameLogic.Screens
+namespace OpenTKTest.Game.Screens
 {
     public class MenuScreen : Screen
     {
@@ -25,7 +25,7 @@ namespace GameLogic.Screens
                 },
                 new UI.Label()
                 {
-                    text = "welcome to the future.",
+                    text = "welcome to the future",
                     font = new UI.Font("Content\\Fonts\\Catamaran-Bold.ttf", Color4.White, 48, 0),
                     position = new Vector2(20, 140)
                 },
@@ -39,7 +39,6 @@ namespace GameLogic.Screens
             });
             base.Init();
         }
-
 
         public override void Update()
         {

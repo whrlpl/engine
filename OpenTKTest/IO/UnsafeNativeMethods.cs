@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenTKTest.IO
+namespace OpenTKTest.Core.IO
 {
     public unsafe class UnsafeNativeMethods
     {

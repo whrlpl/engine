@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenTKTest.Pattern
+namespace OpenTKTest.Core.Pattern
 {
     public class Singleton<T>
     {

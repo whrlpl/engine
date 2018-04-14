@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{772D98CB-FB30-4C9A-B78A-698E31972F22}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>OpenTKTest</RootNamespace>
-    <AssemblyName>OpenTKTest</AssemblyName>
+    <RootNamespace>OpenTKTest.Core</RootNamespace>
+    <AssemblyName>OpenTKTest.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -103,6 +103,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Shaders\frag.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\grad.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Shaders\pulse.glsl">

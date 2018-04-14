@@ -1,5 +1,5 @@
-﻿using OpenTKTest.Pattern;
-using OpenTKTest.Render;
+﻿using OpenTKTest.Core.Pattern;
+using OpenTKTest.Core.Render;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenTKTest.IO
+namespace OpenTKTest.Core.IO
 {
     public class FileCache : Singleton<FileCache>
     {

@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
-using OpenTKTest;
-using OpenTKTest.Render;
-using OpenTKTest.Pattern;
+using OpenTKTest.Core;
+using OpenTKTest.Core.Render;
+using OpenTKTest.Core.Pattern;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
-using OpenTKTest.IO;
-using GameLogic.Screens;
+using OpenTKTest.Core.IO;
+using OpenTKTest.Game.Screens;
 
-namespace GameLogic
+namespace OpenTKTest.Game
 {
     class TDBRGame : BaseGame
     {
-        //private OpenTKTest.IO.Object testModel;
+        //private OpenTKTest.Core.IO.Object testModel;
         private Screen currentScreen;
 
         public static System.Drawing.Size windowSize;
@@ -33,6 +33,7 @@ namespace GameLogic
         public override void Render()
         {
             BaseRenderer.RenderQuad(new Vector2(0, 0), new Vector2(Size.Width, Size.Height), "blank", Color4.Black);
+            BaseRenderer.RenderGradient(new Vector2(0, 0), new Vector2(Size.Width, Size.Height));
             currentScreen.Render();
             //tertiaryLabel.Render();
         }
@@ -42,12 +43,12 @@ namespace GameLogic
             //testModel = ObjLoader.Load("Content\\lamborghini.obj");
             this.windowTitle = "idk %{gamever} | ogl %{glver} | %{fps} fps";
             windowSize = Size;
-            currentScreen = new MenuScreen();
+            currentScreen = new LaunchScreen();
             currentScreen.Init();
             // Hook in to add a special watermark render component
             currentScreen.AddComponent(new UI.Label()
             {
-                text = "Beta build",
+                text = "beta build",
                 font = new UI.Font("Content\\Fonts\\Catamaran-Light.ttf", Color4.White, 32),
                 position = new Vector2(10, 50)
             });

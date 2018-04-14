@@ -1,7 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
-using OpenTKTest;
-using OpenTKTest.Render;
+using OpenTKTest.Core;
+using OpenTKTest.Core.Render;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameLogic.Screens
+namespace OpenTKTest.Game.Screens
 {
     public class LaunchScreen : Screen
     {
@@ -20,24 +20,38 @@ namespace GameLogic.Screens
                 new UI.Label()
                 {
                     text = "ASIMOV",
-                    font = new UI.Font("Content\\Fonts\\Catamaran-Thin.ttf", Color4.White, 100, 24),
+                    font = new UI.Font("Content\\Fonts\\Catamaran-Thin.ttf", Color4.White, 72, 2),
                     position = new Vector2(size.Width / 2, size.Height / 2),
                     centered = true
                 },
-                new UI.Label()
+                //new UI.Notification()
+                //{
+                //    text = "Test",
+                //    font = new UI.Font("Content\\Fonts\\Catamaran-Bold.ttf", Color4.White, 48, 0),
+                //    position = new Vector2(size.Width / 2, size.Height / 2 + 75),
+                //    size = new Vector2(200, 200)
+                //},
+                new UI.Button()
                 {
-                    text = "press any key to start.",
+                    text = "start",
                     font = new UI.Font("Content\\Fonts\\Catamaran-Bold.ttf", Color4.White, 48, 0),
                     position = new Vector2(size.Width / 2, size.Height / 2 + 75),
+                    size = new Vector2(200, 200),
                     centered = true
                 },
                 new UI.Label()
                 {
-                    text = "Copyright © 2018 Alex 'agthrs' Guthrie",
+                    text = "made with ❤ by agthrs",
                     font = new UI.Font("Content\\Fonts\\Catamaran-Bold.ttf", Color4.White, 24, 0),
                     position = new Vector2(size.Width / 2, size.Height - 35),
                     centered = true
-                }
+                },
+                //new Render.Model()
+                //{
+                //    objName = "Content\\octahedron.obj",
+                //    size = new Vector3(0.2f, .2f, .2f),
+                //    position = new Vector3(0, 0, -4.0f)
+                //}
             });
             base.Init();
         }

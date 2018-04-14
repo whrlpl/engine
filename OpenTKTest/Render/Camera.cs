@@ -7,23 +7,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenTKTest.Render
+namespace OpenTKTest.Core.Render
 {
     public class Camera
     {
-        Vector3 position = new Vector3(0, 0, 0);
+        Vector3 position = new Vector3(0, 0, 1.0f);
+        Vector3 cameraFront = new Vector3(0, 0, -1.0f);
+        Vector3 cameraUp = new Vector3(0.0f, 1.0f, 0.0f);
         Matrix4 view
         {
             get
             {
-                return Matrix4.LookAt(position, new Vector3(position.X, position.Y, position.Z - 4.0f), new Vector3(0.0f, 1.0f, 0.0f));
+                return Matrix4.LookAt(position, position + cameraFront, cameraUp);
             }
         }
         Matrix4 projection
         {
             get
             {
-                return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45), windowRatio, 0.1f, 100.0f);
+                return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(90), windowRatio, 0.1f, 100.0f);
             }
         }
 
@@ -47,21 +49,30 @@ namespace OpenTKTest.Render
         public void Update()
         {
             var keyboardState = Keyboard.GetState();
+            float cameraSpeed = 0.05f;
             if (keyboardState.IsKeyDown(Key.W))
             {
-                position.Z -= 0.01f;
+                position += cameraSpeed * cameraFront;
             }
             if (keyboardState.IsKeyDown(Key.S))
             {
-                position.Z += 0.01f;
+                position -= cameraSpeed * cameraFront;
             }
             if (keyboardState.IsKeyDown(Key.A))
             {
-                position.X -= 0.01f;
+                position -= Vector3.Normalize(Vector3.Cross(cameraFront, cameraUp)) * cameraSpeed;
             }
             if (keyboardState.IsKeyDown(Key.D))
             {
-                position.X += 0.01f;
+                position += Vector3.Normalize(Vector3.Cross(cameraFront, cameraUp)) * cameraSpeed;
+            }
+            if (keyboardState.IsKeyDown(Key.Space))
+            {
+                position.Y += 0.01f;
+            }
+            if (keyboardState.IsKeyDown(Key.ControlLeft))
+            {
+                position.Y -= 0.01f;
             }
         }
     }

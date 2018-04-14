@@ -8,7 +8,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 
-namespace OpenTKTest.Render
+namespace OpenTKTest.Core.Render
 {
     public class Material
     {
@@ -29,11 +29,13 @@ namespace OpenTKTest.Render
         {
             GL.LinkProgram(shaderProgram);
             GL.GetProgram(shaderProgram, GetProgramParameterName.ActiveUniforms, out var uniformCount);
+            Console.WriteLine("Shader uniforms");
             for (int i = 0; i < uniformCount; ++i)
             {
                 StringBuilder uniformName = new StringBuilder();
                 GL.GetActiveUniform(shaderProgram, i, 2048, out var length, out var size, out var type, uniformName);
                 locations.Add(uniformName.ToString(), i);
+                Console.WriteLine("\t" + uniformName.ToString() + " - " + i.ToString());
             }
         }
 

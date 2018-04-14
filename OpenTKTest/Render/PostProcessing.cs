@@ -1,13 +1,13 @@
 ﻿//#define POSTPROCESSING
 using OpenTK.Graphics.OpenGL4;
-using OpenTKTest.Pattern;
+using OpenTKTest.Core.Pattern;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenTKTest.Render
+namespace OpenTKTest.Core.Render
 {
     public class PostProcessing : Singleton<PostProcessing>
     {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenTKTest.Render
+namespace OpenTKTest.Core.Render
 {
     public class Shader
     {

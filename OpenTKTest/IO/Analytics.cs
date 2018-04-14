@@ -1,4 +1,4 @@
-﻿using OpenTKTest.Pattern;
+﻿using OpenTKTest.Core.Pattern;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Management;
 using System.Net;
 
-namespace OpenTKTest.IO
+namespace OpenTKTest.Core.IO
 {
     public class Analytics : Singleton<Analytics>
     {

@@ -1,7 +1,7 @@
 ﻿using System;
-using OpenTKTest;
+using OpenTKTest.Core;
 
-namespace GameLogic
+namespace OpenTKTest.Game
 {
     public class Program
     {

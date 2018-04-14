@@ -1,11 +1,11 @@
-﻿using OpenTKTest.Pattern;
+﻿using OpenTKTest.Core.Pattern;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenTKTest.IO
+namespace OpenTKTest.Core.IO
 {
     public class Time : Singleton<Time>
     {
