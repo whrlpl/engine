@@ -10,7 +10,8 @@ namespace OpenTKTest.Bytecode.Shared
     {
         Integer,
         Number,
-        String
+        String,
+        Boolean
     }
 
     public class DataValue
@@ -20,17 +21,9 @@ namespace OpenTKTest.Bytecode.Shared
         public int intValue;
         public double numberValue;
         public string stringValue;
+        public bool boolValue;
     }
-
-
-    public enum BytecodeObjectType
-    {
-        NumberLiteral,
-        ArithmeticOperator,
-        Keyword,
-        Unknown
-    }
-
+    
     public enum ArithmeticOperator
     {
         Multiply,
@@ -39,11 +32,4 @@ namespace OpenTKTest.Bytecode.Shared
         Subtract,
         Unknown
     }
-
-    public class BytecodeObject
-    {
-        public BytecodeObjectType type;
-        public object value;
-    }
-
 }

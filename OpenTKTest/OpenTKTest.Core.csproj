@@ -142,6 +142,11 @@
     </Content>
     <Compile Include="Render\PostProcessing.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BytecodeInterpreter\OpenTKTest.Bytecode.Interpreter.csproj">
+      <Project>{5c639a98-985c-48c2-b6cd-d9ee7a4b1158}</Project>
+      <Name>OpenTKTest.Bytecode.Interpreter</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

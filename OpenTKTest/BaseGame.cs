@@ -4,6 +4,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTKTest.Core.IO;
 using OpenTKTest.Core.Render;
+using OpenTKTest.Bytecode.Interpreter;
 
 namespace OpenTKTest.Core
 {
@@ -12,6 +13,8 @@ namespace OpenTKTest.Core
         int frameCap = -1;
         DateTime lastFrameCollection;
         int framesLastSecond;
+
+        public VM gameBytecodeVM;
 
         #region "Game properties"
         public string gameName = "Guns and Fries";
@@ -32,6 +35,9 @@ namespace OpenTKTest.Core
             FileCache.LoadTexturesFromFolder("Content");
             DiscordController.Init();
             Analytics.CreateInstance();
+
+            gameBytecodeVM = new VM();
+            gameBytecodeVM.RunFile("Content\\Game\\main.abc");
 
             Initialize();
         }

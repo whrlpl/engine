@@ -81,12 +81,13 @@ namespace OpenTKTest.Bytecode.Compiler
             {
                 string newFileName = filePath.Remove(filePath.LastIndexOf('.')) + ".abc"; // agthrs bytecode ;)
                 string fileContents = reader.ReadToEnd();
-                string[] lines = fileContents.Split('\r');
+                string[] lines = fileContents.Replace("\t", " ").Split('\r');
 
                 var writer = new ByteWriter(new FileStream(newFileName, FileMode.Create));
 
                 foreach (string s in lines)
                 {
+
                     string[] words = new string[2];
 
                     if (s.Contains(" "))
@@ -100,12 +101,14 @@ namespace OpenTKTest.Bytecode.Compiler
                         words[0] = s;
                     }
 
-                    Instruction instructionOpcode;
                     for (int i = words.Length - 1; i >= 0; --i) // parses in REVERSE order
                     {
                         string word = words[i];
                         if (word == null) continue;
                         word = word.Replace("\n", "").Replace("\r", ""); // removes newlines just in case
+                        if (word.StartsWith("#") || s.Replace("\n", "").StartsWith("#")) break; // Comment
+
+
                         if (i == 0)
                         {
                             // Opcode
@@ -114,8 +117,13 @@ namespace OpenTKTest.Bytecode.Compiler
                             {
                                 if (instruction.ToString() == word)
                                 {
-                                    writer.Write((Instruction)instruction);
-                                    instructionOpcode = (Instruction)instruction;
+                                    if ((Instruction)instruction != Instruction.PUSH)
+                                        writer.Write((Instruction)instruction);
+                                    if ((Instruction)instruction == Instruction.STOP)
+                                    {
+                                        writer.Close();
+                                        return;
+                                    }
                                     instructionFound = true;
                                 }
                             }

@@ -234,6 +234,7 @@
     <None Include="Content\Fonts\Raleway-Regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Content\Game\main.asc" />
     <None Include="Content\Hagrid.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

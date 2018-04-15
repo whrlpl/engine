@@ -61,6 +61,56 @@ namespace OpenTKTest.Bytecode.Interpreter
         }
     }
 
+    public class BooleanExpression : Expression
+    {
+        public new virtual bool Evaluate()
+        {
+            return false;
+        }
+    }
+
+    public class BooleanEvaluationExpression : BooleanExpression
+    {
+        protected NumberExpression left;
+        protected NumberExpression right;
+
+        public BooleanEvaluationExpression(NumberExpression left, NumberExpression right)
+        {
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    public class EqualToExpression : BooleanEvaluationExpression
+    {
+        public EqualToExpression(NumberExpression left, NumberExpression right) : base(left, right) { }
+
+        public override bool Evaluate()
+        {
+            return left.Evaluate() == right.Evaluate();
+        }
+    }
+
+    public class LessThanExpression : BooleanEvaluationExpression
+    {
+        public LessThanExpression(NumberExpression left, NumberExpression right) : base(left, right) { }
+
+        public override bool Evaluate()
+        {
+            return left.Evaluate() < right.Evaluate();
+        }
+    }
+
+    public class GreaterThanExpression : BooleanEvaluationExpression
+    {
+        public GreaterThanExpression(NumberExpression left, NumberExpression right) : base(left, right) { }
+
+        public override bool Evaluate()
+        {
+            return left.Evaluate() > right.Evaluate();
+        }
+    }
+
     public class ArithmeticExpression : NumberExpression
     {
         protected NumberExpression left;

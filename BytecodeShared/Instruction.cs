@@ -19,6 +19,12 @@ namespace OpenTKTest.Bytecode.Shared
         MULTIPLY,
         DIVIDE,
         SUBTRACT,
+        RUN,
+        GETSTACKSIZE,
+        PUSH,
+        POP,
+        CONCATENATE,
+        STOP,
         JUMP
     }
 }
