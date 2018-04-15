@@ -11,7 +11,8 @@ namespace OpenTKTest.Bytecode.Shared
         Integer,
         Number,
         String,
-        Boolean
+        Boolean,
+        Void
     }
 
     public class DataValue

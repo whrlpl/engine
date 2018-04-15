@@ -37,14 +37,6 @@ namespace OpenTKTest.Bytecode.Compiler
         }
     }
 
-    class FunctionInfo
-    {
-        public bool valid = true;
-        public string name;
-
-        public static FunctionInfo Invalid = new FunctionInfo() { valid = false };
-    }
-
 
     class Program
     {
@@ -79,87 +71,11 @@ namespace OpenTKTest.Bytecode.Compiler
         {
             using (var reader = new StreamReader(filePath))
             {
-                string newFileName = filePath.Remove(filePath.LastIndexOf('.')) + ".abc"; // agthrs bytecode ;)
-                string fileContents = reader.ReadToEnd();
-                string[] lines = fileContents.Replace("\t", " ").Split('\r');
+                var lexer = new Lexer();
+                lexer.ParseFile(reader.ReadToEnd());
 
-                var writer = new ByteWriter(new FileStream(newFileName, FileMode.Create));
-
-                foreach (string s in lines)
-                {
-
-                    string[] words = new string[2];
-
-                    if (s.Contains(" "))
-                    {
-                        // split
-                        words[0] = s.Remove(s.IndexOf(' '));
-                        words[1] = s.Remove(0, s.IndexOf(' ') + 1);
-                    }
-                    else
-                    {
-                        words[0] = s;
-                    }
-
-                    for (int i = words.Length - 1; i >= 0; --i) // parses in REVERSE order
-                    {
-                        string word = words[i];
-                        if (word == null) continue;
-                        word = word.Replace("\n", "").Replace("\r", ""); // removes newlines just in case
-                        if (word.StartsWith("#") || s.Replace("\n", "").StartsWith("#")) break; // Comment
-
-
-                        if (i == 0)
-                        {
-                            // Opcode
-                            bool instructionFound = false;
-                            foreach (var instruction in Enum.GetValues(typeof(Instruction)))
-                            {
-                                if (instruction.ToString() == word)
-                                {
-                                    if ((Instruction)instruction != Instruction.PUSH)
-                                        writer.Write((Instruction)instruction);
-                                    if ((Instruction)instruction == Instruction.STOP)
-                                    {
-                                        writer.Close();
-                                        return;
-                                    }
-                                    instructionFound = true;
-                                }
-                            }
-                            if (!instructionFound)
-                                Console.WriteLine("Error: " + word + " is not a valid instruction");
-                        }
-                        else
-                        {
-                            // Operand
-                            // Recognize operand type
-                            if (word.StartsWith("\""))
-                            {
-                                writer.Write(Instruction.STRING_LITERAL);
-                                writer.Write(word.Remove(0, 1).Remove(word.Length - 2));
-                            }
-                            else
-                            {
-                                // number
-                                // check if there is more than one
-                                string[] numbers;
-                                if (word.Contains(' '))
-                                    numbers = word.Split(' ');
-                                else
-                                    numbers = new[] { word };
-
-                                foreach (string number in numbers)
-                                {
-                                    writer.Write(Instruction.INTEGER_LITERAL);
-                                    writer.Write(int.Parse(number.Replace(" ", "")));
-                                }
-                            }
-                        }
-                    }
-                }
-
-                writer.Close();
+                foreach (var token in lexer.tokens)
+                    Console.WriteLine(token.type + ": " + token.value);
             }
         }
 
