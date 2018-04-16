@@ -78,43 +78,5 @@ namespace OpenTKTest.Bytecode.Compiler
                     Console.WriteLine(token.type + ": " + token.value);
             }
         }
-
-        static FunctionInfo GetFunctionFromString(string str)
-        {
-            // parse the string out
-            if (str.IndexOf('(') >= str.IndexOf(')')) return FunctionInfo.Invalid;
-
-            FunctionInfo functionInfo = new FunctionInfo();
-
-            functionInfo.name = str.Remove(str.IndexOf('('));
-
-            return functionInfo;
-        }
-
-        static void TriggerNumberRegister(ref int register, ref ByteWriter writer, ref bool registerModified)
-        {
-            Console.WriteLine((byte)register);
-            writer.Write((byte)Instruction.NUMBER_LITERAL);
-            writer.Write(register);
-            register = 0;
-            registerModified = false;
-        }
-
-        static ArithmeticOperator GetOperator(char o)
-        {
-            switch (o)
-            {
-                case '*':
-                    return ArithmeticOperator.Multiply;
-                case '/':
-                    return ArithmeticOperator.Divide;
-                case '+':
-                    return ArithmeticOperator.Add;
-                case '-':
-                    return ArithmeticOperator.Subtract;
-                default:
-                    return ArithmeticOperator.Unknown;
-            }
-        }
     }
 }

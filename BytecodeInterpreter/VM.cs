@@ -54,7 +54,8 @@ namespace OpenTKTest.Bytecode.Interpreter
                             });
                             break;
                         case Instruction.NUMBER_LITERAL:
-                            Push(new DataValue() {
+                            Push(new DataValue()
+                            {
                                 type = DataType.Number,
                                 numberValue = reader.ReadDouble()
                             });
