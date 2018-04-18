@@ -6,15 +6,17 @@ There's no real roadmap.  There's no real "end project".  This is merely a sandb
 
 That being said, there are a few things I want to achieve (which pretty much all involve 3D):
 
-- 3D renderer with support for a post-processing pipeline
+- Support for a post-processing pipeline
 - 3D audio with music support
 - Low-latency inputs
 - Extendability
 - Code as clean and simple as possible
+- A full programming language and VM written to avoid continuous compilation of the engine where there are small changes
 
 ## Features
 Wow! Even the features have new features!
 
 - It renders nice cubes
 - It renders nice sprites
-- ???
+- It renders models... sometimes...
+- It can do text rendering, but not efficiently

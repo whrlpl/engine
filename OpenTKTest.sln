@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27205.2004
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKTest.Core", "OpenTKTest\OpenTKTest.Core.csproj", "{772D98CB-FB30-4C9A-B78A-698E31972F22}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKTest.Core", "OpenTKTest.Core\OpenTKTest.Core.csproj", "{772D98CB-FB30-4C9A-B78A-698E31972F22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKTest.Game", "GameLogic\OpenTKTest.Game.csproj", "{C3966631-8546-4F26-B4E6-3969A57390C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKTest.Game", "OpenTKTest.Game\OpenTKTest.Game.csproj", "{C3966631-8546-4F26-B4E6-3969A57390C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKTest.Bytecode.Interpreter", "BytecodeInterpreter\OpenTKTest.Bytecode.Interpreter.csproj", "{5C639A98-985C-48C2-B6CD-D9EE7A4B1158}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKTest.Bytecode.Interpreter", "OpenTKTest.Bytecode.Interpreter\OpenTKTest.Bytecode.Interpreter.csproj", "{5C639A98-985C-48C2-B6CD-D9EE7A4B1158}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2B8FDC13-159E-4FD8-B86D-3C36DBC4DACF} = {2B8FDC13-159E-4FD8-B86D-3C36DBC4DACF}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKTest.Bytecode.Compiler", "BytecodeCompiler\OpenTKTest.Bytecode.Compiler.csproj", "{B3B207FE-4F2D-43E6-AEE1-DB33A0CD6F25}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKTest.Bytecode.Compiler", "OpenTKTest.Bytecode.Compiler\OpenTKTest.Bytecode.Compiler.csproj", "{B3B207FE-4F2D-43E6-AEE1-DB33A0CD6F25}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2B8FDC13-159E-4FD8-B86D-3C36DBC4DACF} = {2B8FDC13-159E-4FD8-B86D-3C36DBC4DACF}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKTest.Bytecode.Shared", "BytecodeShared\OpenTKTest.Bytecode.Shared.csproj", "{2B8FDC13-159E-4FD8-B86D-3C36DBC4DACF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKTest.Bytecode.Shared", "OpenTKTest.Bytecode.Shared\OpenTKTest.Bytecode.Shared.csproj", "{2B8FDC13-159E-4FD8-B86D-3C36DBC4DACF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
