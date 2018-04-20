@@ -5,6 +5,7 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTKTest.Core.IO;
 using OpenTKTest.Core.Render;
 using OpenTKTest.Bytecode.Interpreter;
+using OpenTK.Input;
 
 namespace OpenTKTest.Core
 {
@@ -37,7 +38,7 @@ namespace OpenTKTest.Core
             Analytics.CreateInstance();
 
             gameBytecodeVM = new VM();
-            gameBytecodeVM.RunFile("Content\\Game\\main.abc");
+            //gameBytecodeVM.RunFile("Content\\Game\\main.abc");
 
             Initialize();
         }
@@ -52,6 +53,11 @@ namespace OpenTKTest.Core
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
+        }
+
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseDown(e);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -89,12 +95,16 @@ namespace OpenTKTest.Core
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            Update();
+            if (Time.GetMilliseconds() % 20 == 0)
+            {
+                //InputHandler.Update();
+                DiscordController.Update();
+                Update();
+            }
         }
 
         protected void UpdateWindowTitle()
         {
-            DiscordController.Update();
             this.Title = windowTitle.Replace("%{gamename}", gameName)
                 .Replace("%{gamever}", gameVersion)
                 .Replace("%{glver}", GL.GetString(StringName.Version))
@@ -103,6 +113,7 @@ namespace OpenTKTest.Core
                 .Replace("%{timef}", Time.GetFlicks().ToString())
                 .Replace("%{times}", Time.GetSeconds().ToString())
                 .Replace("%{timems}", Time.GetMilliseconds().ToString())
+                .Replace("%{build}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Build.ToString())
                 .Replace("%{fps}", framesLastSecond.ToString()); // formatted window title
         }
     }

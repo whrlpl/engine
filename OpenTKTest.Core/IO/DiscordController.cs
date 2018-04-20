@@ -36,7 +36,7 @@ namespace OpenTKTest.Core.IO
                 joinRequest = OnJoinRequest,
                 spectateGame = OnSpectateGame
             };
-            UnsafeNativeMethods.DiscordInitialize("408670906404175883", eventHandlers);
+            UnsafeNativeMethods.DiscordInitialize("436934908707864576", eventHandlers);
         }
 
         public static void Update()

@@ -1,4 +1,4 @@
-# engine
+![Whirlpool Engine Logo](https://user-images.githubusercontent.com/12881812/39068823-8e4cf666-44d5-11e8-87ff-65ff17d14fd2.png)
 A project that I hope will let me get closer to bare-metal engine work.
 
 ## Roadmap

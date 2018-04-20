@@ -39,6 +39,13 @@ namespace OpenTKTest.Game.Screens
                     size = new Vector2(200, 200),
                     centered = true
                 },
+                new UI.Checkbox()
+                {
+                    isChecked = false,
+                    position = new Vector2(size.Width / 2 - 32, size.Height / 2 + 100 - 32),
+                    checkboxTexture = Texture.FromFile("Content\\checkbox.png"),
+                    checkboxCheckedTexture = Texture.FromFile("Content\\checkboxChecked.png")
+                },
                 new UI.Label()
                 {
                     text = "made with ❤ by agthrs",

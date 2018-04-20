@@ -41,7 +41,7 @@ namespace OpenTKTest.Game
         public override void Initialize()
         {
             //testModel = ObjLoader.Load("Content\\lamborghini.obj");
-            this.windowTitle = "idk %{gamever} | ogl %{glver} | %{fps} fps";
+            this.windowTitle = "idk build %{build} v%{gamever} | ogl %{glver} | %{fps} fps";
             windowSize = Size;
             currentScreen = new LaunchScreen();
             currentScreen.Init();

@@ -98,16 +98,6 @@ namespace OpenTKTest.Game.UI
             {
                 return c;
             }
-            //try
-            //{
-            //    c = char.ConvertToUtf32(text, pos); // this is so awfully slow that its untrue
-            //}
-            //catch (ArgumentException ex)
-            //{
-            //    // probably low surrogate w/o high
-            //    c = char.ConvertToUtf32(text[pos - 1], text[pos]); // also fucking terribly slow
-            //}
-            //return c;
         }
 
         public override void Update()
