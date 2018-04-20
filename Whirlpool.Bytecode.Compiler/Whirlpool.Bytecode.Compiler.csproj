@@ -73,7 +73,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenTKTest.Bytecode.Shared\Whirlpool.Bytecode.Shared.csproj">
+    <ProjectReference Include="..\Whirlpool.Bytecode.Shared\Whirlpool.Bytecode.Shared.csproj">
       <Project>{2b8fdc13-159e-4fd8-b86d-3c36dbc4dacf}</Project>
       <Name>Whirlpool.Bytecode.Shared</Name>
     </ProjectReference>

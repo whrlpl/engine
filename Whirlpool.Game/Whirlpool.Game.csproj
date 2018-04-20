@@ -264,7 +264,7 @@
     <Compile Include="Render\Model.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenTKTest.Core\Whirlpool.Core.csproj">
+    <ProjectReference Include="..\Whirlpool.Core\Whirlpool.Core.csproj">
       <Project>{772d98cb-fb30-4c9a-b78a-698e31972f22}</Project>
       <Name>Whirlpool.Core</Name>
     </ProjectReference>

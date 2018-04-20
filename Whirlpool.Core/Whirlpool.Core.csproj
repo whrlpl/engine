@@ -140,7 +140,7 @@
     <Compile Include="Render\PostProcessing.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenTKTest.Bytecode.Interpreter\Whirlpool.Bytecode.Interpreter.csproj">
+    <ProjectReference Include="..\Whirlpool.Bytecode.Interpreter\Whirlpool.Bytecode.Interpreter.csproj">
       <Project>{5c639a98-985c-48c2-b6cd-d9ee7a4b1158}</Project>
       <Name>Whirlpool.Bytecode.Interpreter</Name>
     </ProjectReference>
