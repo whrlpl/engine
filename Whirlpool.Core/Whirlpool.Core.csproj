@@ -73,12 +73,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseGame.cs" />
-    <Compile Include="IO\Analytics.cs" />
     <Compile Include="IO\DiscordController.cs" />
     <Compile Include="IO\InputHandler.cs" />
     <Compile Include="IO\ObjLoader.cs" />
     <Compile Include="IO\UnsafeNativeMethods.cs" />
-    <Compile Include="IO\FileCache.cs" />
+    <Compile Include="IO\FileBank.cs" />
     <Compile Include="IO\Time.cs" />
     <Compile Include="Pattern\Exceptions.cs" />
     <Compile Include="Pattern\Singleton.cs" />
@@ -90,6 +89,7 @@
     <Compile Include="Render\Screen.cs" />
     <Compile Include="Render\Shader.cs" />
     <Compile Include="Render\Texture.cs" />
+    <Compile Include="Type\Rectangle.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

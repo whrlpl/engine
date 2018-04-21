@@ -15,7 +15,7 @@ namespace Whirlpool.Game.Screens
     {
         public override void Init()
         {
-            Size size = TDBRGame.windowSize;
+            Size size = MainGame.windowSize;
             AddComponents(new List<RenderComponent>() {
                 new UI.Label()
                 {
@@ -24,13 +24,6 @@ namespace Whirlpool.Game.Screens
                     position = new Vector2(size.Width / 2, size.Height / 2),
                     centered = true
                 },
-                //new UI.Notification()
-                //{
-                //    text = "Test",
-                //    font = new UI.Font("Content\\Fonts\\Catamaran-Bold.ttf", Color4.White, 48, 0),
-                //    position = new Vector2(size.Width / 2, size.Height / 2 + 75),
-                //    size = new Vector2(200, 200)
-                //},
                 new UI.Button()
                 {
                     text = "start",
@@ -58,7 +51,14 @@ namespace Whirlpool.Game.Screens
                 //    objName = "Content\\octahedron.obj",
                 //    size = new Vector3(0.2f, .2f, .2f),
                 //    position = new Vector3(0, 0, -4.0f)
-                //}
+                //},
+                new UI.Notification()
+                {
+                    text = "Test",
+                    font = new UI.Font("Content\\Fonts\\Catamaran-Bold.ttf", Color4.White, 48, 0),
+                    position = new Vector2(size.Width / 2, size.Height / 2 + 75),
+                    size = new Vector2(200, 200)
+                },
             });
             base.Init();
         }

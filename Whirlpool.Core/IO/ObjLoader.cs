@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Whirlpool.Core.IO
 {
-    public class Object // TODO: make this a renderComponent
+    public class Object
     {
         public List<Vector3> vertices = new List<Vector3>();
         public List<uint> indices = new List<uint>();

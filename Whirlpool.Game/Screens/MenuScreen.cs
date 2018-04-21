@@ -15,7 +15,7 @@ namespace Whirlpool.Game.Screens
     {
         public override void Init()
         {
-            Size size = TDBRGame.windowSize;
+            Size size = MainGame.windowSize;
             AddComponents(new List<RenderComponent>() {
                 new UI.Label()
                 {

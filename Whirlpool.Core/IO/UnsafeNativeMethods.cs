@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Whirlpool.Core.IO
 {
-    public unsafe class UnsafeNativeMethods
+    public unsafe class UnsafeDiscordMethods
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void ReadyHandler();
@@ -25,11 +25,11 @@ namespace Whirlpool.Core.IO
         public delegate void SpectateGameHandler(string secret);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void JoinRequestHandler(DiscordJoinRequest request);
+        public delegate void JoinRequestHandler(JoinRequest request);
 
         //--------------------------------------------------------------------------------
 
-        public struct DiscordEventHandlers
+        public struct EventHandlers
         {
             public ReadyHandler ready;
             public DisconnectedHandler disconnected;
@@ -41,7 +41,8 @@ namespace Whirlpool.Core.IO
 
         //--------------------------------------------------------------------------------
 
-        public struct DiscordRichPresence
+        [Serializable]
+        public struct RichPresence
         {
             public string state;
             public string details;
@@ -62,7 +63,8 @@ namespace Whirlpool.Core.IO
 
         //--------------------------------------------------------------------------------
 
-        public struct DiscordJoinRequest
+        [Serializable]
+        public struct JoinRequest
         {
             public string userId;
             public string username;
@@ -71,7 +73,7 @@ namespace Whirlpool.Core.IO
 
         //--------------------------------------------------------------------------------
 
-        public enum DiscordReply
+        public enum Reply
         {
             No = 0,
             Yes = 1,
@@ -82,13 +84,13 @@ namespace Whirlpool.Core.IO
 
         [DllImport("discord-rpc.dll", CharSet = CharSet.Unicode)]
         private static extern void Discord_Initialize([MarshalAs(UnmanagedType.LPWStr)]string applicationID,
-            ref DiscordEventHandlers handlers,
+            ref EventHandlers handlers,
             bool autoRegister,
             [MarshalAs(UnmanagedType.LPWStr)]string optionalSteamId);
 
-        public static void DiscordInitialize(string appID, DiscordEventHandlers handlers)
+        public static void DiscordInitialize(string appID, EventHandlers handlers)
         {
-            Discord_Initialize(appID, ref handlers, true, String.Empty);
+            Discord_Initialize(appID, ref handlers, true, null);
         }
 
         //--------------------------------------------------------------------------------
@@ -106,7 +108,7 @@ namespace Whirlpool.Core.IO
         [DllImport("discord-rpc.dll")]
         private static extern void Discord_UpdatePresence(IntPtr presence);
 
-        public static void DiscordUpdatePresence(DiscordRichPresence presence)
+        public static void DiscordUpdatePresence(RichPresence presence)
         {
             IntPtr ptrPresence = Marshal.AllocHGlobal(Marshal.SizeOf(presence));
             Marshal.StructureToPtr(presence, ptrPresence, false);
@@ -135,9 +137,9 @@ namespace Whirlpool.Core.IO
         //--------------------------------------------------------------------------------
 
         [DllImport("discord-rpc.dll", CharSet = CharSet.Unicode)]
-        private static extern void Discord_Respond(string userId, DiscordReply reply);
+        private static extern void Discord_Respond(string userId, Reply reply);
 
-        public static void DiscordRespond(string userID, DiscordReply reply)
+        public static void DiscordRespond(string userID, Reply reply)
         {
             Discord_Respond(userID, reply);
         }

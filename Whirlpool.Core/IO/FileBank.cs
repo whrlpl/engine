@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace Whirlpool.Core.IO
 {
-    public class FileCache : Singleton<FileCache>
+    public class FileBank : Singleton<FileBank>
     {
-        protected Dictionary<string, Texture> textureCache = new Dictionary<string, Texture>();
+        protected Dictionary<string, Texture> textureBank = new Dictionary<string, Texture>();
 
         public static Texture GetTexture(string name)
         {
             var instance = GetInstance();
-            if (instance.textureCache.ContainsKey(name))
-                return instance.textureCache[name];
+            if (instance.textureBank.ContainsKey(name))
+                return instance.textureBank[name];
             else
 #if DEBUG
                 throw new TextureNotFoundException("Could not find the texture " + name + " (will be replaced with a placeholder in release builds)");
@@ -39,9 +39,9 @@ namespace Whirlpool.Core.IO
         {
             var instance = GetInstance();
 
-            if (instance.textureCache.ContainsKey(name))
-                instance.textureCache.Remove(name);
-            instance.textureCache.Add(name, texture);
+            if (instance.textureBank.ContainsKey(name))
+                instance.textureBank.Remove(name);
+            instance.textureBank.Add(name, texture);
         }
     }
 }

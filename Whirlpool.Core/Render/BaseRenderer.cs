@@ -260,7 +260,7 @@ namespace Whirlpool.Core.Render
 
         protected static Texture GetTextureFromString(string texture)
         {
-            return FileCache.GetTexture(texture);
+            return FileBank.GetTexture(texture);
         }
 
         public static void RenderCube(Vector3 position, Vector3 size, string texture, Color4 tint, float textureRepetitions = 1)

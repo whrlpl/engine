@@ -14,16 +14,21 @@ using Whirlpool.Game.Screens;
 
 namespace Whirlpool.Game
 {
-    class TDBRGame : BaseGame
+    class MainGame : BaseGame
     {
         //private Whirlpool.Core.IO.Object testModel;
         private Screen currentScreen;
-
         public static System.Drawing.Size windowSize;
+        
+        #region "Game properties"
+        public new string gameName = "Asimov";
+        public new string gameVersion = "0.1.0";
+        #endregion
 
         public override void Update()
         {
             currentScreen.Update();
+
             if (windowSize != Size)
             {
                 windowSize = Size;
@@ -35,29 +40,23 @@ namespace Whirlpool.Game
             BaseRenderer.RenderQuad(new Vector2(0, 0), new Vector2(Size.Width, Size.Height), "blank", Color4.Black);
             BaseRenderer.RenderGradient(new Vector2(0, 0), new Vector2(Size.Width, Size.Height));
             currentScreen.Render();
-            //tertiaryLabel.Render();
         }
 
-        public override void Initialize()
+        public override void Init()
         {
-            //testModel = ObjLoader.Load("Content\\lamborghini.obj");
-            this.windowTitle = "idk build %{build} v%{gamever} | ogl %{glver} | %{fps} fps";
+            windowTitle = "build %{build} | game version v%{gamever} | ogl %{glver} | %{fps} fps";
             windowSize = Size;
             currentScreen = new LaunchScreen();
             currentScreen.Init();
-            // Hook in to add a special watermark render component
+            
             currentScreen.AddComponent(new UI.Label()
             {
                 text = "beta build",
                 font = new UI.Font("Content\\Fonts\\Catamaran-Light.ttf", Color4.White, 32),
                 position = new Vector2(10, 50)
             });
-            //tertiaryLabel = new UI.Label()
-            //{
-            //    text = "Play Solo\nPlay Duo\nPlay Squad\nOptions\nExit",
-            //    font = new UI.Font("Content\\Fonts\\DefaultFont.ttf", Color4.White, 24),
-            //    position = new Vector2(10, 145)
-            //};
+            
+            base.Init();
         }
     }
 }

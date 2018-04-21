@@ -6,6 +6,7 @@ using Whirlpool.Core.IO;
 using Whirlpool.Core.Render;
 using Whirlpool.Bytecode.Interpreter;
 using OpenTK.Input;
+using System.Collections.Generic;
 
 namespace Whirlpool.Core
 {
@@ -14,33 +15,71 @@ namespace Whirlpool.Core
         int frameCap = -1;
         DateTime lastFrameCollection;
         int framesLastSecond;
-
         public VM gameBytecodeVM;
 
         #region "Game properties"
-        public string gameName = "Guns and Fries";
-        public string gameVersion = "0";
-        public string windowTitle = "%{gamename} %{gamever} | ogl %{glver} | %{fps} fps";
+        public static string gameName = "Whirlpool Engine Game";
+        public static string gameVersion = "1.0";
+        public static string windowTitle = "%{gamename}";
         #endregion
 
         public delegate void actionDelegate();
-        public abstract void Initialize();
         public abstract void Render();
         public abstract void Update();
 
-        public BaseGame() : base(1280, 720, new GraphicsMode(ColorFormat.Empty, 32), "Window", GameWindowFlags.Default, DisplayDevice.Default, 4, 6, GraphicsContextFlags.Default)
+        public BaseGame() : base(1280, 
+            720, 
+            new GraphicsMode(ColorFormat.Empty, 32), 
+            windowTitle, 
+            GameWindowFlags.Default, 
+            DisplayDevice.Default, 
+            4, 6, 
+            GraphicsContextFlags.Default)
+        {
+            Init();
+        }
+
+        public virtual void Init()
         {
             UpdateWindowTitle();
             lastFrameCollection = DateTime.Now;
-            FileCache.AddTexture("blank", Texture.FromData(new Color4[] { Color4.White }, 1, 1));
-            FileCache.LoadTexturesFromFolder("Content");
+            FileBank.AddTexture("blank", Texture.FromData(new Color4[] { Color4.White }, 1, 1));
+            FileBank.LoadTexturesFromFolder("Content");
             DiscordController.Init();
-            Analytics.CreateInstance();
+            Mouse.ButtonDown += Mouse_ButtonDown;
+            Mouse.ButtonUp += Mouse_ButtonUp;
+            try
+            {
+                gameBytecodeVM = new VM();
+                gameBytecodeVM.RunFile("Content\\Game\\main.abc");
+            }
+            catch
+            {
+                Console.WriteLine("There was a problem loading main.abc into the VM");
+            }
+        }
 
-            gameBytecodeVM = new VM();
-            //gameBytecodeVM.RunFile("Content\\Game\\main.abc");
+        private void HandleMouseEvent(MouseButtonEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case MouseButton.Left:
+                    InputHandler.UpdateMouseLeft(e.IsPressed);
+                    break;
+                case MouseButton.Right:
+                    InputHandler.UpdateMouseRight(e.IsPressed);
+                    break;
+            }
+        }
 
-            Initialize();
+        private void Mouse_ButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            HandleMouseEvent(e);
+        }
+
+        private void Mouse_ButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            HandleMouseEvent(e);
         }
 
         protected override void OnResize(EventArgs e)
@@ -70,7 +109,6 @@ namespace Whirlpool.Core
             GL.DepthMask(true);
             GL.Enable(EnableCap.CullFace);
             GL.DepthFunc(DepthFunction.Lequal);
-            //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
 
             BaseRenderer.GetInstance().camera?.Update();
             Render();
@@ -97,8 +135,8 @@ namespace Whirlpool.Core
         {
             if (Time.GetMilliseconds() % 20 == 0)
             {
-                //InputHandler.Update();
                 DiscordController.Update();
+                InputHandler.UpdateMousePos(Mouse.X, Mouse.Y);
                 Update();
             }
         }

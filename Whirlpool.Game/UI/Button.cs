@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Whirlpool.Core.IO;
+using Whirlpool.Core.Type;
 
 namespace Whirlpool.Game.UI
 {
@@ -29,6 +31,18 @@ namespace Whirlpool.Game.UI
                 font = this.font,
                 tint = Color4.Black
             };
+
+            InputHandler.GetInstance().onMousePressed += (s, e) =>
+            {
+                var status = InputHandler.GetStatus();
+                if (status.mouseButtonLeft)
+                {
+                    if (new Rectangle(position.X, position.Y, size.X, size.Y).Contains(status.mousePosition))
+                    {
+                        Console.WriteLine("crikey");
+                    }
+                }
+            };
         }
 
         public override void Render()
@@ -37,9 +51,6 @@ namespace Whirlpool.Game.UI
             label.Render();
         }
 
-        public override void Update()
-        {
-            // TODO: Check for mouse input and call onClick
-        }
+        public override void Update() { }
     }
 }

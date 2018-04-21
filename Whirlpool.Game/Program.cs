@@ -11,7 +11,7 @@ namespace Whirlpool.Game
             try
             {
 #endif
-            using (var g = new TDBRGame())
+            using (var g = new MainGame())
                 g.Run();
 #if !DEBUG
             }

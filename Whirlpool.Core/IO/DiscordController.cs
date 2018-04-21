@@ -8,7 +8,7 @@ namespace Whirlpool.Core.IO
 {
     public class DiscordController
     {
-        protected static UnsafeNativeMethods.DiscordRichPresence testPresence = new UnsafeNativeMethods.DiscordRichPresence()
+        protected static UnsafeDiscordMethods.RichPresence testPresence = new UnsafeDiscordMethods.RichPresence()
         {
             state = "Playing Solo",
             details = "Deathmatch",
@@ -16,11 +16,10 @@ namespace Whirlpool.Core.IO
             largeImageKey = "default",
             largeImageText = "testmap",
             smallImageKey = "s_default",
-            smallImageText = "Level 1",
-            instance = true
+            smallImageText = "Level 1"
         };
 
-        protected static UnsafeNativeMethods.DiscordRichPresence defaultPresence = new UnsafeNativeMethods.DiscordRichPresence()
+        protected static UnsafeDiscordMethods.RichPresence defaultPresence = new UnsafeDiscordMethods.RichPresence()
         {
             state = "Idle",
             largeImageKey = "default",
@@ -29,20 +28,26 @@ namespace Whirlpool.Core.IO
 
         public static void Init()
         {
-            UnsafeNativeMethods.DiscordEventHandlers eventHandlers = new UnsafeNativeMethods.DiscordEventHandlers()
+            UnsafeDiscordMethods.EventHandlers eventHandlers = new UnsafeDiscordMethods.EventHandlers()
             {
                 errored = OnErrored,
                 joinGame = OnJoinGame,
                 joinRequest = OnJoinRequest,
-                spectateGame = OnSpectateGame
+                spectateGame = OnSpectateGame,
+                ready = OnReady
             };
-            UnsafeNativeMethods.DiscordInitialize("436934908707864576", eventHandlers);
+            UnsafeDiscordMethods.DiscordInitialize("436934908707864576", eventHandlers);
+        }
+
+        private static void OnReady()
+        {
+            Console.WriteLine("Discord RPC ready.");
         }
 
         public static void Update()
         {
-            UnsafeNativeMethods.DiscordRunCallbacks();
-            UnsafeNativeMethods.DiscordUpdatePresence(defaultPresence);
+            UnsafeDiscordMethods.DiscordRunCallbacks();
+            UnsafeDiscordMethods.DiscordUpdatePresence(defaultPresence);
         }
 
         private static void OnSpectateGame(string secret)
@@ -50,7 +55,7 @@ namespace Whirlpool.Core.IO
             throw new NotImplementedException("Spectating is not implemented yet.");
         }
 
-        private static void OnJoinRequest(UnsafeNativeMethods.DiscordJoinRequest request)
+        private static void OnJoinRequest(UnsafeDiscordMethods.JoinRequest request)
         {
             throw new NotImplementedException("Joining is not implemented yet.");
         }
@@ -62,7 +67,7 @@ namespace Whirlpool.Core.IO
 
         private static void OnErrored(int errorCode, string message)
         {
-            throw new Exception("UnsafeNativeMethods failed with error " + errorCode + ":\n" + message);
+            throw new Exception("Discord RPC failed with error " + errorCode + ":\n" + message);
         }
     }
 }
