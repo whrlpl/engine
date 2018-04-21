@@ -30,6 +30,7 @@ namespace Whirlpool.Core.Type
                     &&
                     (pos.X <= x + width && pos.Y <= y + height)
                 );
+
             /* 
              * x0y0                          x200y0
              * |----------------------------------|
