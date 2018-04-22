@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace Whirlpool.Core.Render
 {
@@ -25,7 +26,7 @@ namespace Whirlpool.Core.Render
         int VAO, VBO, EBO;
         int cubeVAO, cubeVBO, cubeEBO;
 
-        static Material defaultMaterial, spriteMaterial, gradientMaterial;
+        static Material defaultMaterial, spriteMaterial, gradientMaterial, framebufferMaterial;
         protected bool _initialized;
 
         public Vector2 windowSize;
@@ -44,6 +45,24 @@ namespace Whirlpool.Core.Render
             gradientMaterial.SetVariable("color2", new Color4(1, 1, 1, 1));
             gradientMaterial.SetVariable("position", _PixelsToNDC(position));
             gradientMaterial.SetVariable("size", _PixelsToNDCSize(size));
+            GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
+        }
+        
+        protected void _RenderFramebuffer(Vector2 position, Vector2 size, Texture texture)
+        {
+            GL.BindVertexArray(VAO);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
+            framebufferMaterial?.Use();
+            if (!_initialized) _Init();
+            texture.Bind();
+
+            framebufferMaterial.SetVariable("flipX", false);
+            framebufferMaterial.SetVariable("flipY", false);
+
+            framebufferMaterial.SetVariable("renderedTexture", 0);
+            framebufferMaterial.SetVariable("position", _PixelsToNDC(position));
+            framebufferMaterial.SetVariable("size", _PixelsToNDCSize(size));
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
 
@@ -147,6 +166,13 @@ namespace Whirlpool.Core.Render
                 .Link()
                 .GetMaterial();
 
+            framebufferMaterial = new MaterialBuilder()
+                .Build()
+                .Attach(new Shader("Shaders\\spritevert.glsl", ShaderType.VertexShader))
+                .Attach(new Shader("Shaders\\fbFrag.glsl", ShaderType.FragmentShader))
+                .Link()
+                .GetMaterial();
+
             GL.GenVertexArrays(1, out cubeVAO);
             GL.GenBuffers(1, out cubeVBO);
             GL.GenBuffers(1, out cubeEBO);
@@ -226,7 +252,7 @@ namespace Whirlpool.Core.Render
             GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
             GL.EnableVertexAttribArray(1);
 
-            PostProcessing.GetInstance().Init();
+            PostProcessing.GetInstance().Init(windowSize);
 
             camera = new Camera();
 
@@ -241,6 +267,11 @@ namespace Whirlpool.Core.Render
         protected Vector2 _PixelsToNDCSize(Vector2 pixels)
         {
             return new Vector2((2 / windowSize.X * dpiUpscale) * pixels.X / 2, (2 / windowSize.Y * dpiUpscale) * pixels.Y / 2);
+        }
+
+        public static void RenderFramebuffer(Vector2 position, Vector2 size, Texture texture)
+        {
+            GetInstance()._RenderFramebuffer(position, size, texture);
         }
 
         public static void RenderQuad(Vector2 position, Vector2 size, Texture texture, Color4 tint, Material material = null, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)

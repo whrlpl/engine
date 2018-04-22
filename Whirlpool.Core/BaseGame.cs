@@ -111,7 +111,12 @@ namespace Whirlpool.Core
             GL.DepthFunc(DepthFunction.Lequal);
 
             BaseRenderer.GetInstance().camera?.Update();
+
+            PostProcessing.GetInstance().PreRender();
+
             Render();
+
+            PostProcessing.GetInstance().PostRender();
 
             this.SwapBuffers();
 
