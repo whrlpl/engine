@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading;
 using OpenTK;
+using OpenTK.Graphics;
 using Whirlpool.Core;
 using Whirlpool.Core.Render;
-using Whirlpool.Core.Pattern;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL4;
-using Whirlpool.Core.IO;
 using Whirlpool.Game.Screens;
+using Whirlpool.Game.Logic;
+using UI = Whirlpool.Core.UI;
+using Network = Whirlpool.Core.Network;
 
 namespace Whirlpool.Game
 {
@@ -19,15 +15,18 @@ namespace Whirlpool.Game
         //private Whirlpool.Core.IO.Object testModel;
         private Screen currentScreen;
         public static System.Drawing.Size windowSize;
-        
+
+        public World world;
+
         #region "Game properties"
         public new string gameName = "Asimov";
-        public new string gameVersion = "0.1.0";
+        public new string gameVersion = "0.1.1";
         #endregion
 
         public override void Update()
         {
             currentScreen.Update();
+            world.Update();
 
             if (windowSize != Size)
             {
@@ -48,6 +47,8 @@ namespace Whirlpool.Game
             windowSize = Size;
             currentScreen = new LaunchScreen();
             currentScreen.Init();
+            world = new World();
+            world.Init();
             
             currentScreen.AddComponent(new UI.Label()
             {

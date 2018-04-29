@@ -9,26 +9,20 @@ using System.Threading.Tasks;
 using Whirlpool.Core.IO;
 using Whirlpool.Core.Type;
 
-namespace Whirlpool.Game.UI
+namespace Whirlpool.Core.UI
 {
-    class Button : RenderComponent
+    public class Button : UIComponent
     {
-        public string text = string.Empty;
-        public Font font;
-        public Color4 tint = Color4.Black;
-        public Vector2 position = Vector2.Zero;
-        public Vector2 size = Vector2.Zero;
-        public bool centered = false;
         public Label label;
 
         public override void Init()
         {
             label = new Label()
             {
-                centered = this.centered,
-                position = this.position,
-                text = this.text,
-                font = this.font,
+                centered = centered,
+                position = position,
+                text = text,
+                font = font,
                 tint = Color4.Black
             };
 
@@ -39,7 +33,7 @@ namespace Whirlpool.Game.UI
                 {
                     if (new Rectangle(position.X, position.Y, size.X, size.Y).Contains(status.mousePosition))
                     {
-                        Console.WriteLine("crikey");
+                        Logging.Write("Button pressed");
                     }
                 }
             };

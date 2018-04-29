@@ -8,19 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Whirlpool.Core.IO;
 
-namespace Whirlpool.Game.UI
+namespace Whirlpool.Core.UI
 {
-    class Notification : RenderComponent
+    public class Notification : UIComponent
     {
-        public string text = string.Empty;
-        public Font font = null;
-        public Color4 tint = Color4.Black;
-        public Vector2 position = Vector2.Zero;
-        public Vector2 size = Vector2.Zero;
         public Label label;
-
         private long initTime;
-
         private Label notificationLabel;
 
         public override void Init()

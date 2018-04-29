@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Whirlpool.Core.IO;
 
 namespace Whirlpool.Core.Render
 {
@@ -27,7 +28,7 @@ namespace Whirlpool.Core.Render
                 if (status == 0)
                     throw new Exception(GL.GetShaderInfoLog(glShader));
                 else
-                    Console.WriteLine("Shader " + file + " compiled");
+                    Logging.Write("Shader " + file + " compiled");
             }
         }
     }

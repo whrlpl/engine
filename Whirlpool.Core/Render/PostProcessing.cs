@@ -9,23 +9,23 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.Drawing;
 using OpenTK;
+using Whirlpool.Core.IO;
 
 namespace Whirlpool.Core.Render
 {
     public class PostProcessing : Singleton<PostProcessing>
     {
 #if POSTPROCESSING
-        int framebuffer, rbo;
+        int framebuffer;
         Texture textureBufferTexture;
 
         int width = 0, height = 0;
 #endif
 		public void Init(Vector2 windowSize)
         {
+#if POSTPROCESSING
             width = (int)windowSize.X;
             height = (int)windowSize.Y;
-#if POSTPROCESSING
-            //GL.DrawBuffer(DrawBufferMode.None);
 #endif
             //GL.Enable(EnableCap.Multisample);            
             GL.Enable(EnableCap.Blend);
@@ -61,21 +61,25 @@ namespace Whirlpool.Core.Render
             GL.DrawBuffers(1, drawBuffers);
 
             if (GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer) != FramebufferErrorCode.FramebufferComplete)
-                Console.WriteLine("\n\n\tFRAMEBUFFER ERROR: " + GL.GetError());
+                Logging.Write("Framebuffer error: " + GL.GetError(), LogStatus.Error);
 #endif
         }
 
         public void PreRender()
         {
+#if POSTPROCESSING
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
             GL.Viewport(0, 0, width, height);
+#endif
         }
 
         public void PostRender()
         {
+#if POSTPROCESSING
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
             GL.Viewport(0, 0, width, height);
             BaseRenderer.RenderFramebuffer(new Vector2(0, 0), new Vector2(width, height), textureBufferTexture);
+#endif
         }
     }
 }

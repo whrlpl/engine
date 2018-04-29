@@ -55,7 +55,7 @@ namespace Whirlpool.Core
             }
             catch
             {
-                Console.WriteLine("There was a problem loading main.abc into the VM");
+                Logging.Write("There was a problem loading main.abc into the VM", LogStatus.Error);
             }
         }
 
@@ -89,14 +89,14 @@ namespace Whirlpool.Core
             base.OnResize(e);
         }
 
-        protected override void OnClosed(EventArgs e)
+        protected override void OnKeyUp(KeyboardKeyEventArgs e)
         {
-            base.OnClosed(e);
+            InputHandler.SetKeyboardKey(e.Key.ToString().ToLower()[0], false);
         }
 
-        protected override void OnMouseDown(MouseButtonEventArgs e)
+        protected override void OnKeyDown(KeyboardKeyEventArgs e)
         {
-            base.OnMouseDown(e);
+            InputHandler.SetKeyboardKey(e.Key.ToString().ToLower()[0], true);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -129,7 +129,7 @@ namespace Whirlpool.Core
             if ((DateTime.Now - lastFrameCollection).TotalMilliseconds >= 1000)
             {
                 UpdateWindowTitle();
-                Console.WriteLine(framesLastSecond + "FPS");
+                Logging.Write(framesLastSecond + "FPS");
                 framesLastSecond = 0;
                 lastFrameCollection = DateTime.Now;
             }

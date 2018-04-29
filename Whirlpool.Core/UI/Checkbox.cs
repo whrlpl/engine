@@ -7,12 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Whirlpool.Game.UI
+namespace Whirlpool.Core.UI
 {
-    class Checkbox : RenderComponent
+    public class Checkbox : UIComponent
     {
-        public Vector2 position = Vector2.Zero;
-        public Vector2 size = new Vector2(64, 64);
+        public new Vector2 size = new Vector2(64, 64);
         public bool isChecked = false;
         public Texture checkboxTexture;
         public Texture checkboxCheckedTexture;

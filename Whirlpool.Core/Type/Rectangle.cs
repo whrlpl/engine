@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Whirlpool.Core.IO;
 
 namespace Whirlpool.Core.Type
 {
@@ -24,7 +25,7 @@ namespace Whirlpool.Core.Type
 
         public bool Contains(Vector2 pos)
         {
-            Console.WriteLine(pos.X + "," + pos.Y + " : " + x + "," + y  + " < " + (x + width) + "," + (y + height));
+            Logging.Write(pos.X + "," + pos.Y + " : " + x + "," + y  + " < " + (x + width) + "," + (y + height));
             return (
                     (pos.X >= x && pos.Y >= y)
                     &&

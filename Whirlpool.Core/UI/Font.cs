@@ -7,8 +7,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Whirlpool.Core.IO;
 
-namespace Whirlpool.Game.UI
+namespace Whirlpool.Core.UI
 {
     public enum CharacterType
     {
@@ -70,7 +71,7 @@ namespace Whirlpool.Game.UI
                 if (c > 0x0001F600 || forceEmoji) // utf-32!!!!!
                 {
                     var emojiLoc = "Content\\emoji\\" + c.ToString("X").ToLower() + ".png";
-                    Console.WriteLine("Loading emoji " + emojiLoc);
+                    Logging.Write("Loading emoji " + emojiLoc);
                     Texture tex = Texture.FromFile(emojiLoc);
                     tex.name = filename;
 
@@ -111,30 +112,57 @@ namespace Whirlpool.Game.UI
             float x = 0, y = 0;
             for (int i = 0; i < text.Length; ++i)
             {
-                var c = text[i];
+                int c = GetUtf32Char(text, i);
+                bool forceEmoji = false; // try this as default true ;)
+                // HACK: hey just check if the next character is FE0F so we know whether to present it as an emoji
+
+                if (i < text.Length - 1)
+                    forceEmoji = (GetUtf32Char(text, i + 1) == 0x0000FE0F); // yes it is an emoji
+
+                if (c >= 10000) forceEmoji = true;
                 switch (c)
                 {
                     case ' ':
                         x += baseCharWidth / 2 + kerning;
                         break;
                     case '\n':
-                        x = 0;
                         y += baseCharHeight + 10;
                         break;
                     default:
-                        if (characters.ContainsKey(c))
-                        {
-                            Character fontChar = characters[c];
-                            if (i != text.Length - 1)
-                                if (fontChar.type == CharacterType.Standard)
-                                    x += (int)(fontChar.width) + fontChar.xOffset - ttf.GetCodepointKernAdvance((char)c, text[i + 1]) + kerning;
-                                else if (fontChar.type == CharacterType.Emoji)
-                                    x += size + fontChar.xOffset - ttf.GetCodepointKernAdvance((char)c, text[i + 1]) + kerning;
-                        }
+                        Character fontChar = GetCharacter(c, forceEmoji);
+                        if (i != text.Length - 1)
+                            if (fontChar.type == CharacterType.Standard)
+                            {
+                                x += (int)(fontChar.width) + fontChar.xOffset - ttf.GetCodepointKernAdvance((char)c, text[i + 1]) + kerning;
+                                y += fontChar.width;
+                            }
+                            else if (fontChar.type == CharacterType.Emoji)
+                            {
+                                x += size + fontChar.xOffset - ttf.GetCodepointKernAdvance((char)c, text[i + 1]) + kerning;
+                                y += size;
+                            }
                         break;
                 }
             }
             return new Vector2(x, y);
+        }
+
+        public int GetUtf32Char(string text, int pos)
+        {
+            int c = text[pos];
+            // Determine whether the character at the position is a surrogate
+            if (c > 0xD800 && c < 0xDFFF && pos < text.Length - 1)
+            {
+                // Calculate utf-32 codepoint
+                int highSurrogate = text[pos] - 0xD800;
+                highSurrogate = highSurrogate * 0x400;
+                int lowSurrogate = text[pos + 1] - 0xDC00;
+                return highSurrogate + lowSurrogate + 0x10000;
+            }
+            else
+            {
+                return c;
+            }
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Whirlpool.Core.IO
 
         private static void OnReady()
         {
-            Console.WriteLine("Discord RPC ready.");
+            Logging.Write("Discord RPC ready.");
         }
 
         public static void Update()

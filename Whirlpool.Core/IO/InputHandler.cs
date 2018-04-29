@@ -14,8 +14,7 @@ namespace Whirlpool.Core.IO
         public Vector2 mousePosition;
         public bool mouseButtonLeft;
         public bool mouseButtonRight;
-        public char[] keyboardKeysDown;
-        public char[] keyboardKeysUp;
+        public bool[] keyboardKeys;
     }
 
     public class InputHandler : Singleton<InputHandler>
@@ -30,6 +29,14 @@ namespace Whirlpool.Core.IO
             if (instance == null || instance.currentStatus == null)
                 return instance.currentStatus = new InputStatus();
             return instance.currentStatus;
+        }
+
+        public static void SetKeyboardKey(char key, bool state)
+        {
+            var instance = GetInstance();
+            if (instance == null || instance.currentStatus == null)
+                instance.currentStatus = new InputStatus();
+            instance.currentStatus.keyboardKeys[key] = state;
         }
 
         public static void UpdateMousePos(int mouseX, int mouseY)

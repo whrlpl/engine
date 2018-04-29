@@ -128,7 +128,7 @@ namespace Whirlpool.Core.IO
                             }
                             break;
                         case "vp": // Parameter space vertex (u[vw])
-                            Console.WriteLine("Parameter space vertices are not implemented yet.");
+                            Logging.Write("Parameter space vertices are not implemented yet.", LogStatus.Warning);
                             break;
                         case "f": // Face
                             // Indices
@@ -146,27 +146,28 @@ namespace Whirlpool.Core.IO
                             }
                             else
                             {
-                                Console.WriteLine("TRIANGULATE FACES!!!"); // Enable the fucking export option!
+                                Logging.Write("Faces must be triangulated.", LogStatus.Error); // Enable the fucking export option!
                             }
                             break;
                         case "l": // Line
-                            Console.WriteLine("Lines are not implemented yet.");
+                            Logging.Write("Lines are not implemented yet.", LogStatus.Warning);
                             break;
                         case "mtllib": // Define material
-                            Console.WriteLine("Materials are not implemented yet.");
+                            Logging.Write("Materials are not implemented yet.", LogStatus.Warning);
                             break;
                         case "usemtl": // Use material
-                            Console.WriteLine("Materials are not implemented yet.");
+                            Logging.Write("Materials are not implemented yet.", LogStatus.Warning);
                             break;
                         case "o": // Object
                         case "g": // Polygon group
-                            Console.WriteLine("Polygon grouping is not implemented yet.");
+                            Logging.Write("Polygon grouping is not implemented yet.", LogStatus.Warning);
                             break;
                         case "s": // Smooth shading
-                            Console.WriteLine("Smooth shading is not implemented yet.");
+                            Logging.Write("Smooth shading is not implemented yet.", LogStatus.Warning);
                             break;
                         default:
-                            throw new Exception("obj file is not valid.");
+                            Logging.Write("obj file is not valid.", LogStatus.Error);
+                            break;
                     }
                 }
             }
