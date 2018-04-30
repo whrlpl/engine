@@ -3,14 +3,17 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using Whirlpool.Core.IO;
+using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.Network
 {
+    [NeedsRefactoring]
     public class CustomUdpClient : UdpClient
     {
         public new bool Active;
     }
 
+    [NeedsRefactoring]
     public enum PacketType : byte
     {
         Update = 0x00,
@@ -20,6 +23,7 @@ namespace Whirlpool.Core.Network
         Handshake = 0xFF,
     }
 
+    [NeedsRefactoring]
     public class Client
     {
         // basic network client

@@ -1,14 +1,11 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 using Whirlpool.Core.Pattern;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTK.Input;
+using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.IO
 {
+    [NeedsRefactoring]
     public class InputStatus
     {
         public Vector2 mousePosition;
@@ -17,6 +14,8 @@ namespace Whirlpool.Core.IO
         public bool[] keyboardKeys;
     }
 
+
+    [NeedsRefactoring]
     public class InputHandler : Singleton<InputHandler>
     {
         public InputStatus currentStatus;
@@ -31,7 +30,7 @@ namespace Whirlpool.Core.IO
             return instance.currentStatus;
         }
 
-        public static void SetKeyboardKey(char key, bool state)
+        internal static void SetKeyboardKey(char key, bool state)
         {
             var instance = GetInstance();
             if (instance == null || instance.currentStatus == null)
@@ -39,7 +38,7 @@ namespace Whirlpool.Core.IO
             instance.currentStatus.keyboardKeys[key] = state;
         }
 
-        public static void UpdateMousePos(int mouseX, int mouseY)
+        internal static void UpdateMousePos(int mouseX, int mouseY)
         {
             var instance = GetInstance();
             if (instance == null || instance.currentStatus == null)
@@ -47,7 +46,7 @@ namespace Whirlpool.Core.IO
             instance.currentStatus.mousePosition = new Vector2(mouseX, mouseY);
         }
 
-        public static void UpdateMouseLeft(bool pressed)
+        internal static void UpdateMouseLeft(bool pressed)
         {
             var instance = GetInstance();
             if (instance == null || instance.currentStatus == null)
@@ -56,7 +55,7 @@ namespace Whirlpool.Core.IO
             instance.onMousePressed(null, null);
         }
 
-        public static void UpdateMouseRight(bool pressed)
+        internal static void UpdateMouseRight(bool pressed)
         {
             var instance = GetInstance();
             if (instance == null || instance.currentStatus == null)

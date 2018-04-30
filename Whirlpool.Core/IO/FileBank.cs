@@ -1,18 +1,22 @@
-﻿using Whirlpool.Core.Pattern;
-using Whirlpool.Core.Render;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Whirlpool.Core.Pattern;
+using Whirlpool.Core.Render;
 
 namespace Whirlpool.Core.IO
 {
     public class FileBank : Singleton<FileBank>
     {
+        /// <summary>
+        /// Textures loaded into the game, with the key being the texture path relative to the game executable.
+        /// </summary>
         protected Dictionary<string, Texture> textureBank = new Dictionary<string, Texture>();
 
+        /// <summary>
+        /// Get a texture from the texture bank by its file name.
+        /// </summary>
+        /// <param name="name">The texture's file name</param>
+        /// <returns>The texture</returns>
         public static Texture GetTexture(string name)
         {
             var instance = GetInstance();
@@ -26,6 +30,10 @@ namespace Whirlpool.Core.IO
 #endif
         }
 
+        /// <summary>
+        /// Load all the textures in a directory recursively.
+        /// </summary>
+        /// <param name="folder">The directory to load from</param>
         public static void LoadTexturesFromFolder(string folder)
         {
             foreach (string file in Directory.GetFiles(folder))
@@ -35,6 +43,11 @@ namespace Whirlpool.Core.IO
             }
         }
 
+        /// <summary>
+        /// Add a texture to the file bank.
+        /// </summary>
+        /// <param name="name">The path / name of the texture</param>
+        /// <param name="texture">The texture</param>
         public static void AddTexture(string name, Texture texture)
         {
             var instance = GetInstance();

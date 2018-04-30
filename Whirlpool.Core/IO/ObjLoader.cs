@@ -6,9 +6,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.IO
 {
+    [NeedsRefactoring]
     public class Object
     {
         public List<Vector3> vertices = new List<Vector3>();
@@ -44,6 +46,7 @@ namespace Whirlpool.Core.IO
         }
     }
 
+    [NeedsRefactoring]
     public class ObjLoader
     {
         public static Object Load(string fileName)
@@ -175,6 +178,7 @@ namespace Whirlpool.Core.IO
             return temp;
         }
 
+        [NeedsRefactoring]
         public static int CountInstancesOfCharInString(string s, char c) { var i = 0; foreach (char c_ in s) if (c_ == c) ++i; return i; }
     }
 }

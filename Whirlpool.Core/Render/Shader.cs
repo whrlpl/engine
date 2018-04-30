@@ -1,10 +1,6 @@
-﻿using OpenTK.Graphics.OpenGL4;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OpenTK.Graphics.OpenGL4;
 using Whirlpool.Core.IO;
 
 namespace Whirlpool.Core.Render
@@ -15,6 +11,11 @@ namespace Whirlpool.Core.Render
         public string fileName;
         public int glShader;
 
+        /// <summary>
+        /// Initializes a shader, reading & compiling from a file.
+        /// </summary>
+        /// <param name="file">The path to compile the shader from</param>
+        /// <param name="type">The type of the shader</param>
         public Shader(string file, ShaderType type)
         {
             using (StreamReader sr = new StreamReader(file))

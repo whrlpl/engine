@@ -33,10 +33,5 @@ namespace Whirlpool.Core.IO
         {
             return (int)(GetInstance().currentTime_ * 1000);
         }
-
-        public static long GetFlicks()
-        {
-            return (long)(GetInstance().currentTime_ * 705600000);
-        }
     }
 }

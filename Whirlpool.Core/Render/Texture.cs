@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
-using System.Runtime.InteropServices;
+using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.Render
 {
+    [NeedsRefactoring]
     public class Texture
     {
         public string name;

@@ -6,10 +6,18 @@ using System.Threading.Tasks;
 
 namespace Whirlpool.Core.Pattern
 {
+    /// <summary>
+    /// Class for the singleton pattern.
+    /// </summary>
+    /// <typeparam name="T">The type of the singleton</typeparam>
     public class Singleton<T>
     {
         protected static T instance;
 
+        /// <summary>
+        /// Get an instance of T.
+        /// </summary>
+        /// <returns>An active instance of T</returns>
         public static T GetInstance()
         {
             if (instance == null)
@@ -17,6 +25,9 @@ namespace Whirlpool.Core.Pattern
             return instance;
         }
 
+        /// <summary>
+        /// Create an instance of T.
+        /// </summary>
         public static void CreateInstance()
         {
             instance = Activator.CreateInstance<T>();

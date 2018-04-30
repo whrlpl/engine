@@ -3,13 +3,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using Whirlpool.Core.IO;
 using Whirlpool.Core.Pattern;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
+using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.Render
 {
@@ -21,6 +15,7 @@ namespace Whirlpool.Core.Render
         FlipXAndY
     }
 
+    [NeedsRefactoring]
     public class BaseRenderer : Singleton<BaseRenderer>
     {
         int VAO, VBO, EBO;

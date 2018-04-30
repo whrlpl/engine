@@ -95,6 +95,7 @@
     <Compile Include="Render\Screen.cs" />
     <Compile Include="Render\Shader.cs" />
     <Compile Include="Render\Texture.cs" />
+    <Compile Include="Type\NeedsRefactoring.cs" />
     <Compile Include="Type\Rectangle.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Checkbox.cs" />

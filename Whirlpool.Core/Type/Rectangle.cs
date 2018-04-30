@@ -15,6 +15,13 @@ namespace Whirlpool.Core.Type
         public float width = 0;
         public float height = 0;
 
+        /// <summary>
+        /// Initializes a rectangle.
+        /// </summary>
+        /// <param name="x">The X coordinate</param>
+        /// <param name="y">The Y coordinate</param>
+        /// <param name="width">The relative width</param>
+        /// <param name="height">The relative height</param>
         public Rectangle(float x, float y, float width, float height)
         {
             this.x = x;
@@ -23,6 +30,11 @@ namespace Whirlpool.Core.Type
             this.height = height;
         }
 
+        /// <summary>
+        /// Check whether a rectangle contains a point.
+        /// </summary>
+        /// <param name="pos">The point to check for</param>
+        /// <returns>Whether the rectangle contains a point</returns>
         public bool Contains(Vector2 pos)
         {
             Logging.Write(pos.X + "," + pos.Y + " : " + x + "," + y  + " < " + (x + width) + "," + (y + height));

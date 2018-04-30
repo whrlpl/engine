@@ -14,6 +14,10 @@ namespace Whirlpool.Core.Render
         Vector3 position = new Vector3(0, 0, 1.0f);
         Vector3 cameraFront = new Vector3(0, 0, -1.0f);
         Vector3 cameraUp = new Vector3(0.0f, 1.0f, 0.0f);
+
+        /// <summary>
+        /// View matrix for camera matrix calculations.
+        /// </summary>
         Matrix4 view
         {
             get
@@ -21,6 +25,10 @@ namespace Whirlpool.Core.Render
                 return Matrix4.LookAt(position, position + cameraFront, cameraUp);
             }
         }
+
+        /// <summary>
+        /// Projection matrix for camera matrix calculations.
+        /// </summary>
         Matrix4 projection
         {
             get
@@ -29,6 +37,9 @@ namespace Whirlpool.Core.Render
             }
         }
 
+        /// <summary>
+        /// The ratio for window width to window height.
+        /// </summary>
         public float windowRatio
         {
             get
@@ -38,6 +49,10 @@ namespace Whirlpool.Core.Render
                 return (float)viewport[2] / viewport[3];
             }
         }
+
+        /// <summary>
+        /// ViewProjection matrix for camera matrix calculations.
+        /// </summary>
         public Matrix4 vp
         {
             get
@@ -46,6 +61,9 @@ namespace Whirlpool.Core.Render
             }
         }
 
+        /// <summary>
+        /// Update the camera's position.
+        /// </summary>
         public void Update()
         {
             var keyboardState = Keyboard.GetState();

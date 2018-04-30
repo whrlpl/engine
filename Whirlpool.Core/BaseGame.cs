@@ -153,7 +153,6 @@ namespace Whirlpool.Core
                 .Replace("%{glver}", GL.GetString(StringName.Version))
                 .Replace("%{glslver}", GL.GetString(StringName.ShadingLanguageVersion))
                 .Replace("%{glvendor}", GL.GetString(StringName.Vendor))
-                .Replace("%{timef}", Time.GetFlicks().ToString())
                 .Replace("%{times}", Time.GetSeconds().ToString())
                 .Replace("%{timems}", Time.GetMilliseconds().ToString())
                 .Replace("%{build}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Build.ToString())

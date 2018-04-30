@@ -10,24 +10,18 @@ namespace Whirlpool.Core.Pattern
     [Serializable]
     public class TextureNotFoundException : Exception
     {
-        public TextureNotFoundException(string message) : base(message)
-        {
-        }
+        public TextureNotFoundException(string message) : base(message) { }
     }
 
     [Serializable]
     public class TextureAlreadyExistsException : Exception
     {
-        public TextureAlreadyExistsException(string message) : base(message)
-        {
-        }
+        public TextureAlreadyExistsException(string message) : base(message) { }
     }
 
     [Serializable]
     public class TextureLoadException : Exception
     {
-        public TextureLoadException(string message) : base(message)
-        {
-        }
+        public TextureLoadException(string message) : base(message) { }
     }
 }

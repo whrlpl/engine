@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.IO
 {
+    [NeedsRefactoring]
     public unsafe class UnsafeDiscordMethods
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

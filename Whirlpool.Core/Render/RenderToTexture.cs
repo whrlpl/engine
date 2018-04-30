@@ -1,17 +1,12 @@
 ﻿#define POSTPROCESSING
-using OpenTK.Graphics.OpenGL4;
-using Whirlpool.Core.Pattern;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
-using System.Drawing;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK;
+using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.Render
 {
+    [NeedsRefactoring]
     public class RenderToTexture
     {
         int framebuffer;

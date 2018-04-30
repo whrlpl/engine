@@ -1,18 +1,14 @@
 ﻿#define POSTPROCESSING
+using System;
+using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using Whirlpool.Core.Pattern;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
-using System.Drawing;
-using OpenTK;
 using Whirlpool.Core.IO;
+using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.Render
 {
+    [NeedsRefactoring]
     public class PostProcessing : Singleton<PostProcessing>
     {
 #if POSTPROCESSING
