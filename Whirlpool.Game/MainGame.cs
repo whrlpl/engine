@@ -12,15 +12,14 @@ namespace Whirlpool.Game
 {
     class MainGame : BaseGame
     {
-        //private Whirlpool.Core.IO.Object testModel;
         private Screen currentScreen;
         public static System.Drawing.Size windowSize;
 
         public World world;
 
         #region "Game properties"
-        public new string gameName = "Asimov";
-        public new string gameVersion = "0.1.1";
+        public new string gameName = "OSLO";
+        public new string gameVersion = "0.1.2";
         #endregion
 
         public override void Update()
@@ -36,8 +35,6 @@ namespace Whirlpool.Game
 
         public override void Render()
         {
-            BaseRenderer.RenderQuad(new Vector2(0, 0), new Vector2(Size.Width, Size.Height), "blank", Color4.Black);
-            BaseRenderer.RenderGradient(new Vector2(0, 0), new Vector2(Size.Width, Size.Height));
             currentScreen.Render();
         }
 
@@ -53,7 +50,7 @@ namespace Whirlpool.Game
             currentScreen.AddComponent(new UI.Label()
             {
                 text = "beta build",
-                font = new UI.Font("Content\\Fonts\\Catamaran-Light.ttf", Color4.White, 32),
+                font = new UI.Font("Content\\Fonts\\Montserrat-Regular.ttf", Color4.White, 32),
                 position = new Vector2(10, 50)
             });
             

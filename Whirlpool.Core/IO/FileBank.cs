@@ -5,6 +5,7 @@ using Whirlpool.Core.Render;
 
 namespace Whirlpool.Core.IO
 {
+    // TODO: use this wayyyy more often
     public class FileBank : Singleton<FileBank>
     {
         /// <summary>

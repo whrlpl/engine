@@ -17,17 +17,17 @@ namespace Whirlpool.Core.Render
         public int animFrame = -1;
         public int width;
         public int height;
+        private byte[] data;
 
-        public static Texture FromData(Color4[] data, int width, int height)
+        public static Texture FromData(Color4[] data, int width, int height, bool retainData = false)
         {
             Texture temp = new Texture()
             {
                 name = string.Empty
             };
-
-            byte[] rawData;
             using (var stream = new MemoryStream())
             {
+                byte[] rawData;
                 GL.GenTextures(1, out temp.glTexture);
                 GL.BindTexture(TextureTarget.Texture2D, temp.glTexture);
                 rawData = new byte[data.Length * 4];
@@ -44,12 +44,14 @@ namespace Whirlpool.Core.Render
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, imageFormat, PixelType.UnsignedByte, ptr);
                 temp.width = width;
                 temp.height = height;
+                if (retainData)
+                    temp.data = rawData;
                 Marshal.FreeHGlobal(ptr);
             }
             return temp;
         }
 
-        public static Texture FromFile(string fileName)
+        public static Texture FromFile(string fileName, bool retainData = false)
         {
             Texture temp = new Texture()
             {
@@ -73,6 +75,8 @@ namespace Whirlpool.Core.Render
                         GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, f.Width, f.Height - 1, 0, imageFormat, PixelType.UnsignedByte, ptr);
                         temp.width = f.Width;
                         temp.height = f.Height;
+                        if (retainData)
+                            temp.data = rawData;
                         Marshal.FreeHGlobal(ptr);
                     }
             return temp;
@@ -87,6 +91,11 @@ namespace Whirlpool.Core.Render
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+        }
+
+        public byte[] getData()
+        {
+            return data;
         }
     }
 }

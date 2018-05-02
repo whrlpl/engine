@@ -46,6 +46,8 @@ namespace Whirlpool.Bytecode.Interpreter
                     Instruction instruction = (Instruction)reader.ReadByte();
                     switch (instruction)
                     {
+                        // TODO: make this more object oriented
+                        // TODO: put this in Bytecode.Shared
                         case Instruction.INTEGER_LITERAL:
                             Push(new DataValue()
                             {

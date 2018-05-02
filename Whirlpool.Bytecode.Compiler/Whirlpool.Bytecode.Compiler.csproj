@@ -62,9 +62,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ByteWriter.cs" />
+    <Compile Include="Function.cs" />
     <Compile Include="Lexer.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="MainCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WriteQueue.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

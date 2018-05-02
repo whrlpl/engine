@@ -80,6 +80,7 @@
     <Compile Include="IO\InputHandler.cs" />
     <Compile Include="IO\Logging.cs" />
     <Compile Include="IO\ObjLoader.cs" />
+    <Compile Include="IO\UILoader.cs" />
     <Compile Include="IO\UnsafeNativeMethods.cs" />
     <Compile Include="IO\FileBank.cs" />
     <Compile Include="IO\Time.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="UI\Font.cs" />
     <Compile Include="UI\Label.cs" />
     <Compile Include="UI\Notification.cs" />
+    <Compile Include="UI\SlicedSprite.cs" />
     <Compile Include="UI\UIComponent.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -135,19 +137,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\blastwave.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\guns and fries.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\stone.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\buzzy.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\what.png">
+    <Content Include="Content\shadow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="discord-rpc.dll">

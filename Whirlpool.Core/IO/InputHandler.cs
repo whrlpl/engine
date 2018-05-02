@@ -8,10 +8,10 @@ namespace Whirlpool.Core.IO
     [NeedsRefactoring]
     public class InputStatus
     {
-        public Vector2 mousePosition;
-        public bool mouseButtonLeft;
-        public bool mouseButtonRight;
-        public bool[] keyboardKeys;
+        public Vector2 mousePosition = Vector2.Zero;
+        public bool mouseButtonLeft = false;
+        public bool mouseButtonRight = false;
+        public bool[] keyboardKeys = new bool[512];
     }
 
 
@@ -52,7 +52,7 @@ namespace Whirlpool.Core.IO
             if (instance == null || instance.currentStatus == null)
                 instance.currentStatus = new InputStatus();
             instance.currentStatus.mouseButtonLeft = pressed;
-            instance.onMousePressed(null, null);
+            instance.onMousePressed?.Invoke(null, null);
         }
 
         internal static void UpdateMouseRight(bool pressed)

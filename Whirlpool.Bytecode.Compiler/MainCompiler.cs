@@ -8,102 +8,15 @@ using Whirlpool.Bytecode.Shared;
 
 namespace Whirlpool.Bytecode.Compiler
 {
-    class ByteWriter : BinaryWriter
-    {
-        public ByteWriter(Stream output) : base(output) { }
-
-        public void Write(Instruction value)
-        {
-            Console.WriteLine("Wrote " + value);
-            base.Write((byte)value);
-        }
-
-        public override void Write(byte value)
-        {
-            Console.WriteLine("Wrote " + value);
-            base.Write(value);
-        }
-
-        public override void Write(int value)
-        {
-            Console.WriteLine("Wrote " + value);
-            base.Write(value);
-        }
-
-        public override void Write(string value)
-        {
-            Console.WriteLine("Wrote " + value);
-            base.Write(value);
-        }
-    }
-
-
-    class WriteQueue
-    {
-        public List<byte> byteQueue = new List<byte>();
-
-        public void Write(Instruction i)
-        {
-            Insert(byteQueue.Count, i);
-        }
-
-        public void Write(byte b)
-        {
-            Insert(byteQueue.Count, b);
-        }
-
-        public void Write(string s)
-        {
-            Insert(byteQueue.Count, s);
-        }
-
-        public void Write(int i)
-        {
-            Insert(byteQueue.Count, i);
-        }
-
-        public void Insert(int pos, byte b)
-        {
-            byteQueue.Insert(pos, b);
-        }
-
-        public void Insert(int pos, string s)
-        {
-            List<byte> bytes = new List<byte>();
-            foreach (char c in s)
-            {
-                bytes.Add(Encoding.ASCII.GetBytes(new[] { c })[0]);
-            }
-            bytes.Insert(0, (byte)s.Length);
-            for (int i_ = 0; i_ < bytes.Count; ++i_)
-                Insert(pos + i_, bytes[i_]);
-        }
-
-        public void Insert(int pos, Instruction i)
-        {
-            Insert(pos, (byte)i);
-        }
-
-        public void Insert(int pos, int i)
-        {
-            var bytes = BitConverter.GetBytes(i);
-            for (int i_ = 0; i_ < bytes.Length; ++i_)
-                Insert(pos + i_, bytes[i_]);
-        }
-    }
-
-
-    class Function
-    {
-        public string name;
-        public int location;
-        public int parameters;
-        public bool builtIn;
-
-        public EventHandler<Tuple<Lexer, int>> builtInFunc;
-    }
-
-    class Program
+    /* TODO: this entire bytecode programming language
+     * thing needs a huge re-think and re-write
+     * it isn't efficient and could definitely do with
+     * something to help its design become more object
+     * oriented, and something to make it much easier
+     * to add to in terms of APIs and calls between 
+     * the language and the game. */
+    
+    class MainCompiler
     {
         public static Lexer lexer = new Lexer();
         static void Main()
@@ -114,7 +27,7 @@ namespace Whirlpool.Bytecode.Compiler
             if (Directory.Exists(path))
                 foreach (string file in Directory.GetFiles(path))
                 {
-                    if (file.EndsWith(".asc")) // agthrs source code ;)
+                    if (file.EndsWith(".wsc")) // whirlpool source code
                         CompileFile(file); 
                 }
             else if (File.Exists(path))
@@ -128,7 +41,7 @@ namespace Whirlpool.Bytecode.Compiler
         static void CompileFile(string filePath)
         {
             using (var reader = new StreamReader(filePath))
-            using (var writer = new ByteWriter(new FileStream(filePath.Remove(filePath.LastIndexOf(".")) + ".abc", FileMode.Create)))
+            using (var writer = new ByteWriter(new FileStream(filePath.Remove(filePath.LastIndexOf(".")) + ".wcc", FileMode.Create))) // whirlpool compiled code
             {
                 WriteQueue writeQueue = new WriteQueue();
                 bool asmMode = false;

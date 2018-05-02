@@ -1,34 +1,14 @@
 ﻿using System;
+using Whirlpool.Core.Pattern;
 using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.IO
 {
     [NeedsRefactoring]
-    public class DiscordController
+    public class DiscordController : Singleton<DiscordController>
     {
-        /// <summary>
-        /// A test presence.
-        /// </summary>
-        protected static UnsafeDiscordMethods.RichPresence testPresence = new UnsafeDiscordMethods.RichPresence()
-        {
-            state = "Playing Solo",
-            details = "Deathmatch",
-            startTimestamp = DateTime.MinValue.Ticks,
-            largeImageKey = "default",
-            largeImageText = "testmap",
-            smallImageKey = "s_default",
-            smallImageText = "Level 1"
-        };
 
-        /// <summary>
-        /// The default game presence.
-        /// </summary>
-        protected static UnsafeDiscordMethods.RichPresence defaultPresence = new UnsafeDiscordMethods.RichPresence()
-        {
-            state = "Idle",
-            largeImageKey = "default",
-            largeImageText = "Idle"
-        };
+        private UnsafeDiscordMethods.RichPresence currentPresence;
 
         /// <summary>
         /// Initialize DiscordController.
@@ -59,8 +39,9 @@ namespace Whirlpool.Core.IO
         /// </summary>
         public static void Update()
         {
+            var instance = GetInstance();
             UnsafeDiscordMethods.DiscordRunCallbacks();
-            UnsafeDiscordMethods.DiscordUpdatePresence(defaultPresence);
+            UnsafeDiscordMethods.DiscordUpdatePresence(instance.currentPresence);
         }
 
         /// <summary>

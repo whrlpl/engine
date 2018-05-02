@@ -53,7 +53,7 @@ namespace Whirlpool.Core.UI
                             size: new Vector2(fontChar.width, fontChar.height),
                             texture: fontChar.texture,
                             flipMode: (fontChar.type == CharacterType.Standard) ? FlipMode.FlipY : FlipMode.None,
-                            tint: tint
+                            tint: font.color
                         );
                         if (i != text.Length - 1)
                             if (fontChar.type == CharacterType.Standard)

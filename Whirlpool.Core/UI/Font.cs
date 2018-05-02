@@ -11,6 +11,13 @@ using Whirlpool.Core.IO;
 
 namespace Whirlpool.Core.UI
 {
+
+    /* TODO: huge rethink of font and label system
+     * maybe include some sort of fontbank
+     * use a bytecode API mixed with the UI file format
+     * this should make everything more streamlined and
+     * much better optimized! */
+
     public enum CharacterType
     {
         Standard,
@@ -93,7 +100,8 @@ namespace Whirlpool.Core.UI
                     byte[] data = ttf.GetCodepointBitmap((char)c, scale, scale, out fontChar.width, out fontChar.height, out fontChar.xOffset, out fontChar.yOffset);
 
                     foreach (byte b in data)
-                        data_colorized.Add(new Color4(0, 0, 0, b));
+                        data_colorized.Add(new Color4(b, b, b, b));
+
 
                     Texture tex = Texture.FromData(data_colorized.ToArray(), fontChar.width, fontChar.height);
                     tex.name = filename + "_" + c;
