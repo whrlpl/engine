@@ -1,0 +1,7 @@
+﻿ILIT 30
+ILIT 0
+ILIT 10
+LD 0
+LD 2
+ADD
+OUT

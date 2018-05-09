@@ -78,8 +78,6 @@
     <Compile Include="Logic\World.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screens\LaunchScreen.cs" />
-    <Compile Include="Screens\MenuScreen.cs" />
     <Compile Include="MainGame.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +113,10 @@
     <None Include="Content\primitive.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="Content\screens\splash.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Content\TestModel.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

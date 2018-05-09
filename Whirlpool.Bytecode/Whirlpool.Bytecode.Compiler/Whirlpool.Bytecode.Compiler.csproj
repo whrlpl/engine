@@ -63,17 +63,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ByteWriter.cs" />
-    <Compile Include="Function.cs" />
-    <Compile Include="Lexer.cs" />
     <Compile Include="MainCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WriteQueue.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="example.asc">
+    <Content Include="example.wsc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Whirlpool.Bytecode.Shared\Whirlpool.Bytecode.Shared.csproj">

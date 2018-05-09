@@ -10,21 +10,33 @@ out vec4 frag_color;
 uniform sampler2D renderedTexture;
 //----------------------------------------
 
-void main() {
-	vec4 calculatedBlur = vec4(0, 0, 0, 0);
-	vec2 pos = vec2(outTexCoord.x, outTexCoord.y);
-	int size = 4;
-	int strength = 16;
-
-	for (int x = -size; x <= size; ++x)
+// modified from https://github.com/Jam3/glsl-fast-gaussian-blur/blob/master/5.glsl
+vec4 blur(sampler2D image, vec2 uv, vec2 resolution, int strength) {
+	vec4 avg = vec4(0.0);
+	for (int x = -strength; x <= strength; x++)
 	{
-		for (int y = -size; y <= size; ++y)
+		for (int y = -strength; y <= strength; y++)
 		{
-			calculatedBlur += texture(renderedTexture, vec2(pos.x + x * strength, pos.y + y * strength)) / pow(size * 2, 2);
+			vec4 color = vec4(0.0);
+			vec2 off1 = vec2(1.3333333333333333) * vec2(x, y);
+			color += texture2D(image, uv) * 0.29411764705882354;
+			color += texture2D(image, uv + (off1 / resolution)) * 0.35294117647058826;
+			color += texture2D(image, uv - (off1 / resolution)) * 0.35294117647058826;
+			avg += color;
 		}
 	}
+	return avg / 176;
+}
 
-	frag_color = vec4(calculatedBlur.xyz, 1.0);
-	//frag_color = texture(renderedTexture, vec2(outTexCoord.x, outTexCoord.y)) * vec4(0.5, 1, 2.0, 1);
+void main() {
+	//if (outTexCoord.x < 0.5)
+	if (false)
+	{
+		frag_color = blur(renderedTexture, outTexCoord.xy, vec2(1280, 720), 5);
+	}
+	else
+	{
+		frag_color = texture(renderedTexture, vec2(outTexCoord.x, outTexCoord.y));
+	}
 }
 

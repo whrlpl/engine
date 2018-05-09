@@ -1,0 +1,59 @@
+﻿<!-- Tests for UI -->
+<Screen>
+	<Label>
+		<Text>Oslo</Text>
+		<Font>
+			<Name>Content\Fonts\Heebo-Bold.ttf</Name>
+			<Size>128</Size>
+			<Kerning>0</Kerning>
+		</Font>
+		<X>0</X>
+		<Y>0</Y>
+    <HorizontalAnchor>Middle</HorizontalAnchor>
+    <VerticalAnchor>Middle</VerticalAnchor>
+		<Centered>True</Centered>
+	</Label>
+	<Textbox>
+		<Placeholder>username</Placeholder>
+		<Font>
+			<Name>Content\Fonts\Heebo-Bold.ttf</Name>
+			<Size>28</Size>
+			<Kerning>0</Kerning>
+		</Font>
+		<X>0</X>
+		<Y>450</Y>
+    <Width>175</Width>
+    <Height>100</Height>
+    <Focused>True</Focused>
+    <HorizontalAnchor>Middle</HorizontalAnchor>
+    <VerticalAnchor>Middle</VerticalAnchor>
+	</Textbox>
+	<Textbox>
+		<Placeholder>password</Placeholder>
+		<Font>
+			<Name>Content\Fonts\Heebo-Bold.ttf</Name>
+			<Size>28</Size>
+			<Kerning>0</Kerning>
+		</Font>
+		<X>0</X>
+		<Y>500</Y>
+    <Width>175</Width>
+    <Height>100</Height>
+    <Password>True</Password>
+    <HorizontalAnchor>Middle</HorizontalAnchor>
+    <VerticalAnchor>Middle</VerticalAnchor>
+	</Textbox>
+	<!-- <Button>
+		<Text>Not oslo</Text>
+		<Font>
+			<Name>Content\Fonts\Montserrat-Regular.ttf</Name>
+			<Size>32</Size>
+			<Kerning>0</Kerning>
+		</Font>
+		<X>Size</X>
+		<Y>425</Y>
+    <Width>100</Width>
+    <Height>100</Height>
+		<Centered>True</Centered>
+	</Button> -->
+</Screen>

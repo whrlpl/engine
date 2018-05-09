@@ -16,10 +16,7 @@ namespace Whirlpool.Core.UI
         public Texture checkboxTexture;
         public Texture checkboxCheckedTexture;
 
-        public override void Init()
-        {
-            // nothing?
-        }
+        public override void Init() { }
 
         public override void Render()
         {

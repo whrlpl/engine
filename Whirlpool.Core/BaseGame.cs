@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Threading;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Input;
 using Whirlpool.Core.IO;
 using Whirlpool.Core.Render;
-using Whirlpool.Bytecode.Interpreter;
-using OpenTK.Input;
-using System.Collections.Generic;
+using Whirlpool.Core.UI;
+using Whirlpool.Script.Interpreter;
 
 namespace Whirlpool.Core
 {
@@ -14,8 +15,14 @@ namespace Whirlpool.Core
     {
         int frameCap = -1;
         DateTime lastFrameCollection;
-        int framesLastSecond;
+        float framesLastSecond;
         public VM gameBytecodeVM;
+        public Thread updateThread;
+        public Screen currentScreen;
+
+        public static new System.Drawing.Size Size = new System.Drawing.Size(1280, 720);
+
+        public Font tempFont;
 
         #region "Game properties"
         public static string gameName = "Whirlpool Engine Game";
@@ -27,20 +34,26 @@ namespace Whirlpool.Core
         public abstract void Render();
         public abstract void Update();
 
-        public BaseGame() : base(1280, 
-            720, 
+        public BaseGame() : base(
+            Size.Width,
+            Size.Height,
             new GraphicsMode(ColorFormat.Empty, 32), 
-            windowTitle, 
+            windowTitle,
             GameWindowFlags.Default, 
-            DisplayDevice.Default, 
+            DisplayDevice.Default,
             4, 6, 
             GraphicsContextFlags.Default)
         {
+            currentScreen = new Screen();
+            currentScreen.AddUIComponents(UILoader.LoadFile("Content\\screens\\splash.xml"));
+            currentScreen.Init();
             Init();
         }
 
         public virtual void Init()
         {
+            updateThread = new Thread(UpdateThread);
+            updateThread.Start();
             UpdateWindowTitle();
             lastFrameCollection = DateTime.Now;
             FileBank.AddTexture("blank", Texture.FromData(new Color4[] { Color4.White }, 1, 1));
@@ -55,7 +68,7 @@ namespace Whirlpool.Core
             }
             catch
             {
-                Logging.Write("There was a problem loading main.abc into the VM", LogStatus.Error);
+                Logging.Write("There was a problem loading the VM", LogStatus.Error);
             }
         }
 
@@ -86,17 +99,18 @@ namespace Whirlpool.Core
         {
             GL.Viewport(Size);
             BaseRenderer.GetInstance().windowSize = new Vector2(Size.Width, Size.Height);
+            PostProcessing.GetInstance().Resize(Size);
             base.OnResize(e);
         }
 
         protected override void OnKeyUp(KeyboardKeyEventArgs e)
         {
-            InputHandler.SetKeyboardKey(e.Key.ToString().ToLower()[0], false);
+            InputHandler.SetKeyboardKey(e.Key, false);
         }
 
         protected override void OnKeyDown(KeyboardKeyEventArgs e)
         {
-            InputHandler.SetKeyboardKey(e.Key.ToString().ToLower()[0], true);
+            InputHandler.SetKeyboardKey(e.Key, true);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -113,42 +127,45 @@ namespace Whirlpool.Core
             BaseRenderer.GetInstance().camera?.Update();
 
             PostProcessing.GetInstance().PreRender();
-
-            Render();
-
+            currentScreen?.Render();
             PostProcessing.GetInstance().PostRender();
-
+            InputStatus status = InputHandler.GetStatus();
             this.SwapBuffers();
 
             #region "Framerate logic"
             DateTime frameEnd = DateTime.Now;
             if (frameCap > 0 && (frameEnd - frameStart).TotalMilliseconds < 1000.0f/frameCap)
-                System.Threading.Thread.Sleep((int)((1000.0f/frameCap) - (frameEnd - frameStart).TotalMilliseconds));
+                Thread.Sleep((int)((1000.0f/frameCap) - (frameEnd - frameStart).TotalMilliseconds));
             ++framesLastSecond;
 
             if ((DateTime.Now - lastFrameCollection).TotalMilliseconds >= 1000)
             {
                 UpdateWindowTitle();
-                Logging.Write(framesLastSecond + "FPS");
+                Logging.Write(1000.0f/(frameEnd-frameStart).TotalMilliseconds + "FPS");
                 framesLastSecond = 0;
                 lastFrameCollection = DateTime.Now;
             }
             #endregion
         }
 
-        protected override void OnUpdateFrame(FrameEventArgs e)
+        protected void UpdateThread()
         {
-            if (Time.GetMilliseconds() % 20 == 0)
+            while (true)
             {
-                DiscordController.Update();
-                InputHandler.UpdateMousePos(Mouse.X, Mouse.Y);
-                Update();
+                if (Time.GetMilliseconds() % 2 == 0)
+                {
+                    DiscordController.Update();
+                    InputHandler.UpdateMousePos(Mouse.X, Mouse.Y);
+                    currentScreen?.Update();
+                    Update();
+                }
             }
         }
 
         protected void UpdateWindowTitle()
         {
-            this.Title = windowTitle.Replace("%{gamename}", gameName)
+            Title = windowTitle
+                .Replace("%{gamename}", gameName)
                 .Replace("%{gamever}", gameVersion)
                 .Replace("%{glver}", GL.GetString(StringName.Version))
                 .Replace("%{glslver}", GL.GetString(StringName.ShadingLanguageVersion))
@@ -156,7 +173,7 @@ namespace Whirlpool.Core
                 .Replace("%{times}", Time.GetSeconds().ToString())
                 .Replace("%{timems}", Time.GetMilliseconds().ToString())
                 .Replace("%{build}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Build.ToString())
-                .Replace("%{fps}", framesLastSecond.ToString()); // formatted window title
+                .Replace("%{fps}", framesLastSecond.ToString());
         }
     }
 }

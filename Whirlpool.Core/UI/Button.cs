@@ -22,8 +22,7 @@ namespace Whirlpool.Core.UI
                 centered = centered,
                 position = position,
                 text = text,
-                font = font,
-                tint = Color4.Black
+                font = font
             };
 
             InputHandler.GetInstance().onMousePressed += (s, e) =>

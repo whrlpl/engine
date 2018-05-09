@@ -4,15 +4,9 @@
  * Contains various functions to test the
  * bytecode interpreter.
  */
-
-using Whirlpool.Bytecode.Shared;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Whirlpool.Bytecode.Interpreter
+namespace Whirlpool.Script.Interpreter
 {
 
     class Tests
@@ -21,7 +15,7 @@ namespace Whirlpool.Bytecode.Interpreter
         
         public static void RunTests()
         {
-            new VM().RunFile("example.abc");
+            new VM().RunFile("example.wcc");
             Console.ReadLine();
         }
     }

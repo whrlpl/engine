@@ -20,17 +20,15 @@ namespace Whirlpool.Core.UI
         {
             label = new Label()
             {
-                position = this.position + new Vector2(0, 25),
-                text = this.text,
-                font = this.font,
-                tint = Color4.Black
+                position = position + new Vector2(0, 25),
+                text = text,
+                font = font
             };
             notificationLabel = new Label()
             {
-                position = this.position,
+                position = position + new Vector2(0, 25),
                 text = "Notification",
-                font = this.font,
-                tint = Color4.Black
+                font = font
             };
             initTime = Time.GetMilliseconds();
         }
@@ -52,7 +50,7 @@ namespace Whirlpool.Core.UI
              *                          Time
              * (Eases out)
              */
-            // TODO: change position based on time. maybe play woosh sound on exit. also check for pressed and do something
+            // TODO: change position based on time. maybe play whoosh sound on exit. also check for pressed and do something
 
             var timeOffset = Time.GetMilliseconds() - initTime;
             if (timeOffset <= 2000)

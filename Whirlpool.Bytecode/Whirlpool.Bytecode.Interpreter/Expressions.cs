@@ -6,7 +6,7 @@
  * of it (e.g. AdditionExpression).
  */
 
-namespace Whirlpool.Bytecode.Interpreter
+namespace Whirlpool.Script.Interpreter
 {
     public class Expression
     {

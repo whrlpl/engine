@@ -1,5 +1,6 @@
 ﻿//#define POSTPROCESSING
 using System;
+using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using Whirlpool.Core.Pattern;
@@ -65,6 +66,7 @@ namespace Whirlpool.Core.Render
         {
 #if POSTPROCESSING
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.Viewport(0, 0, width, height);
 #endif
         }
@@ -75,6 +77,17 @@ namespace Whirlpool.Core.Render
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
             GL.Viewport(0, 0, width, height);
             BaseRenderer.RenderFramebuffer(new Vector2(0, 0), new Vector2(width, height), textureBufferTexture);
+#endif
+        }
+
+        public void Resize(Size windowSize)
+        {
+#if POSTPROCESSING
+            if (textureBufferTexture == null) return;
+            width = windowSize.Width;
+            height = windowSize.Height;
+            GL.BindTexture(TextureTarget.Texture2D, textureBufferTexture.glTexture);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, PixelFormat.Rgb, PixelType.Byte, IntPtr.Zero);
 #endif
         }
     }

@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+ * Types.cs
+ * ----------------------------------------
+ * Contains several classes used in the VM
+ * and bytecode language.
+ */
 
 namespace Whirlpool.Bytecode.Shared
 {

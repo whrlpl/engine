@@ -14,9 +14,7 @@ namespace Whirlpool.Core.UI
         public int lineSpacing = 0;
         private RenderToTexture rtt;
 
-        public override void Init()
-        {
-        }
+        public override void Init() {}
 
         public override void Render()
         {

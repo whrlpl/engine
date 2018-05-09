@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using OpenTK.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,19 +24,19 @@ namespace Whirlpool.Game.Logic
 
         public void Update()
         {
-            if (InputHandler.GetStatus().keyboardKeys['w'])
+            if (InputHandler.GetStatus().keyboardKeys[Key.W])
             {
                 position.Y -= 0.01f;
             }
-            if (InputHandler.GetStatus().keyboardKeys['a'])
+            if (InputHandler.GetStatus().keyboardKeys[Key.A])
             {
                 position.X -= 0.01f;
             }
-            if (InputHandler.GetStatus().keyboardKeys['s'])
+            if (InputHandler.GetStatus().keyboardKeys[Key.S])
             {
                 position.Y += 0.01f;
             }
-            if (InputHandler.GetStatus().keyboardKeys['d'])
+            if (InputHandler.GetStatus().keyboardKeys[Key.D])
             {
                 position.X += 0.01f;
             }

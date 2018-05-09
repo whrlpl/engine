@@ -7,17 +7,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whirlpool.Core", "Whirlpool
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whirlpool.Game", "Whirlpool.Game\Whirlpool.Game.csproj", "{C3966631-8546-4F26-B4E6-3969A57390C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whirlpool.Bytecode.Interpreter", "Whirlpool.Bytecode.Interpreter\Whirlpool.Bytecode.Interpreter.csproj", "{5C639A98-985C-48C2-B6CD-D9EE7A4B1158}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whirlpool.Bytecode.Interpreter", "Whirlpool.Bytecode\Whirlpool.Bytecode.Interpreter\Whirlpool.Bytecode.Interpreter.csproj", "{5C639A98-985C-48C2-B6CD-D9EE7A4B1158}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2B8FDC13-159E-4FD8-B86D-3C36DBC4DACF} = {2B8FDC13-159E-4FD8-B86D-3C36DBC4DACF}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whirlpool.Bytecode.Compiler", "Whirlpool.Bytecode.Compiler\Whirlpool.Bytecode.Compiler.csproj", "{B3B207FE-4F2D-43E6-AEE1-DB33A0CD6F25}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whirlpool.Bytecode.Compiler", "Whirlpool.Bytecode\Whirlpool.Bytecode.Compiler\Whirlpool.Bytecode.Compiler.csproj", "{B3B207FE-4F2D-43E6-AEE1-DB33A0CD6F25}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2B8FDC13-159E-4FD8-B86D-3C36DBC4DACF} = {2B8FDC13-159E-4FD8-B86D-3C36DBC4DACF}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whirlpool.Bytecode.Shared", "Whirlpool.Bytecode.Shared\Whirlpool.Bytecode.Shared.csproj", "{2B8FDC13-159E-4FD8-B86D-3C36DBC4DACF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whirlpool.Bytecode.Shared", "Whirlpool.Bytecode\Whirlpool.Bytecode.Shared\Whirlpool.Bytecode.Shared.csproj", "{2B8FDC13-159E-4FD8-B86D-3C36DBC4DACF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whirlpool.Server", "Whirlpool.Server\Whirlpool.Server.csproj", "{B5BD2996-CBFE-45A8-96AA-F2241B5CF9CD}"
 EndProject

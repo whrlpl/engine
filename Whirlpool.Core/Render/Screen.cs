@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
+using System.Runtime.InteropServices;
+using Whirlpool.Core.UI;
 
 namespace Whirlpool.Core.Render
 {
@@ -13,6 +16,14 @@ namespace Whirlpool.Core.Render
             foreach (RenderComponent rc in components)
             {
                 renderComponents.Add(rc);
+            }
+        }
+
+        public void AddUIComponents(List<UIComponent> components)
+        {
+            foreach (UIComponent uic in components)
+            {
+                renderComponents.Add(uic);
             }
         }
 
@@ -46,7 +57,7 @@ namespace Whirlpool.Core.Render
                 rc.Init();
             }
         }
-
+        
         public virtual void Render()
         {
             foreach (RenderComponent rc in renderComponents)

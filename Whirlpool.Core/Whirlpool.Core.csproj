@@ -104,6 +104,7 @@
     <Compile Include="UI\Label.cs" />
     <Compile Include="UI\Notification.cs" />
     <Compile Include="UI\SlicedSprite.cs" />
+    <Compile Include="UI\Textbox.cs" />
     <Compile Include="UI\UIComponent.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -146,7 +147,7 @@
     <Compile Include="Render\PostProcessing.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Whirlpool.Bytecode.Interpreter\Whirlpool.Bytecode.Interpreter.csproj">
+    <ProjectReference Include="..\Whirlpool.Bytecode\Whirlpool.Bytecode.Interpreter\Whirlpool.Bytecode.Interpreter.csproj">
       <Project>{5c639a98-985c-48c2-b6cd-d9ee7a4b1158}</Project>
       <Name>Whirlpool.Bytecode.Interpreter</Name>
     </ProjectReference>
