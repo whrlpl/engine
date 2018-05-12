@@ -1,11 +1,8 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
 using Whirlpool.Core.Render;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Whirlpool.Core.IO;
 
 namespace Whirlpool.Core.UI
 {
@@ -17,8 +14,9 @@ namespace Whirlpool.Core.UI
 
         public override void Init()
         {
+            if (initialized) return;
             // gen 9 sprites
-            originalSprite = Texture.FromFile(spriteLoc, true);
+            originalSprite = FileBank.GetTexture(spriteLoc);
             var sliceWidth = originalSprite.width / 9;
             var sliceHeight = originalSprite.height / 9;
             var originalData = originalSprite.getData();
@@ -34,15 +32,16 @@ namespace Whirlpool.Core.UI
                         originalData[offset + o + 2],
                         originalData[offset + o + 1],
                         originalData[offset + o]
-                        );
+                    );
                 }
                 slicedSprites[i] = Texture.FromData(data.ToArray(), sliceWidth, sliceHeight);
             }
+            initialized = true;
         }
 
         public override void Render()
         {
-            BaseRenderer.RenderQuad(position, size, originalSprite, Color4.White);
+            BaseRenderer.RenderQuad(position, size, originalSprite, tint);
         }
 
         public override void Update()

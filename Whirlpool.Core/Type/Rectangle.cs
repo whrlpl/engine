@@ -37,7 +37,6 @@ namespace Whirlpool.Core.Type
         /// <returns>Whether the rectangle contains a point</returns>
         public bool Contains(Vector2 pos)
         {
-            Logging.Write(pos.X + "," + pos.Y + " : " + x + "," + y  + " < " + (x + width) + "," + (y + height));
             return (
                     (pos.X >= x && pos.Y >= y)
                     &&

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using OpenTK;
 using OpenTK.Graphics;
@@ -19,10 +20,12 @@ namespace Whirlpool.Core
         public VM gameBytecodeVM;
         public Thread updateThread;
         public Screen currentScreen;
-
         public static new System.Drawing.Size Size = new System.Drawing.Size(1280, 720);
-
         public Font tempFont;
+                
+        private string screenFile = "Content\\screens\\mainmenu.xml";
+
+        private FileSystemWatcher fsWatcher;
 
         #region "Game properties"
         public static string gameName = "Whirlpool Engine Game";
@@ -34,6 +37,13 @@ namespace Whirlpool.Core
         public abstract void Render();
         public abstract void Update();
 
+        public void ReloadFile(object source, FileSystemEventArgs e)
+        {
+            currentScreen = new Screen();
+            currentScreen.AddUIComponents(UILoader.LoadFile(screenFile));
+            currentScreen.Init();
+        }
+
         public BaseGame() : base(
             Size.Width,
             Size.Height,
@@ -44,9 +54,6 @@ namespace Whirlpool.Core
             4, 6, 
             GraphicsContextFlags.Default)
         {
-            currentScreen = new Screen();
-            currentScreen.AddUIComponents(UILoader.LoadFile("Content\\screens\\splash.xml"));
-            currentScreen.Init();
             Init();
         }
 
@@ -55,21 +62,38 @@ namespace Whirlpool.Core
             updateThread = new Thread(UpdateThread);
             updateThread.Start();
             UpdateWindowTitle();
-            lastFrameCollection = DateTime.Now;
+
             FileBank.AddTexture("blank", Texture.FromData(new Color4[] { Color4.White }, 1, 1));
             FileBank.LoadTexturesFromFolder("Content");
+
+            FileSystemWatcher fsWatcher = new FileSystemWatcher();
+            fsWatcher.Changed += new FileSystemEventHandler(ReloadFile);
+            fsWatcher.Path = Path.GetDirectoryName(screenFile);
+            fsWatcher.NotifyFilter = NotifyFilters.LastWrite;
+            fsWatcher.Filter = Path.GetFileName(screenFile);
+            fsWatcher.EnableRaisingEvents = true;
+
+            currentScreen = new Screen();
+            currentScreen.AddUIComponents(UILoader.LoadFile(screenFile));
+            currentScreen.Init();
+
+            tempFont = new Font("Content\\Fonts\\Montserrat-Regular.ttf", Color4.White, 14, 0);
+
             DiscordController.Init();
             Mouse.ButtonDown += Mouse_ButtonDown;
             Mouse.ButtonUp += Mouse_ButtonUp;
-            try
+
+            try 
             {
                 gameBytecodeVM = new VM();
-                gameBytecodeVM.RunFile("Content\\Game\\main.abc");
+                gameBytecodeVM.RunFile("Content\\Game\\main.wcc");
             }
-            catch
+            catch (Exception ex)
             {
-                Logging.Write("There was a problem loading the VM", LogStatus.Error);
+                Logging.Write("There was a problem loading the VM: " + ex.Message, LogStatus.Error);
             }
+
+            lastFrameCollection = DateTime.Now;
         }
 
         private void HandleMouseEvent(MouseButtonEventArgs e)
@@ -130,6 +154,8 @@ namespace Whirlpool.Core
             currentScreen?.Render();
             PostProcessing.GetInstance().PostRender();
             InputStatus status = InputHandler.GetStatus();
+
+            //new Label() { position = InputHandler.GetStatus().mousePosition, text = InputHandler.GetStatus().mousePosition.X + "," + InputHandler.GetStatus().mousePosition.Y, font = tempFont }.Render();
             this.SwapBuffers();
 
             #region "Framerate logic"

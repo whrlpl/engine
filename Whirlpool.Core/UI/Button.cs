@@ -15,32 +15,45 @@ namespace Whirlpool.Core.UI
     {
         public Label label;
 
+        public override Vector2 CalculateCenterPos(Vector2 point)
+        {
+            if (centered)
+            {
+                return new Vector2(point.X, point.Y - font.baseCharHeight) - (new Vector2(Math.Max(size.X, font.GetStringSize(label.text).X), font.baseCharHeight * 3) / 2);
+            }
+            return point;
+        }
+
         public override void Init()
         {
+            var labelPos = (centered) ? position + new Vector2(8, font.baseCharHeight * 2) : position;
             label = new Label()
             {
-                centered = centered,
-                position = position,
+                m_position = labelPos,
                 text = text,
                 font = font
             };
 
-            InputHandler.GetInstance().onMousePressed += (s, e) =>
+            if (!initialized)
             {
-                var status = InputHandler.GetStatus();
-                if (status.mouseButtonLeft)
+                InputHandler.GetInstance().onMousePressed += (s, e) =>
                 {
-                    if (new Rectangle(position.X, position.Y, size.X, size.Y).Contains(status.mousePosition))
+                    var status = InputHandler.GetStatus();
+                    if (status.mouseButtonLeft)
                     {
-                        Logging.Write("Button pressed");
+                        if (new Rectangle(position.X, position.Y, size.X, size.Y).Contains(status.mousePosition))
+                        {
+                            Logging.Write("Button pressed");
+                        }
                     }
-                }
-            };
+                };
+            }
+            initialized = true;
         }
 
         public override void Render()
         {
-            BaseRenderer.RenderQuad(position, size, "blank", tint: new Color4(150, 150, 150, 150));
+            BaseRenderer.RenderQuad(position, size, "blank", tint: tint);
             label.Render();
         }
 

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Runtime.InteropServices;
+﻿using System;
+using System.Collections.Generic;
+using Whirlpool.Core.IO;
 using Whirlpool.Core.UI;
 
 namespace Whirlpool.Core.Render
@@ -44,9 +44,16 @@ namespace Whirlpool.Core.Render
 
         public virtual void Update()
         {
-            foreach (RenderComponent rc in renderComponents)
+            try
             {
-                rc.Update();
+                foreach (RenderComponent rc in renderComponents)
+                {
+                    rc.Update();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Write("Error updating screen: " + ex.ToString());
             }
         }
 
@@ -60,10 +67,17 @@ namespace Whirlpool.Core.Render
         
         public virtual void Render()
         {
-            foreach (RenderComponent rc in renderComponents)
+            try
             {
+                foreach (RenderComponent rc in renderComponents)
+                {
                 rc.Render();
+                }
             }
-        }
+            catch (Exception ex)
+            {
+                Logging.Write("Error updating screen: " + ex.ToString());
+            }
+}
     }
 }

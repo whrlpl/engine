@@ -1,4 +1,4 @@
-﻿//#define POSTPROCESSING
+﻿#define POSTPROCESSING
 using System;
 using System.Drawing;
 using OpenTK;

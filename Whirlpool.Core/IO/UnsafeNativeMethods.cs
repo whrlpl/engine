@@ -5,7 +5,7 @@ using Whirlpool.Core.Type;
 namespace Whirlpool.Core.IO
 {
     [NeedsRefactoring]
-    public unsafe class UnsafeDiscordMethods
+    public unsafe class UnsafeNativeMethods
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void ReadyHandler();
@@ -111,6 +111,7 @@ namespace Whirlpool.Core.IO
             IntPtr ptrPresence = Marshal.AllocHGlobal(Marshal.SizeOf(presence));
             Marshal.StructureToPtr(presence, ptrPresence, false);
             Discord_UpdatePresence(ptrPresence);
+            Marshal.FreeHGlobal(ptrPresence);
         }
 
         //--------------------------------------------------------------------------------
@@ -141,5 +142,21 @@ namespace Whirlpool.Core.IO
         {
             Discord_Respond(userID, reply);
         }
+
+        //--------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------
+        
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        private static extern bool SetSystemCursor(int hcur, int id);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        private static extern int GetCursor();
+
+        public static void WindowsSetCursor()
+        {
+            if (!SetSystemCursor(GetCursor(), 32513))
+                Logging.Write("Failed to set cursor", LogStatus.Error);
+        }
+
     }
 }

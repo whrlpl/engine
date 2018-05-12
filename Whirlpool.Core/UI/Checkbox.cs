@@ -27,7 +27,7 @@ namespace Whirlpool.Core.UI
 
         public override void Update()
         {
-            // TODO: input
+
         }
     }
 }

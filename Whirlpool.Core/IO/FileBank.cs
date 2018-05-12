@@ -2,16 +2,21 @@
 using System.IO;
 using Whirlpool.Core.Pattern;
 using Whirlpool.Core.Render;
+using Whirlpool.Core.UI;
 
 namespace Whirlpool.Core.IO
 {
-    // TODO: use this wayyyy more often
     public class FileBank : Singleton<FileBank>
     {
         /// <summary>
         /// Textures loaded into the game, with the key being the texture path relative to the game executable.
         /// </summary>
         protected Dictionary<string, Texture> textureBank = new Dictionary<string, Texture>();
+
+        /// <summary>
+        /// Fonts loaded into the game, with the key being the font path relative to the game executable.
+        /// </summary>
+        protected Dictionary<string, Font> fontBank = new Dictionary<string, Font>();
 
         /// <summary>
         /// Get a texture from the texture bank by its file name.

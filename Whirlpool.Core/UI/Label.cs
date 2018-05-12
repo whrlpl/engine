@@ -14,6 +14,16 @@ namespace Whirlpool.Core.UI
         public int lineSpacing = 0;
         private RenderToTexture rtt;
 
+
+        public override Vector2 CalculateCenterPos(Vector2 point)
+        {
+            if (centered)
+            {
+                return new Vector2(point.X - (font.GetStringSize(text).X / 2), point.Y - (font.baseCharHeight / 2));
+            }
+            return point;
+        }
+
         public override void Init() {}
 
         public override void Render()

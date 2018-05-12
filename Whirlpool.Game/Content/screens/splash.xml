@@ -1,14 +1,23 @@
 ﻿<!-- Tests for UI -->
 <Screen>
+  <SlicedSprite>
+    <Sprite>blank</Sprite>
+		<X>0</X>
+		<Y>0</Y>
+    <Width>1280</Width>
+    <Height>720</Height>
+    <Tint><R>255</R><G>99</G><B>71</B><A>255</A></Tint>
+  </SlicedSprite>
 	<Label>
 		<Text>Oslo</Text>
 		<Font>
-			<Name>Content\Fonts\Heebo-Bold.ttf</Name>
+			<Name>TitleText</Name>
+			<Location>Content\Fonts\Heebo-Bold.ttf</Location>
 			<Size>128</Size>
 			<Kerning>0</Kerning>
 		</Font>
-		<X>0</X>
-		<Y>0</Y>
+		<X>-30</X>
+		<Y>-50</Y>
     <HorizontalAnchor>Middle</HorizontalAnchor>
     <VerticalAnchor>Middle</VerticalAnchor>
 		<Centered>True</Centered>
@@ -16,44 +25,65 @@
 	<Textbox>
 		<Placeholder>username</Placeholder>
 		<Font>
-			<Name>Content\Fonts\Heebo-Bold.ttf</Name>
-			<Size>28</Size>
+			<Name>TextboxText</Name>
+			<Location>Content\Fonts\Montserrat-Regular.ttf</Location>
+			<Size>22</Size>
 			<Kerning>0</Kerning>
+    	<Tint><R>255</R><G>99</G><B>71</B><A>255</A></Tint>
 		</Font>
 		<X>0</X>
-		<Y>450</Y>
-    <Width>175</Width>
+		<Y>10</Y>
+    <Width>250</Width>
     <Height>100</Height>
     <Focused>True</Focused>
     <HorizontalAnchor>Middle</HorizontalAnchor>
     <VerticalAnchor>Middle</VerticalAnchor>
+		<Centered>True</Centered>
 	</Textbox>
 	<Textbox>
 		<Placeholder>password</Placeholder>
-		<Font>
-			<Name>Content\Fonts\Heebo-Bold.ttf</Name>
-			<Size>28</Size>
-			<Kerning>0</Kerning>
-		</Font>
+		<Font>TextboxText</Font>
 		<X>0</X>
-		<Y>500</Y>
-    <Width>175</Width>
+		<Y>55</Y>
+    <Width>250</Width>
     <Height>100</Height>
     <Password>True</Password>
     <HorizontalAnchor>Middle</HorizontalAnchor>
     <VerticalAnchor>Middle</VerticalAnchor>
+		<Centered>True</Centered>
 	</Textbox>
-	<!-- <Button>
-		<Text>Not oslo</Text>
+	<Label>
+		<Text>not got an account yet? register</Text>
 		<Font>
-			<Name>Content\Fonts\Montserrat-Regular.ttf</Name>
-			<Size>32</Size>
+			<Name>LabelText</Name>
+			<Location>Content\Fonts\Montserrat-Regular.ttf</Location>
+			<Size>14</Size>
 			<Kerning>0</Kerning>
 		</Font>
-		<X>Size</X>
-		<Y>425</Y>
-    <Width>100</Width>
-    <Height>100</Height>
+		<X>-125</X>
+		<Y>85</Y>
+		<Centered>False</Centered>
+    <HorizontalAnchor>Middle</HorizontalAnchor>
+    <VerticalAnchor>Middle</VerticalAnchor>
+	</Label>
+	<Label>
+		<Text>beta build</Text>
+		<Font>LabelText</Font>
+		<X>-100</X>
+		<Y>-20</Y>
+		<Centered>False</Centered>
+    <HorizontalAnchor>Left</HorizontalAnchor>
+    <VerticalAnchor>Bottom</VerticalAnchor>
+	</Label>
+	<Button>
+		<Text>log in</Text>
+		<Font>TextboxText</Font>
+		<X>0</X>
+		<Y>120</Y>
+    <Width>250</Width>
+    <Height>40</Height>
 		<Centered>True</Centered>
-	</Button> -->
+    <HorizontalAnchor>Middle</HorizontalAnchor>
+    <VerticalAnchor>Middle</VerticalAnchor>
+	</Button>
 </Screen>

@@ -33,6 +33,7 @@ namespace Whirlpool.Core.IO
     {
         public InputStatus currentStatus;
         public delegate void KeyEventHandler(object sender, KeyEventArgs e);
+        public KeyEventHandler onMouseMoved;
         public KeyEventHandler onMousePressed;
         public KeyEventHandler onKeyPressed;
 
@@ -64,7 +65,8 @@ namespace Whirlpool.Core.IO
             var instance = GetInstance();
             if (instance == null || instance.currentStatus == null)
                 instance.currentStatus = new InputStatus();
-            instance.currentStatus.mousePosition = new Vector2(mouseX, mouseY + 48); // BUG: theres an offset of about 48 pixels.  HACK: we should figure out why this happens
+            instance.currentStatus.mousePosition = new Vector2(mouseX, mouseY); // BUG: theres an offset of about 48 pixels.  HACK: we should figure out why this happens
+            instance.onMouseMoved?.Invoke(null, null);
         }
 
         internal static void UpdateMouseLeft(bool pressed)

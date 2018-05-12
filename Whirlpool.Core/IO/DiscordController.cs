@@ -8,14 +8,14 @@ namespace Whirlpool.Core.IO
     public class DiscordController : Singleton<DiscordController>
     {
 
-        private UnsafeDiscordMethods.RichPresence currentPresence;
+        private UnsafeNativeMethods.RichPresence currentPresence;
 
         /// <summary>
         /// Initialize DiscordController.
         /// </summary>
         public static void Init()
         {
-            UnsafeDiscordMethods.EventHandlers eventHandlers = new UnsafeDiscordMethods.EventHandlers()
+            UnsafeNativeMethods.EventHandlers eventHandlers = new UnsafeNativeMethods.EventHandlers()
             {
                 errored = OnErrored,
                 joinGame = OnJoinGame,
@@ -23,7 +23,7 @@ namespace Whirlpool.Core.IO
                 spectateGame = OnSpectateGame,
                 ready = OnReady
             };
-            UnsafeDiscordMethods.DiscordInitialize("436934908707864576", eventHandlers);
+            UnsafeNativeMethods.DiscordInitialize("436934908707864576", eventHandlers);
         }
 
         /// <summary>
@@ -40,8 +40,8 @@ namespace Whirlpool.Core.IO
         public static void Update()
         {
             var instance = GetInstance();
-            UnsafeDiscordMethods.DiscordRunCallbacks();
-            UnsafeDiscordMethods.DiscordUpdatePresence(instance.currentPresence);
+            UnsafeNativeMethods.DiscordRunCallbacks();
+            UnsafeNativeMethods.DiscordUpdatePresence(instance.currentPresence);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Whirlpool.Core.IO
         /// Handler for game joining.
         /// </summary>
         /// <param name="request">The join request</param>
-        private static void OnJoinRequest(UnsafeDiscordMethods.JoinRequest request)
+        private static void OnJoinRequest(UnsafeNativeMethods.JoinRequest request)
         {
             throw new NotImplementedException("Joining is not implemented yet.");
         }

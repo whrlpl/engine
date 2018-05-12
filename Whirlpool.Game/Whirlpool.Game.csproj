@@ -113,6 +113,7 @@
     <None Include="Content\primitive.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="Content\screens\mainmenu.xml" />
     <Content Include="Content\screens\splash.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>

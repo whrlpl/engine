@@ -29,7 +29,9 @@ vec4 blur(sampler2D image, vec2 uv, vec2 resolution, int strength) {
 }
 
 void main() {
+
 	//if (outTexCoord.x < 0.5)
+
 	if (false)
 	{
 		frag_color = blur(renderedTexture, outTexCoord.xy, vec2(1280, 720), 5);
@@ -38,5 +40,8 @@ void main() {
 	{
 		frag_color = texture(renderedTexture, vec2(outTexCoord.x, outTexCoord.y));
 	}
+	
+	//if (outTexCoord.x >= 0.4995 && outTexCoord.x <= 0.5005 || outTexCoord.y >= 0.4995 && outTexCoord.y <= 0.5005)
+		//sfrag_color = vec4(1, 1, 1, 1);
 }
 

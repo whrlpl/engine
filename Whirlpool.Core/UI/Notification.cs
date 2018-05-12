@@ -18,6 +18,7 @@ namespace Whirlpool.Core.UI
 
         public override void Init()
         {
+            if (initialized) return;
             label = new Label()
             {
                 position = position + new Vector2(0, 25),
@@ -31,6 +32,7 @@ namespace Whirlpool.Core.UI
                 font = font
             };
             initTime = Time.GetMilliseconds();
+            initialized = true;
         }
 
         public override void Render()

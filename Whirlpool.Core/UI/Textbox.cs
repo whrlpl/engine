@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
@@ -12,8 +13,18 @@ namespace Whirlpool.Core.UI
     {
         private Label label;
         private Label placeholderLabel;
+        private Texture bgTex;
         public string placeholder;
         public bool isPassword;
+        
+        public override Vector2 CalculateCenterPos(Vector2 point)
+        {
+            if (centered)
+            {
+                return new Vector2(point.X, point.Y - font.baseCharHeight) - (new Vector2(Math.Max(size.X, font.GetStringSize(label.text).X), font.baseCharHeight * 3) / 2);
+            }
+            return point;
+        }
 
         public void SetPlaceholder(string newPlaceholder)
         {
@@ -27,64 +38,70 @@ namespace Whirlpool.Core.UI
 
         public override void Init()
         {
+            var labelPos = (centered) ? position + new Vector2(8, font.baseCharHeight * 2) : position;
+            size = new Vector2(size.X, font.baseCharHeight * 3 + 16);
+            var bounds = new Rectangle(position.X, position.Y, size.X, size.Y);
             label = new Label()
             {
-                centered = centered,
-                position = position,
+                m_position = labelPos,
                 text = text,
                 font = font
             };
             placeholderLabel = new Label()
             {
-                centered = centered,
-                position = position,
-                text = text,
+                m_position = labelPos,
+                text = placeholder,
                 font = font
             };
-            size = new Vector2(Math.Max(size.X, font.GetStringSize(label.text).X) + 16, font.baseCharHeight * 3 + 16);
-            position = new Vector2(position.X - 8, position.Y - font.baseCharHeight - 8);
-            var bounds = new Rectangle(position.X, position.Y, size.X, size.Y);
-            InputHandler.GetInstance().onMousePressed += (s, e) =>
-            {
-                var status = InputHandler.GetStatus();
-                if (status.mouseButtonLeft)
-                {
-                    focused = (bounds.Contains(status.mousePosition));
-                }
-            };
+            bgTex = Texture.FromFile("Content\\shadow.png");
 
-            InputHandler.GetInstance().onKeyPressed += (s, e) =>
+            if (initialized)
             {
-                var status = InputHandler.GetStatus();
-                if (!focused) return;
-                if (e.pressed)
+                InputHandler.GetInstance().onMousePressed += (s, e) =>
                 {
-                    switch (e.key)
+                    var status = InputHandler.GetStatus();
+                    if (status.mouseButtonLeft)
                     {
-                        case Key.Number0: case Key.Number1: case Key.Number2: case Key.Number3: case Key.Number4:
-                        case Key.Number5: case Key.Number6: case Key.Number7: case Key.Number8: case Key.Number9:
-                            text += e.key.ToString()[6];
-                            break;
-                        case Key.Space:
-                            text += " ";
-                            break;
-                        case Key.BackSpace:
-                            if (text.Length > 0)
-                                text = text.Remove(text.Length - 1);
-                            break;
-                        case Key.ShiftLeft: case Key.ShiftRight: break;
-                        default:
-                            if (e.key >= Key.A && e.key <= Key.Z)
-                            text += (status.shift) ? e.key.ToString()[0] : e.key.ToString().ToLower()[0];
-                            break;
+                        focused = (bounds.Contains(status.mousePosition));
                     }
-                }
-            };
+                };
+            }
+            else
+                {
+                InputHandler.GetInstance().onKeyPressed += (s, e) =>
+                {
+                    var status = InputHandler.GetStatus();
+                    if (!focused) return;
+                    if (e.pressed)
+                    {
+                        switch (e.key)
+                        {
+                            case Key.Number0: case Key.Number1: case Key.Number2: case Key.Number3: case Key.Number4:
+                            case Key.Number5: case Key.Number6: case Key.Number7: case Key.Number8: case Key.Number9:
+                                text += e.key.ToString()[6];
+                                break;
+                            case Key.Space:
+                                text += " ";
+                                break;
+                            case Key.BackSpace:
+                                if (text.Length > 0)
+                                    text = text.Remove(text.Length - 1);
+                                break;
+                            case Key.ShiftLeft: case Key.ShiftRight: break;
+                            default:
+                                if (e.key >= Key.A && e.key <= Key.Z)
+                                text += (status.shift) ? e.key.ToString()[0] : e.key.ToString().ToLower()[0];
+                                break;
+                        }
+                    }
+                };
+            }
+            initialized = true;
         }
 
         public override void Render()
         {
-            BaseRenderer.RenderQuad(position, size, "blank", tint: new Color4(150, 150, 150, 150));
+            BaseRenderer.RenderQuad(position, size, "blank", tint);
             if (text == "") placeholderLabel.Render();
             label.Render();
         }

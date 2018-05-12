@@ -48,30 +48,38 @@ namespace Whirlpool.Core.UI
         public bool focused { get; set; } = false;
         public HorizontalAnchorPoint horizontalAnchor { get; set; } = HorizontalAnchorPoint.Left;
         public VerticalAnchorPoint verticalAnchor { get; set; } = VerticalAnchorPoint.Top;
+        public bool initialized { get; set; } = false;
 
         private Vector2 CalculatePosition(Vector2 point, Size windowSize)
         {
-            float x = position.X;
-            float y = position.Y;
+            float x = point.X;
+            float y = point.Y;
             switch (horizontalAnchor)
             {
                 case HorizontalAnchorPoint.Centre:
-                    x = position.X + (windowSize.Width / 2);
+                    x = (windowSize.Width / 2) + x;
                     break;
                 case HorizontalAnchorPoint.Right:
-                    x = windowSize.Width - position.X;
+                    x = windowSize.Width - x;
                     break;
             }
             switch (verticalAnchor)
             {
                 case VerticalAnchorPoint.Centre:
-                    y = position.Y + (windowSize.Height / 2);
+                    y = (windowSize.Height / 2) + y;
                     break;
                 case VerticalAnchorPoint.Bottom:
-                    y = windowSize.Height - position.Y;
+                    y = windowSize.Height - y;
                     break;
             }
-            return new Vector2(x, y);
+            
+            return CalculateCenterPos(new Vector2(x, y));
+        }
+
+        public virtual Vector2 CalculateCenterPos(Vector2 point)
+        {
+            if (centered) return (point - size / 2);
+            return point;
         }
     }
 }

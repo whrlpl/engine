@@ -36,11 +36,10 @@ namespace Whirlpool.Game
             windowTitle = "build %{build} | game version v%{gamever} | ogl %{glver} | %{fps} fps";
             windowSize = Size;
             world = new World();
-            world.Init();            
+            world.Init();
             base.Init();
         }
 
-        public override void Render()
-        { }
+        public override void Render() { }
     }
 }
