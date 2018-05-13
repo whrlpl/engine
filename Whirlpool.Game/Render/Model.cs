@@ -18,7 +18,7 @@ namespace Whirlpool.Game.Render
 
         private Whirlpool.Core.IO.Object obj;
 
-        public override void Init()
+        public override void Init(Screen screen)
         {
             // Load model
             obj = Whirlpool.Core.IO.ObjLoader.Load(objName);

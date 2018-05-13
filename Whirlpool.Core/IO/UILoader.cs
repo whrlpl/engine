@@ -48,7 +48,7 @@ namespace Whirlpool.Core.IO
                         component = new Textbox();
                         break;
                     default:
-                        Logging.Write("Unknown element '" + element.Name + "'.");
+                        Logging.Write("Unknown element '" + element.Name + "'.", LogStatus.Error);
                         break;
                 }
                 Logging.Write("Children:");
@@ -58,6 +58,9 @@ namespace Whirlpool.Core.IO
                     Logging.Write("\t" + child.Name + ": " + child.Value, LogStatus.General);
                     switch (child.Name.ToString())
                     {
+                        case "Name":
+                            component.name = child.Value;
+                            break;
                         case "Text":
                             component.text = child.Value;
                             break;
@@ -104,6 +107,9 @@ namespace Whirlpool.Core.IO
                         case "Password":
                             if (element.Name == "Textbox")
                                 ((Textbox)component).isPassword = (child.Value == "True" ? true : false);
+                            break;
+                        case "OnClick":
+                            component.onClickEvent = child.Value;
                             break;
                         case "Font":
                             string declaredName = "";
@@ -199,11 +205,11 @@ namespace Whirlpool.Core.IO
                             component.focused = (child.Value == "True" ? true : false);
                             break;
                         default:
-                            Logging.Write("Unknown property '" + child.Name + "' in '" + element.Name + "'.");
+                            Logging.Write("Unknown property '" + child.Name + "' in '" + element.Name + "'.", LogStatus.Error);
                             break;
                     }
                 }
-                component.Init();
+                component.Init(null);
                 component.size = componentSize;
                 component.position = componentPosition;
                 components.Add(component);
@@ -229,7 +235,7 @@ namespace Whirlpool.Core.IO
                     fileStream.Close();
                     return val;
                 }
-                catch (IOException e)
+                catch (IOException ex)
                 {
                     if (i <= 3)
                     {

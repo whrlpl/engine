@@ -1,11 +1,10 @@
-﻿using OpenTK;
+﻿using System;
+using System.Linq;
+using OpenTK;
 using OpenTK.Graphics;
 using Whirlpool.Core.Render;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Whirlpool.Core.IO;
+using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.UI
 {
@@ -24,7 +23,25 @@ namespace Whirlpool.Core.UI
             return point;
         }
 
-        public override void Init() {}
+        public override void Init(Screen screen)
+        {
+            var stringSize = font.GetStringSize(text);
+            var bounds = new Rectangle(position.X, position.Y, stringSize.X, font.baseCharHeight);
+            if (initialized)
+            {
+                InputHandler.GetInstance().onMousePressed += (s, e) =>
+                {
+                    var status = InputHandler.GetStatus();
+                    if (status.mouseButtonLeft)
+                    {
+                        if (!bounds.Contains(status.mousePosition)) return;
+                        focused = true;
+                        if (onClickEvent != "") UIEvents.GetEvent(onClickEvent)?.Invoke(parentScreen);
+                    }
+                };
+            }
+            initialized = true;
+        }
 
         public override void Render()
         {

@@ -6,6 +6,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 using Whirlpool.Core.IO;
+using Whirlpool.Core.Pattern;
 using Whirlpool.Core.Render;
 using Whirlpool.Core.UI;
 using Whirlpool.Script.Interpreter;
@@ -23,7 +24,7 @@ namespace Whirlpool.Core
         public static new System.Drawing.Size Size = new System.Drawing.Size(1280, 720);
         public Font tempFont;
                 
-        private string screenFile = "Content\\screens\\mainmenu.xml";
+        public string screenFile = "Content\\screens\\splash.xml";
 
         private FileSystemWatcher fsWatcher;
 
@@ -37,13 +38,6 @@ namespace Whirlpool.Core
         public abstract void Render();
         public abstract void Update();
 
-        public void ReloadFile(object source, FileSystemEventArgs e)
-        {
-            currentScreen = new Screen();
-            currentScreen.AddUIComponents(UILoader.LoadFile(screenFile));
-            currentScreen.Init();
-        }
-
         public BaseGame() : base(
             Size.Width,
             Size.Height,
@@ -55,6 +49,11 @@ namespace Whirlpool.Core
             GraphicsContextFlags.Default)
         {
             Init();
+        }
+
+        public void ReloadFile(object source, FileSystemEventArgs e)
+        {
+            currentScreen.LoadFromFile(screenFile);
         }
 
         public virtual void Init()
@@ -137,6 +136,12 @@ namespace Whirlpool.Core
             InputHandler.SetKeyboardKey(e.Key, true);
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            Environment.Exit(0);
+            base.OnClosed(e);
+        }
+
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             Time.AddTime((float)e.Time);
@@ -167,7 +172,7 @@ namespace Whirlpool.Core
             if ((DateTime.Now - lastFrameCollection).TotalMilliseconds >= 1000)
             {
                 UpdateWindowTitle();
-                Logging.Write(1000.0f/(frameEnd-frameStart).TotalMilliseconds + "FPS");
+                //Logging.Write(1000.0f/(frameEnd-frameStart).TotalMilliseconds + "FPS");
                 framesLastSecond = 0;
                 lastFrameCollection = DateTime.Now;
             }

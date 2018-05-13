@@ -24,7 +24,7 @@ namespace Whirlpool.Core.UI
             return point;
         }
 
-        public override void Init()
+        public override void Init(Screen screen)
         {
             var labelPos = (centered) ? position + new Vector2(8, font.baseCharHeight * 2) : position;
             label = new Label()
@@ -39,13 +39,8 @@ namespace Whirlpool.Core.UI
                 InputHandler.GetInstance().onMousePressed += (s, e) =>
                 {
                     var status = InputHandler.GetStatus();
-                    if (status.mouseButtonLeft)
-                    {
-                        if (new Rectangle(position.X, position.Y, size.X, size.Y).Contains(status.mousePosition))
-                        {
-                            Logging.Write("Button pressed");
-                        }
-                    }
+                    if (status.mouseButtonLeft && new Rectangle(position.X, position.Y, size.X, size.Y).Contains(status.mousePosition) && onClickEvent != "")
+                        UIEvents.GetEvent(onClickEvent)?.Invoke(parentScreen);
                 };
             }
             initialized = true;

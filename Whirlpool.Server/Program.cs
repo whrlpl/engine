@@ -65,6 +65,9 @@ namespace Whirlpool.Server
                 threads[i] = new Thread(ClientThread);
                 threads[i].Start(i);
             }
+
+            Console.WriteLine("Server listening on port 15535");
+
             // keep track of client connections
             while (!shouldExit)
             {

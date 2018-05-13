@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
@@ -36,8 +35,9 @@ namespace Whirlpool.Core.UI
             isPassword = newIsPassword;
         }
 
-        public override void Init()
+        public override void Init(Screen screen)
         {
+            parentScreen = screen;
             var labelPos = (centered) ? position + new Vector2(8, font.baseCharHeight * 2) : position;
             size = new Vector2(size.X, font.baseCharHeight * 3 + 16);
             var bounds = new Rectangle(position.X, position.Y, size.X, size.Y);
@@ -63,6 +63,7 @@ namespace Whirlpool.Core.UI
                     if (status.mouseButtonLeft)
                     {
                         focused = (bounds.Contains(status.mousePosition));
+                        if (onClickEvent != "") UIEvents.GetEvent(onClickEvent)?.Invoke(parentScreen);
                     }
                 };
             }

@@ -18,7 +18,19 @@ namespace Whirlpool.Core.IO
         /// <param name="status">The severity / type of the message.</param>
         public static void Write(string str, LogStatus status = LogStatus.General)
         {
+            switch (status)
+            {
+                case LogStatus.Error:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+                case LogStatus.Warning:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+            }
+
             Console.WriteLine("[" + status.ToString() + "] " + str);
+
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
 }

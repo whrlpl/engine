@@ -76,12 +76,19 @@
   <ItemGroup>
     <Compile Include="Logic\LocalPlayer.cs" />
     <Compile Include="Logic\World.cs" />
+    <Compile Include="OnClickEvents.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainGame.cs" />
   </ItemGroup>
+  <Target Name="ILMerge">
+    <!-- the ILMergePath property points to the location of ILMerge.exe console application -->
+    <Exec Command="$(ILMergeConsolePath) /out:Merged.exe" />
+  </Target>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
@@ -121,7 +128,9 @@
     <None Include="Content\TestModel.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <Compile Include="Render\Model.cs" />
   </ItemGroup>
   <ItemGroup>

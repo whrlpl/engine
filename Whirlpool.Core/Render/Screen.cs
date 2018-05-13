@@ -42,6 +42,23 @@ namespace Whirlpool.Core.Render
             renderComponents.Add(component);
         }
 
+        public UIComponent GetUIComponent(string name)
+        {
+            foreach (UIComponent uic in renderComponents)
+            {
+                if (uic.name == name)
+                    return uic;
+            }
+            return null;
+        }
+
+        public void LoadFromFile(string file)
+        {
+            renderComponents = new List<RenderComponent>();
+            AddUIComponents(UILoader.LoadFile(file));
+            Init();
+        }
+
         public virtual void Update()
         {
             try
@@ -53,7 +70,7 @@ namespace Whirlpool.Core.Render
             }
             catch (Exception ex)
             {
-                Logging.Write("Error updating screen: " + ex.ToString());
+                Logging.Write("Error updating screen: " + ex.ToString(), LogStatus.Error);
             }
         }
 
@@ -61,7 +78,8 @@ namespace Whirlpool.Core.Render
         {
             foreach (RenderComponent rc in renderComponents)
             {
-                rc.Init();
+                rc.parentScreen = this;
+                rc.Init(this);
             }
         }
         
@@ -71,12 +89,12 @@ namespace Whirlpool.Core.Render
             {
                 foreach (RenderComponent rc in renderComponents)
                 {
-                rc.Render();
+                    rc.Render();
                 }
             }
             catch (Exception ex)
             {
-                Logging.Write("Error updating screen: " + ex.ToString());
+                Logging.Write("Error rendering screen: " + ex.ToString(), LogStatus.Error);
             }
 }
     }

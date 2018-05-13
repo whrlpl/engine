@@ -82,6 +82,7 @@
     <Compile Include="IO\InputHandler.cs" />
     <Compile Include="IO\Logging.cs" />
     <Compile Include="IO\ObjLoader.cs" />
+    <Compile Include="IO\UIEvents.cs" />
     <Compile Include="IO\UILoader.cs" />
     <Compile Include="IO\UnsafeNativeMethods.cs" />
     <Compile Include="IO\FileBank.cs" />

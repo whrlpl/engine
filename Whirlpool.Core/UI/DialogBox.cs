@@ -16,7 +16,7 @@ namespace Whirlpool.Core.UI
     {
         public Label label;
 
-        public override void Init()
+        public override void Init(Screen screen)
         {
             label = new Label()
             {

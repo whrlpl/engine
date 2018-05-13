@@ -40,7 +40,9 @@ namespace Whirlpool.Core.UI
                 m_position = CalculatePosition(value, BaseGame.Size);
             }
         }
+        public string name { get; set; } = "";
         public string text { get; set; } = "";
+        public string onClickEvent { get; set; } = "";
         public Font font { get; set; } = null;
         public Color4 tint { get; set; } = Color4.White;
         public Vector2 size { get; set; } = Vector2.Zero;

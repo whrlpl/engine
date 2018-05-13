@@ -12,7 +12,7 @@ namespace Whirlpool.Core.UI
         private Texture[] slicedSprites = new Texture[9];
         private Texture originalSprite;
 
-        public override void Init()
+        public override void Init(Screen screen)
         {
             if (initialized) return;
             // gen 9 sprites

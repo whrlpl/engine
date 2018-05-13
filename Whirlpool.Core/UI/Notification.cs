@@ -16,7 +16,7 @@ namespace Whirlpool.Core.UI
         private long initTime;
         private Label notificationLabel;
 
-        public override void Init()
+        public override void Init(Screen screen)
         {
             if (initialized) return;
             label = new Label()

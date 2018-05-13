@@ -1,5 +1,5 @@
 ﻿using System;
-using Whirlpool.Core;
+using Whirlpool.Core.IO;
 
 namespace Whirlpool.Game
 {
@@ -12,7 +12,11 @@ namespace Whirlpool.Game
             {
 #endif
             using (var g = new MainGame())
+            {
+                if (args.Length > 0 && args[0] == "-nc")
+                    UnsafeNativeMethods.HideConsole();
                 g.Run();
+            }
 #if !DEBUG
             }
             catch (Exception ex)

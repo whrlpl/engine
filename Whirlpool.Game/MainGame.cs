@@ -37,6 +37,7 @@ namespace Whirlpool.Game
             windowSize = Size;
             world = new World();
             world.Init();
+            OnClickEvents.Register();
             base.Init();
         }
 
