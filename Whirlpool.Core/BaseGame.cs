@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using OpenTK;
@@ -20,13 +21,16 @@ namespace Whirlpool.Core
         float framesLastSecond;
         public VM gameBytecodeVM;
         public Thread updateThread;
-        public Screen currentScreen;
+        public static List<Screen> currentScreens = new List<Screen>();
+        public static Screen consoleScreen;
+
+        public bool consoleVisible = false;
+
         public static new System.Drawing.Size Size = new System.Drawing.Size(1280, 720);
         public Font tempFont;
                 
         public string screenFile = "Content\\screens\\splash.xml";
-
-        private FileSystemWatcher fsWatcher;
+        public string consoleFile = "Content\\screens\\console.xml";
 
         #region "Game properties"
         public static string gameName = "Whirlpool Engine Game";
@@ -51,11 +55,6 @@ namespace Whirlpool.Core
             Init();
         }
 
-        public void ReloadFile(object source, FileSystemEventArgs e)
-        {
-            currentScreen.LoadFromFile(screenFile);
-        }
-
         public virtual void Init()
         {
             updateThread = new Thread(UpdateThread);
@@ -65,16 +64,15 @@ namespace Whirlpool.Core
             FileBank.AddTexture("blank", Texture.FromData(new Color4[] { Color4.White }, 1, 1));
             FileBank.LoadTexturesFromFolder("Content");
 
-            FileSystemWatcher fsWatcher = new FileSystemWatcher();
-            fsWatcher.Changed += new FileSystemEventHandler(ReloadFile);
-            fsWatcher.Path = Path.GetDirectoryName(screenFile);
-            fsWatcher.NotifyFilter = NotifyFilters.LastWrite;
-            fsWatcher.Filter = Path.GetFileName(screenFile);
-            fsWatcher.EnableRaisingEvents = true;
+            currentScreens.Add(new Screen(screenFile));
+            consoleScreen = new Screen(consoleFile);
 
-            currentScreen = new Screen();
-            currentScreen.AddUIComponents(UILoader.LoadFile(screenFile));
-            currentScreen.Init();
+
+            InputHandler.GetInstance().onKeyPressed += (s, e) =>
+            {
+                var status = InputHandler.GetStatus();
+                if (status.keyboardKeys.ContainsKey(Key.F1) && status.keyboardKeys[Key.F1]) consoleVisible = !consoleVisible;
+            };
 
             tempFont = new Font("Content\\Fonts\\Montserrat-Regular.ttf", Color4.White, 14, 0);
 
@@ -156,7 +154,12 @@ namespace Whirlpool.Core
             BaseRenderer.GetInstance().camera?.Update();
 
             PostProcessing.GetInstance().PreRender();
-            currentScreen?.Render();
+
+            foreach (Screen s in currentScreens)
+                s.Render();
+
+            if (consoleVisible) consoleScreen.Render();
+
             PostProcessing.GetInstance().PostRender();
             InputStatus status = InputHandler.GetStatus();
 
@@ -183,13 +186,25 @@ namespace Whirlpool.Core
         {
             while (true)
             {
-                if (Time.GetMilliseconds() % 2 == 0)
+                if (Time.GetMilliseconds() % 1500 == 0)
                 {
                     DiscordController.Update();
-                    InputHandler.UpdateMousePos(Mouse.X, Mouse.Y);
-                    currentScreen?.Update();
-                    Update();
                 }
+                InputHandler.UpdateMousePos(Mouse.X, Mouse.Y);
+
+                try
+                {
+                    foreach (Screen s in currentScreens)
+                        s.Update();
+
+                    if (consoleVisible) consoleScreen.Update();
+                }
+                catch (Exception ex)
+                {
+                    Logging.Write(ex.ToString(), LogStatus.Error);
+                }
+
+                Update();
             }
         }
 

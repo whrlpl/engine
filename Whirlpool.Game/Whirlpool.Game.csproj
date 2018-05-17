@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Logic\LocalPlayer.cs" />
+    <Compile Include="Logic\UserAPI.cs" />
     <Compile Include="Logic\World.cs" />
     <Compile Include="OnClickEvents.cs" />
     <Compile Include="Program.cs" />
@@ -86,6 +87,10 @@
     <Exec Command="$(ILMergeConsolePath) /out:Merged.exe" />
   </Target>
   <ItemGroup>
+    <Content Include="Content\screens\update.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
@@ -104,6 +109,9 @@
     <None Include="Content\Fonts\Montserrat-Regular.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Content\Fonts\RobotoMono-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Game\main.asc" />
     <None Include="Content\Hagrid.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -120,7 +128,13 @@
     <None Include="Content\primitive.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Content Include="Content\screens\mainmenu.xml" />
+    <Content Include="Content\screens\console.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\screens\mainmenu.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\screens\splash.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>

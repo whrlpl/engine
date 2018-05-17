@@ -33,7 +33,7 @@ namespace Whirlpool.Game
 
         public override void Init()
         {
-            windowTitle = "build %{build} | game version v%{gamever} | ogl %{glver} | %{fps} fps";
+            windowTitle = "OSLO build %{build} | game version v%{gamever} | ogl %{glver} | %{fps} fps";
             windowSize = Size;
             world = new World();
             world.Init();

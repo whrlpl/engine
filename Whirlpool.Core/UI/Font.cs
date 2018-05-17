@@ -80,6 +80,7 @@ namespace Whirlpool.Core.UI
                     var emojiLoc = "Content\\emoji\\" + c.ToString("X").ToLower() + ".png";
                     Logging.Write("Loading emoji " + emojiLoc);
                     Texture tex = Texture.FromFile(emojiLoc);
+                    tex.textureWrapMode = OpenTK.Graphics.OpenGL4.TextureWrapMode.ClampToBorder;
                     tex.name = filename;
 
                     Character fontChar = new Character()
@@ -99,10 +100,12 @@ namespace Whirlpool.Core.UI
                     var scale = ttf.GetScaleForPixelHeight(size);
                     byte[] data = ttf.GetCodepointBitmap((char)c, scale, scale, out fontChar.width, out fontChar.height, out fontChar.xOffset, out fontChar.yOffset);
 
-                    foreach (byte b in data)
+                    for (int i = 0; i < data.Length; ++i)
+                    {
+                        var b = data[i];
                         data_colorized.Add(new Color4(b, b, b, b));
-
-
+                    }
+                    
                     Texture tex = Texture.FromData(data_colorized.ToArray(), fontChar.width, fontChar.height);
                     tex.name = filename + "_" + c;
                     fontChar.texture = tex;

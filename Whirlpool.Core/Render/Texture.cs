@@ -17,6 +17,10 @@ namespace Whirlpool.Core.Render
         public int animFrame = -1;
         public int width;
         public int height;
+
+        public TextureWrapMode textureWrapMode = TextureWrapMode.Repeat;
+        public TextureMagFilter textureMagFilter = TextureMagFilter.Linear;
+        public TextureMinFilter textureMinFilter = TextureMinFilter.Linear;
         private byte[] data;
 
         public static Texture FromData(Color4[] data, int width, int height, bool retainData = false)
@@ -87,10 +91,10 @@ namespace Whirlpool.Core.Render
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, glTexture);
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)textureWrapMode);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)textureWrapMode);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)textureMagFilter);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)textureMinFilter);
         }
 
         public byte[] getData()

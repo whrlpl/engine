@@ -68,11 +68,12 @@ namespace Whirlpool.Core.UI
                 };
             }
             else
-                {
+            {
                 InputHandler.GetInstance().onKeyPressed += (s, e) =>
                 {
                     var status = InputHandler.GetStatus();
                     if (!focused) return;
+                    if (font.GetStringSize(text + "|").X >= size.X - 32 && e.key != Key.BackSpace) return;
                     if (e.pressed)
                     {
                         switch (e.key)

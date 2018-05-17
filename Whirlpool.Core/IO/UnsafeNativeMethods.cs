@@ -8,7 +8,7 @@ namespace Whirlpool.Core.IO
     public unsafe class UnsafeNativeMethods
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void ReadyHandler();
+        public delegate void ReadyHandler(DiscordUser request);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void DisconnectedHandler(int errorCode, string message);
@@ -23,7 +23,7 @@ namespace Whirlpool.Core.IO
         public delegate void SpectateGameHandler(string secret);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void JoinRequestHandler(JoinRequest request);
+        public delegate void JoinRequestHandler(DiscordUser request);
 
         //--------------------------------------------------------------------------------
 
@@ -62,10 +62,11 @@ namespace Whirlpool.Core.IO
         //--------------------------------------------------------------------------------
 
         [Serializable]
-        public struct JoinRequest
+        public struct DiscordUser
         {
             public string userId;
             public string username;
+            public string discriminator;
             public string avatar;
         }
 
@@ -80,11 +81,11 @@ namespace Whirlpool.Core.IO
 
         //--------------------------------------------------------------------------------
 
-        [DllImport("discord-rpc.dll", CharSet = CharSet.Unicode)]
-        private static extern void Discord_Initialize([MarshalAs(UnmanagedType.LPWStr)]string applicationID,
+        [DllImport("discord-rpc.dll")]
+        private static extern void Discord_Initialize([MarshalAs(UnmanagedType.LPStr)]string applicationID,
             ref EventHandlers handlers,
             bool autoRegister,
-            [MarshalAs(UnmanagedType.LPWStr)]string optionalSteamId);
+            [MarshalAs(UnmanagedType.LPStr)]string optionalSteamId);
 
         public static void DiscordInitialize(string appID, EventHandlers handlers)
         {
@@ -131,7 +132,7 @@ namespace Whirlpool.Core.IO
 
         public static void DiscordRunCallbacks()
         {
-            Discord_RunCallbacks();
+            //Discord_RunCallbacks();
         }
         //--------------------------------------------------------------------------------
 
@@ -143,7 +144,6 @@ namespace Whirlpool.Core.IO
             Discord_Respond(userID, reply);
         }
 
-        //--------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------
         
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]

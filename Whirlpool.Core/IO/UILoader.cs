@@ -104,6 +104,10 @@ namespace Whirlpool.Core.IO
                             if (element.Name == "Textbox")
                                 ((Textbox)component).placeholder = child.Value;
                             break;
+                        case "LineSpacing":
+                            if (element.Name == "LineSpacing")
+                                ((Label)component).lineSpacing = int.Parse(child.Value);
+                            break;
                         case "Password":
                             if (element.Name == "Textbox")
                                 ((Textbox)component).isPassword = (child.Value == "True" ? true : false);

@@ -8,7 +8,16 @@ namespace Whirlpool.Core.IO
     public class DiscordController : Singleton<DiscordController>
     {
 
-        private UnsafeNativeMethods.RichPresence currentPresence;
+        private UnsafeNativeMethods.RichPresence currentPresence = new UnsafeNativeMethods.RichPresence()
+        {
+            details = "In menus",
+            state = "Idle",
+            partySize = 1,
+            partyMax = 4,
+            partyId = "partyid325892",
+            joinSecret = "joinsecret23859",
+            largeImageKey = "main-menu"
+        };
 
         /// <summary>
         /// Initialize DiscordController.
@@ -23,15 +32,15 @@ namespace Whirlpool.Core.IO
                 spectateGame = OnSpectateGame,
                 ready = OnReady
             };
-            UnsafeNativeMethods.DiscordInitialize("436934908707864576", eventHandlers);
+            UnsafeNativeMethods.DiscordInitialize("446739162083622913", eventHandlers);
         }
 
         /// <summary>
         /// Write a message when Discord is ready.
         /// </summary>
-        private static void OnReady()
+        private static void OnReady(UnsafeNativeMethods.DiscordUser user)
         {
-            Logging.Write("Discord RPC ready.");
+            Logging.Write("Discord RPC ready, connected to " + user.username + "#" + user.discriminator);
         }
 
         /// <summary>
@@ -57,7 +66,7 @@ namespace Whirlpool.Core.IO
         /// Handler for game joining.
         /// </summary>
         /// <param name="request">The join request</param>
-        private static void OnJoinRequest(UnsafeNativeMethods.JoinRequest request)
+        private static void OnJoinRequest(UnsafeNativeMethods.DiscordUser user)
         {
             throw new NotImplementedException("Joining is not implemented yet.");
         }

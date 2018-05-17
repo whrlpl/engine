@@ -21,7 +21,7 @@ namespace Whirlpool.Core.Render
         int VAO, VBO, EBO;
         int cubeVAO, cubeVBO, cubeEBO;
 
-        static Material defaultMaterial, spriteMaterial, gradientMaterial, framebufferMaterial;
+        static Material defaultMaterial, spriteMaterial, gradientMaterial, framebufferMaterial, fontMaterial;
         protected bool _initialized;
 
         public Vector2 windowSize;
@@ -58,6 +58,39 @@ namespace Whirlpool.Core.Render
             framebufferMaterial.SetVariable("renderedTexture", 0);
             framebufferMaterial.SetVariable("position", _PixelsToNDC(position));
             framebufferMaterial.SetVariable("size", _PixelsToNDCSize(size));
+            GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
+        }
+
+        protected void _RenderFontGlyph(Vector2 position, Vector2 size, Texture texture, float textureRepetitions, Color4 tint, float rotation, FlipMode flipMode, Material material)
+        {
+            GL.BindVertexArray(VAO);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
+            fontMaterial?.Use();
+            if (!_initialized) _Init();
+            texture.Bind();
+
+            fontMaterial.SetVariable("flipX", false);
+            fontMaterial.SetVariable("flipY", false);
+            switch (flipMode)
+            {
+                case FlipMode.FlipX:
+                    fontMaterial.SetVariable("flipX", true);
+                    break;
+                case FlipMode.FlipY:
+                    fontMaterial.SetVariable("flipY", true);
+                    break;
+                case FlipMode.FlipXAndY:
+                    fontMaterial.SetVariable("flipX", true);
+                    fontMaterial.SetVariable("flipY", true);
+                    break;
+            }
+            fontMaterial.SetVariable("albedoTexture", 0);
+            fontMaterial.SetVariable("textureRepetitions", textureRepetitions);
+            fontMaterial.SetVariable("tint", tint);
+            fontMaterial.SetVariable("position", _PixelsToNDC(position));
+            fontMaterial.SetVariable("size", _PixelsToNDCSize(size));
+            fontMaterial.SetVariable("rotation", rotation);
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
 
@@ -122,7 +155,14 @@ namespace Whirlpool.Core.Render
                 .Attach(new Shader("Shaders\\frag.glsl", ShaderType.FragmentShader))
                 .Link()
                 .GetMaterial();
-            
+
+            fontMaterial = new MaterialBuilder()
+                .Build()
+                .Attach(new Shader("Shaders\\spritevert.glsl", ShaderType.VertexShader))
+                .Attach(new Shader("Shaders\\fontfrag.glsl", ShaderType.FragmentShader))
+                .Link()
+                .GetMaterial();
+
             spriteMaterial = new MaterialBuilder()
                 .Build()
                 .Attach(new Shader("Shaders\\spritevert.glsl", ShaderType.VertexShader))
@@ -199,6 +239,11 @@ namespace Whirlpool.Core.Render
         public static void RenderQuad(Vector2 position, Vector2 size, Texture texture, Color4 tint, Material material = null, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
         {
             GetInstance()._RenderQuad(position, size, texture, textureRepetitions, tint, rotation, flipMode, material);
+        }
+
+        public static void RenderFontGlyph(Vector2 position, Vector2 size, Texture texture, Color4 tint, Material material = null, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
+        {
+            GetInstance()._RenderFontGlyph(position, size, texture, textureRepetitions, tint, rotation, flipMode, material);
         }
 
         public static void RenderQuad(Vector2 position, Vector2 size, string texture, Color4 tint, Material material = null, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)

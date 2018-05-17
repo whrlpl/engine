@@ -20,20 +20,29 @@
 		<Y>70</Y>
 	</Label>
 	<Label>
-		<Text>Play</Text>
+		<Text>Play
+Team
+Social</Text>
 		<Font>
-			<Name>LabelText</Name>
+			<Name>MenuLabelText</Name>
 			<Location>Content\Fonts\Montserrat-Regular.ttf</Location>
-			<Size>22</Size>
+			<Size>28</Size>
 			<Kerning>0</Kerning>
 		</Font>
+    <LineSpacing>10</LineSpacing>
 		<X>35</X>
 		<Y>135</Y>
 		<Centered>False</Centered>
 	</Label>
 	<Label>
-		<Text>Welcome, {USER}.</Text>
-		<Font>LabelText</Font>
+    <Name>UserText</Name>
+		<Text>Welcome, user.</Text>
+		<Font>
+			<Name>LabelText</Name>
+			<Location>Content\Fonts\Montserrat-Regular.ttf</Location>
+			<Size>22</Size>
+			<Kerning>0</Kerning>
+    </Font>
 		<X>215</X>
 		<Y>80</Y>
 		<Centered>False</Centered>
@@ -41,6 +50,7 @@
     <VerticalAnchor>Bottom</VerticalAnchor>
 	</Label>
 	<Label>
+    <Name>LevelText</Name>
 		<Text>Level 30</Text>
 		<Font>LabelText</Font>
 		<X>215</X>
@@ -60,6 +70,7 @@
     <VerticalAnchor>Bottom</VerticalAnchor>
   </SlicedSprite>
   <SlicedSprite>
+    <Name>LevelBar</Name>
     <Sprite>blank</Sprite>
 		<X>215</X>
 		<Y>35</Y>

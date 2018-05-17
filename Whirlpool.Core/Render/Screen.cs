@@ -10,7 +10,19 @@ namespace Whirlpool.Core.Render
     public class Screen
     {
         private List<RenderComponent> renderComponents = new List<RenderComponent>();
-        
+
+        public Screen(string file)
+        {
+            LoadFromFile(file);
+        }
+
+        public void LoadFromFile(string file)
+        {
+            renderComponents = new List<RenderComponent>();
+            AddUIComponents(UILoader.LoadFile(file));
+            Init();
+        }
+
         public void AddComponents(List<RenderComponent> components)
         {
             foreach (RenderComponent rc in components)
@@ -50,13 +62,6 @@ namespace Whirlpool.Core.Render
                     return uic;
             }
             return null;
-        }
-
-        public void LoadFromFile(string file)
-        {
-            renderComponents = new List<RenderComponent>();
-            AddUIComponents(UILoader.LoadFile(file));
-            Init();
         }
 
         public virtual void Update()

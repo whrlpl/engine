@@ -27,6 +27,8 @@ namespace Whirlpool.Core.IO
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     break;
             }
+            if (BaseGame.consoleScreen != null)
+                BaseGame.consoleScreen.GetUIComponent("LogText").text += "[" + status.ToString() + "] " + str + "\n";
 
             Console.WriteLine("[" + status.ToString() + "] " + str);
 

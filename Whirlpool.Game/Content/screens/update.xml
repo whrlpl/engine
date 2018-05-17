@@ -8,7 +8,7 @@
     <Tint><R>255</R><G>99</G><B>71</B><A>255</A></Tint>
   </SlicedSprite>
 	<Label>
-		<Text>OSLO</Text>
+		<Text>Oslo</Text>
 		<Font>
 			<Name>TitleText</Name>
 			<Location>Content\Fonts\Heebo-Bold.ttf</Location>
@@ -21,40 +21,32 @@
     <VerticalAnchor>Middle</VerticalAnchor>
 		<Centered>True</Centered>
 	</Label>
-	<Textbox>
-    <Name>UsernameBox</Name>
-		<Placeholder>username</Placeholder>
-		<Font>
-			<Name>TextboxText</Name>
-			<Location>Content\Fonts\Montserrat-Regular.ttf</Location>
-			<Size>22</Size>
-			<Kerning>0</Kerning>
-    	<Tint><R>255</R><G>99</G><B>71</B><A>255</A></Tint>
-		</Font>
+	<SlicedSprite>
+    <Name>UpdateBar</Name>
+    <Sprite>blank</Sprite>
 		<X>0</X>
 		<Y>10</Y>
     <Width>250</Width>
-    <Height>100</Height>
-    <Focused>True</Focused>
+    <Height>50</Height>
     <HorizontalAnchor>Middle</HorizontalAnchor>
     <VerticalAnchor>Middle</VerticalAnchor>
 		<Centered>True</Centered>
-	</Textbox>
-	<Textbox>
-    <Name>PasswordBox</Name>
-		<Placeholder>password</Placeholder>
-		<Font>TextboxText</Font>
+    <Tint><R>0</R><G>0</G><B>0</B><A>150</A></Tint>
+	</SlicedSprite>
+	<SlicedSprite>
+    <Name>UpdateBarProgress</Name>
+    <Sprite>blank</Sprite>
 		<X>0</X>
-		<Y>55</Y>
-    <Width>250</Width>
-    <Height>100</Height>
-    <Password>True</Password>
+		<Y>10</Y>
+    <Width>125</Width>
+    <Height>50</Height>
     <HorizontalAnchor>Middle</HorizontalAnchor>
     <VerticalAnchor>Middle</VerticalAnchor>
 		<Centered>True</Centered>
-	</Textbox>
+    <Tint><R>255</R><G>255</G><B>255</B><A>255</A></Tint>
+	</SlicedSprite>
 	<Label>
-		<Text>not got an account yet? register</Text>
+		<Text>is now updating</Text>
 		<Font>
 			<Name>LabelText</Name>
 			<Location>Content\Fonts\Montserrat-Regular.ttf</Location>
@@ -68,25 +60,4 @@
     <VerticalAnchor>Middle</VerticalAnchor>
     <OnClick>OpenRegister</OnClick>
 	</Label>
-	<Label>
-		<Text>beta build</Text>
-		<Font>LabelText</Font>
-		<X>-100</X>
-		<Y>-20</Y>
-		<Centered>False</Centered>
-    <HorizontalAnchor>Left</HorizontalAnchor>
-    <VerticalAnchor>Bottom</VerticalAnchor>
-	</Label>
-	<Button>
-		<Text>log in</Text>
-		<Font>TextboxText</Font>
-		<X>0</X>
-		<Y>120</Y>
-    <Width>250</Width>
-    <Height>40</Height>
-		<Centered>True</Centered>
-    <HorizontalAnchor>Middle</HorizontalAnchor>
-    <VerticalAnchor>Middle</VerticalAnchor>
-    <OnClick>LogIn</OnClick>
-	</Button>
 </Screen>

@@ -1,0 +1,29 @@
+﻿<Screen>
+  <SlicedSprite>
+    <Sprite>blank</Sprite>
+    <Width>1280</Width>
+    <Height>345</Height>
+    <Tint><R>0</R><G>0</G><B>0</B><A>150</A></Tint>
+  </SlicedSprite>
+	<Label>
+    <Name>LogText</Name>
+		<Font>
+			<Name>ConsoleText</Name>
+			<Location>Content\Fonts\RobotoMono-Regular.ttf</Location>
+			<Size>16</Size>
+			<Kerning>0</Kerning>
+		</Font>
+    <X>8</X>
+    <Y>16</Y>
+	</Label>
+	<Textbox>
+    <Name>InputBox</Name>
+		<Font>ConsoleText</Font>
+    <Width>1280</Width>
+    <Height>20</Height>
+    <Y>360</Y>
+    <Centered>True</Centered>
+    <HorizontalAnchor>Middle</HorizontalAnchor>
+    <Tint><R>0</R><G>0</G><B>0</B><A>150</A></Tint>
+	</Textbox>
+</Screen>
