@@ -1,10 +1,10 @@
 ﻿<Screen>
-  <SlicedSprite>
-    <Sprite>blank</Sprite>
-    <Width>1280</Width>
+  <Image>
+    <Image>blank</Image>
+    <Width>100%</Width>
     <Height>345</Height>
     <Tint><R>0</R><G>0</G><B>0</B><A>150</A></Tint>
-  </SlicedSprite>
+  </Image>
 	<Label>
     <Name>LogText</Name>
 		<Font>
@@ -19,7 +19,7 @@
 	<Textbox>
     <Name>InputBox</Name>
 		<Font>ConsoleText</Font>
-    <Width>1280</Width>
+    <Width>100%</Width>
     <Height>20</Height>
     <Y>360</Y>
     <Centered>True</Centered>

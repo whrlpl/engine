@@ -121,6 +121,7 @@ namespace Whirlpool.Core.UI
                                                     // TODO (cont) - can be removed with switch to render textures
         {
             float x = 0, y = 0;
+            int numLines = 1;
             for (int i = 0; i < text.Length; ++i)
             {
                 int c = GetUtf32Char(text, i);
@@ -137,7 +138,7 @@ namespace Whirlpool.Core.UI
                         x += baseCharWidth / 2 + kerning;
                         break;
                     case '\n':
-                        y += baseCharHeight + 10;
+                        numLines++;
                         break;
                     default:
                         Character fontChar = GetCharacter(c, forceEmoji);
@@ -145,17 +146,15 @@ namespace Whirlpool.Core.UI
                             if (fontChar.type == CharacterType.Standard)
                             {
                                 x += (int)(fontChar.width) + fontChar.xOffset - ttf.GetCodepointKernAdvance((char)c, text[i + 1]) + kerning;
-                                y += fontChar.width;
                             }
                             else if (fontChar.type == CharacterType.Emoji)
                             {
                                 x += size + fontChar.xOffset - ttf.GetCodepointKernAdvance((char)c, text[i + 1]) + kerning;
-                                y += size;
                             }
                         break;
                 }
             }
-            return new Vector2(x, y);
+            return new Vector2(x, baseCharHeight + 10 * numLines);
         }
 
         public int GetUtf32Char(string text, int pos)

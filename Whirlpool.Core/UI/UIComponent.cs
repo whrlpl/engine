@@ -40,6 +40,8 @@ namespace Whirlpool.Core.UI
                 m_position = CalculatePosition(value, BaseGame.Size);
             }
         }
+
+        public string tooltipText { get; set; } = "";
         public string name { get; set; } = "";
         public string text { get; set; } = "";
         public string onClickEvent { get; set; } = "";
@@ -48,6 +50,7 @@ namespace Whirlpool.Core.UI
         public Vector2 size { get; set; } = Vector2.Zero;
         public bool centered { get; set; } = false;
         public bool focused { get; set; } = false;
+        public bool visible { get; set; } = true;
         public HorizontalAnchorPoint horizontalAnchor { get; set; } = HorizontalAnchorPoint.Left;
         public VerticalAnchorPoint verticalAnchor { get; set; } = VerticalAnchorPoint.Top;
         public bool initialized { get; set; } = false;

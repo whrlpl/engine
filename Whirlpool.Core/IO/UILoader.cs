@@ -44,6 +44,9 @@ namespace Whirlpool.Core.IO
                     case "SlicedSprite":
                         component = new SlicedSprite();
                         break;
+                    case "Image":
+                        component = new Image();
+                        break;
                     case "Textbox":
                         component = new Textbox();
                         break;
@@ -58,6 +61,9 @@ namespace Whirlpool.Core.IO
                     Logging.Write("\t" + child.Name + ": " + child.Value, LogStatus.General);
                     switch (child.Name.ToString())
                     {
+                        case "Tooltip":
+                            component.tooltipText = child.Value;
+                            break;
                         case "Name":
                             component.name = child.Value;
                             break;
@@ -67,6 +73,10 @@ namespace Whirlpool.Core.IO
                         case "Sprite":
                             if (element.Name == "SlicedSprite")
                                 ((SlicedSprite)component).spriteLoc = child.Value;
+                            break;
+                        case "Image":
+                            if (element.Name == "Image")
+                                ((Image)component).imageLoc = child.Value;
                             break;
                         case "HorizontalAnchor":
                             switch (child.Value)
@@ -197,10 +207,16 @@ namespace Whirlpool.Core.IO
                             componentPosition.Y = int.Parse(child.Value.ToString());
                             break;
                         case "Width":
-                            componentSize.X = int.Parse(child.Value.ToString());
+                            if (child.Value.EndsWith("%"))
+                                componentSize.X = BaseGame.Size.Width / 100 * int.Parse(child.Value.ToString().Remove(child.Value.Length - 1));
+                            else
+                                componentSize.X = int.Parse(child.Value.ToString());
                             break;
                         case "Height":
-                            componentSize.Y = int.Parse(child.Value.ToString());
+                            if (child.Value.EndsWith("%"))
+                                componentSize.Y = BaseGame.Size.Height / 100 * int.Parse(child.Value.ToString().Remove(child.Value.Length - 1));
+                            else
+                                componentSize.Y = int.Parse(child.Value.ToString());
                             break;
                         case "Centered":
                             component.centered = (child.Value == "True" ? true : false);

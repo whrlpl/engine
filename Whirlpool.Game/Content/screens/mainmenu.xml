@@ -1,13 +1,12 @@
-<!-- Tests for UI -->
 <Screen>
-  <SlicedSprite>
-    <Sprite>blank</Sprite>
+  <Image>
+    <Image>blank</Image>
 		<X>0</X>
 		<Y>0</Y>
-    <Width>1280</Width>
-    <Height>720</Height>
+    <Width>100%</Width>
+    <Height>100%</Height>
     <Tint><R>255</R><G>99</G><B>71</B><A>255</A></Tint>
-  </SlicedSprite>
+  </Image>
 	<Label>
 		<Text>Oslo</Text>
 		<Font>
@@ -29,7 +28,7 @@ Social</Text>
 			<Size>28</Size>
 			<Kerning>0</Kerning>
 		</Font>
-    <LineSpacing>10</LineSpacing>
+    <LineSpacing>100</LineSpacing>
 		<X>35</X>
 		<Y>135</Y>
 		<Centered>False</Centered>
@@ -59,19 +58,19 @@ Social</Text>
     <HorizontalAnchor>Right</HorizontalAnchor>
     <VerticalAnchor>Bottom</VerticalAnchor>
 	</Label>
-  <SlicedSprite>
-    <Sprite>blank</Sprite>
+  <Image>
+    <Image>blank</Image>
 		<X>215</X>
 		<Y>35</Y>
     <Width>170</Width>
     <Height>1</Height>
-    <Tint><R>255</R><G>150</G><B>100</B><A>255</A></Tint>
+    <Tint><R>0</R><G>0</G><B>0</B><A>150</A></Tint>
     <HorizontalAnchor>Right</HorizontalAnchor>
     <VerticalAnchor>Bottom</VerticalAnchor>
-  </SlicedSprite>
-  <SlicedSprite>
+  </Image>
+  <Image>
     <Name>LevelBar</Name>
-    <Sprite>blank</Sprite>
+    <Image>blank</Image>
 		<X>215</X>
 		<Y>35</Y>
     <Tint><R>255</R><G>255</G><B>255</B><A>255</A></Tint>
@@ -79,5 +78,18 @@ Social</Text>
     <Height>1</Height>
     <HorizontalAnchor>Right</HorizontalAnchor>
     <VerticalAnchor>Bottom</VerticalAnchor>
-  </SlicedSprite>
+  </Image>
+  <Image>
+    <Name>Prime</Name>
+    <Visible>False</Visible>
+    <!-- <Centered>True</Centered> -->
+    <Tooltip>Prime member</Tooltip>
+    <Image>Content\prime.png</Image>
+		<X>70</X>
+		<Y>70</Y>
+    <Width>32</Width>
+    <Height>32</Height>
+    <HorizontalAnchor>Right</HorizontalAnchor>
+    <VerticalAnchor>Bottom</VerticalAnchor>
+  </Image>
 </Screen>

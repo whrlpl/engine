@@ -11,17 +11,19 @@ namespace Whirlpool.Core.UI
 {
     public class Image : UIComponent
     {
-        public string spriteLoc;
+        public string imageLoc;
         private Texture image;
 
         public override void Init(Screen screen)
         {
             if (initialized) return;
+            image = FileBank.GetTexture(imageLoc);
             initialized = true;
         }
 
         public override void Render()
         {
+            if (!visible) return;
             BaseRenderer.RenderQuad(position, size, image, tint);
         }
 

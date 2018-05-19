@@ -4,9 +4,9 @@ using OpenTK.Graphics;
 using Whirlpool.Core;
 using Whirlpool.Core.Render;
 using Whirlpool.Game.Logic;
+using Whirlpool.Core.IO;
 using UI = Whirlpool.Core.UI;
 using Network = Whirlpool.Core.Network;
-using Whirlpool.Core.IO;
 
 namespace Whirlpool.Game
 {
@@ -18,7 +18,7 @@ namespace Whirlpool.Game
 
         #region "Game properties"
         public new string gameName = "OSLO";
-        public new string gameVersion = "0.1.2";
+        public new string gameVersion = "0.2.0";
         #endregion
 
         public override void Update()
@@ -38,9 +38,13 @@ namespace Whirlpool.Game
             world = new World();
             world.Init();
             OnClickEvents.Register();
+            ScreenCode.Register();
             base.Init();
         }
 
-        public override void Render() { }
+        public override void Render()
+        {
+            world.Render();
+        }
     }
 }

@@ -28,6 +28,8 @@ namespace Whirlpool.Core.Render
         public float dpiUpscale = 1.0f;
         public Camera camera;
 
+        public Texture blurTextureTest;
+
         protected void _RenderGradient(Vector2 position, Vector2 size)
         {
             GL.BindVertexArray(VAO);
@@ -51,11 +53,14 @@ namespace Whirlpool.Core.Render
             framebufferMaterial?.Use();
             if (!_initialized) _Init();
             texture.Bind();
+            blurTextureTest.Bind();
 
             framebufferMaterial.SetVariable("flipX", false);
             framebufferMaterial.SetVariable("flipY", false);
 
             framebufferMaterial.SetVariable("renderedTexture", 0);
+            framebufferMaterial.SetVariable("blurTexture", 1);
+
             framebufferMaterial.SetVariable("position", _PixelsToNDC(position));
             framebufferMaterial.SetVariable("size", _PixelsToNDCSize(size));
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
@@ -215,6 +220,9 @@ namespace Whirlpool.Core.Render
             GL.EnableVertexAttribArray(1);
 
             PostProcessing.GetInstance().Init(windowSize);
+
+            blurTextureTest = Texture.FromFile("Content\\blurtexturetest.png");
+            blurTextureTest.textureUnit = TextureUnit.Texture1;
 
             camera = new Camera();
 

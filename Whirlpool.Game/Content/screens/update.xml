@@ -1,14 +1,14 @@
 ﻿<Screen>
-  <SlicedSprite>
-    <Sprite>blank</Sprite>
+  <Image>
+    <Image>blank</Image>
 		<X>0</X>
 		<Y>0</Y>
-    <Width>1280</Width>
-    <Height>720</Height>
+    <Width>100%</Width>
+    <Height>100%</Height>
     <Tint><R>255</R><G>99</G><B>71</B><A>255</A></Tint>
-  </SlicedSprite>
+  </Image>
 	<Label>
-		<Text>Oslo</Text>
+		<Text>OSLO</Text>
 		<Font>
 			<Name>TitleText</Name>
 			<Location>Content\Fonts\Heebo-Bold.ttf</Location>
@@ -21,30 +21,28 @@
     <VerticalAnchor>Middle</VerticalAnchor>
 		<Centered>True</Centered>
 	</Label>
-	<SlicedSprite>
-    <Name>UpdateBar</Name>
+	<Image>
+    <Image>UpdateBar</Image>
     <Sprite>blank</Sprite>
-		<X>0</X>
+		<X>-125</X>
 		<Y>10</Y>
     <Width>250</Width>
     <Height>50</Height>
     <HorizontalAnchor>Middle</HorizontalAnchor>
     <VerticalAnchor>Middle</VerticalAnchor>
-		<Centered>True</Centered>
     <Tint><R>0</R><G>0</G><B>0</B><A>150</A></Tint>
-	</SlicedSprite>
-	<SlicedSprite>
-    <Name>UpdateBarProgress</Name>
+	</Image>
+	<Image>
+    <Image>UpdateBarProgress</Image>
     <Sprite>blank</Sprite>
-		<X>0</X>
+		<X>-125</X>
 		<Y>10</Y>
     <Width>125</Width>
     <Height>50</Height>
     <HorizontalAnchor>Middle</HorizontalAnchor>
     <VerticalAnchor>Middle</VerticalAnchor>
-		<Centered>True</Centered>
     <Tint><R>255</R><G>255</G><B>255</B><A>255</A></Tint>
-	</SlicedSprite>
+	</Image>
 	<Label>
 		<Text>is now updating</Text>
 		<Font>
@@ -53,9 +51,8 @@
 			<Size>14</Size>
 			<Kerning>0</Kerning>
 		</Font>
-		<X>-125</X>
-		<Y>85</Y>
-		<Centered>False</Centered>
+		<X>-50</X>
+		<Y>-10</Y>
     <HorizontalAnchor>Middle</HorizontalAnchor>
     <VerticalAnchor>Middle</VerticalAnchor>
     <OnClick>OpenRegister</OnClick>

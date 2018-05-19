@@ -1,12 +1,12 @@
 ﻿<Screen>
-  <SlicedSprite>
-    <Sprite>blank</Sprite>
+  <Image>
+    <Image>blank</Image>
 		<X>0</X>
 		<Y>0</Y>
-    <Width>1280</Width>
-    <Height>720</Height>
+    <Width>100%</Width>
+    <Height>100%</Height>
     <Tint><R>255</R><G>99</G><B>71</B><A>255</A></Tint>
-  </SlicedSprite>
+  </Image>
 	<Label>
 		<Text>OSLO</Text>
 		<Font>
@@ -55,6 +55,7 @@
 	</Textbox>
 	<Label>
 		<Text>not got an account yet? register</Text>
+    <Tooltip>Click to open in browser</Tooltip>
 		<Font>
 			<Name>LabelText</Name>
 			<Location>Content\Fonts\Montserrat-Regular.ttf</Location>

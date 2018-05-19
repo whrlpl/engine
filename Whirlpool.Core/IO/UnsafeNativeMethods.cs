@@ -8,7 +8,7 @@ namespace Whirlpool.Core.IO
     public unsafe class UnsafeNativeMethods
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void ReadyHandler(DiscordUser request);
+        public delegate void ReadyHandler(ref DiscordUser request);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void DisconnectedHandler(int errorCode, string message);
@@ -23,7 +23,7 @@ namespace Whirlpool.Core.IO
         public delegate void SpectateGameHandler(string secret);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void JoinRequestHandler(DiscordUser request);
+        public delegate void JoinRequestHandler(ref DiscordUser request);
 
         //--------------------------------------------------------------------------------
 
@@ -87,7 +87,7 @@ namespace Whirlpool.Core.IO
             bool autoRegister,
             [MarshalAs(UnmanagedType.LPStr)]string optionalSteamId);
 
-        public static void DiscordInitialize(string appID, EventHandlers handlers)
+        public static void DiscordInitialize(string appID, ref EventHandlers handlers)
         {
             Discord_Initialize(appID, ref handlers, true, null);
         }
@@ -142,20 +142,6 @@ namespace Whirlpool.Core.IO
         public static void DiscordRespond(string userID, Reply reply)
         {
             Discord_Respond(userID, reply);
-        }
-
-        //--------------------------------------------------------------------------------
-        
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern bool SetSystemCursor(int hcur, int id);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern int GetCursor();
-
-        public static void WindowsSetCursor()
-        {
-            if (!SetSystemCursor(GetCursor(), 32513))
-                Logging.Write("Failed to set cursor", LogStatus.Error);
         }
 
         //--------------------------------------------------------------------------------

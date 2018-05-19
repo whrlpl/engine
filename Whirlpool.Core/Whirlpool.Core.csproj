@@ -78,10 +78,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseGame.cs" />
+    <Compile Include="GlobalSettings.cs" />
+    <Compile Include="GlobalSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>GlobalSettings.settings</DependentUpon>
+    </Compile>
     <Compile Include="IO\DiscordController.cs" />
     <Compile Include="IO\InputHandler.cs" />
     <Compile Include="IO\Logging.cs" />
     <Compile Include="IO\ObjLoader.cs" />
+    <Compile Include="IO\ScreenEvents.cs" />
     <Compile Include="IO\UIEvents.cs" />
     <Compile Include="IO\UILoader.cs" />
     <Compile Include="IO\UnsafeNativeMethods.cs" />
@@ -110,10 +117,15 @@
     <Compile Include="UI\Notification.cs" />
     <Compile Include="UI\SlicedSprite.cs" />
     <Compile Include="UI\Textbox.cs" />
+    <Compile Include="UI\Tooltip.cs" />
     <Compile Include="UI\UIComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="GlobalSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>GlobalSettings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <None Include="Shaders\blur.glsl" />
@@ -146,6 +158,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\blurtexturetest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\shadow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -39,6 +39,7 @@ namespace Whirlpool.Core.UI
                         if (onClickEvent != "") UIEvents.GetEvent(onClickEvent)?.Invoke(parentScreen);
                     }
                 };
+                size = font.GetStringSize(text);
             }
             initialized = true;
         }

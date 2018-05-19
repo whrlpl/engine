@@ -21,6 +21,7 @@ namespace Whirlpool.Core.Render
         public TextureWrapMode textureWrapMode = TextureWrapMode.Repeat;
         public TextureMagFilter textureMagFilter = TextureMagFilter.Linear;
         public TextureMinFilter textureMinFilter = TextureMinFilter.Linear;
+        public TextureUnit textureUnit = TextureUnit.Texture0;
         private byte[] data;
 
         public static Texture FromData(Color4[] data, int width, int height, bool retainData = false)
@@ -88,7 +89,7 @@ namespace Whirlpool.Core.Render
 
         public void Bind()
         {
-            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.ActiveTexture(textureUnit);
             GL.BindTexture(TextureTarget.Texture2D, glTexture);
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)textureWrapMode);

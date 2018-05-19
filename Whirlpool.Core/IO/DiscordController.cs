@@ -32,13 +32,13 @@ namespace Whirlpool.Core.IO
                 spectateGame = OnSpectateGame,
                 ready = OnReady
             };
-            UnsafeNativeMethods.DiscordInitialize("446739162083622913", eventHandlers);
+            UnsafeNativeMethods.DiscordInitialize("446739162083622913", ref eventHandlers);
         }
 
         /// <summary>
         /// Write a message when Discord is ready.
         /// </summary>
-        private static void OnReady(UnsafeNativeMethods.DiscordUser user)
+        private static void OnReady(ref UnsafeNativeMethods.DiscordUser user)
         {
             Logging.Write("Discord RPC ready, connected to " + user.username + "#" + user.discriminator);
         }
@@ -66,7 +66,7 @@ namespace Whirlpool.Core.IO
         /// Handler for game joining.
         /// </summary>
         /// <param name="request">The join request</param>
-        private static void OnJoinRequest(UnsafeNativeMethods.DiscordUser user)
+        private static void OnJoinRequest(ref UnsafeNativeMethods.DiscordUser user)
         {
             throw new NotImplementedException("Joining is not implemented yet.");
         }

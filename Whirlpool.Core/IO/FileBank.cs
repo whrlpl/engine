@@ -26,7 +26,7 @@ namespace Whirlpool.Core.IO
         public static Texture GetTexture(string name)
         {
             var instance = GetInstance();
-            if (instance.textureBank.ContainsKey(name))
+            if (name != null && instance.textureBank.ContainsKey(name))
                 return instance.textureBank[name];
             else
 #if DEBUG

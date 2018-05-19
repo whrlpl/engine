@@ -26,7 +26,7 @@ namespace Whirlpool.Core
 
         public bool consoleVisible = false;
 
-        public static new System.Drawing.Size Size = new System.Drawing.Size(1280, 720);
+        public static new System.Drawing.Size Size = new System.Drawing.Size(GlobalSettings.Default.resolutionX, GlobalSettings.Default.resolutionY);
         public Font tempFont;
                 
         public string screenFile = "Content\\screens\\splash.xml";
@@ -47,7 +47,7 @@ namespace Whirlpool.Core
             Size.Height,
             new GraphicsMode(ColorFormat.Empty, 32), 
             windowTitle,
-            GameWindowFlags.Default, 
+            GlobalSettings.Default.fullscreenMode ? GameWindowFlags.Fullscreen : GameWindowFlags.Default, 
             DisplayDevice.Default,
             4, 6, 
             GraphicsContextFlags.Default)

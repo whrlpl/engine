@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using Whirlpool.Core;
+using Whirlpool.Game.Render;
 using Network = Whirlpool.Core.Network;
 
 namespace Whirlpool.Game.Logic
@@ -15,6 +16,8 @@ namespace Whirlpool.Game.Logic
         public Network.Client netClient;
         public Thread networkThread; // networking runs on an alternative thread for speed purposes
         public LocalPlayer localPlayer;
+
+        Model model;
 
         public void Init()
         {
@@ -33,11 +36,20 @@ namespace Whirlpool.Game.Logic
                 playerPos[2] = (byte)localPlayer.position.Z;
                 netClient.Send(Network.PacketType.Move, playerPos);
             };
+
+            model = new Model() { objName = "Content\\octahedron.obj" };
+            model.Init(null);
         }
 
         public void Update()
         {
             netClient.Update();
+            model.Update();
+        }
+
+        public void Render()
+        {
+            model.Render();
         }
     }
 }

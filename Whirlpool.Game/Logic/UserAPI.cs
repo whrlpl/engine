@@ -10,7 +10,11 @@ namespace Whirlpool.Game.Logic
 {
     public class User
     {
+        public int level;
+        public int experience;
         public string username;
+        public string title;
+        public bool prime;
     }
 
     public class UserAPI : Singleton<UserAPI>
@@ -22,7 +26,6 @@ namespace Whirlpool.Game.Logic
         public static bool LogIn(string username, string password)
         {
             var instance = GetInstance();
-            instance.currentUser = new User();
             var values = new Dictionary<string, string>
                 {
                    { "username", username },
@@ -34,7 +37,14 @@ namespace Whirlpool.Game.Logic
             var responseString = response.Result.Content.ReadAsStringAsync();
             if (responseString.Result == "success")
             {
-                instance.currentUser.username = username;
+                instance.currentUser = new User()
+                {
+                    username = username,
+                    prime = true,
+                    level = 1,
+                    experience = 0,
+                    title = "Deep Pockets"
+                };
                 return true;
             }
             else
