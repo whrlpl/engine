@@ -1,11 +1,5 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Whirlpool.Core.Render
 {
@@ -62,36 +56,8 @@ namespace Whirlpool.Core.Render
         }
 
         /// <summary>
-        /// Update the camera's position.
+        /// Update the camera.
         /// </summary>
-        public void Update()
-        {
-            var keyboardState = Keyboard.GetState();
-            float cameraSpeed = 0.05f;
-            if (keyboardState.IsKeyDown(Key.W))
-            {
-                position += cameraSpeed * cameraFront;
-            }
-            if (keyboardState.IsKeyDown(Key.S))
-            {
-                position -= cameraSpeed * cameraFront;
-            }
-            if (keyboardState.IsKeyDown(Key.A))
-            {
-                position -= Vector3.Normalize(Vector3.Cross(cameraFront, cameraUp)) * cameraSpeed;
-            }
-            if (keyboardState.IsKeyDown(Key.D))
-            {
-                position += Vector3.Normalize(Vector3.Cross(cameraFront, cameraUp)) * cameraSpeed;
-            }
-            if (keyboardState.IsKeyDown(Key.Space))
-            {
-                position.Y += 0.01f;
-            }
-            if (keyboardState.IsKeyDown(Key.ControlLeft))
-            {
-                position.Y -= 0.01f;
-            }
-        }
+        public void Update() { }
     }
 }

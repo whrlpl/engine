@@ -96,18 +96,19 @@ namespace Whirlpool.Core.UI
                 else
                 {
                     Character fontChar = new Character();
-                    List<Color4> data_colorized = new List<Color4>();
+                    List<Color4> dataColorized = new List<Color4>();
                     var scale = ttf.GetScaleForPixelHeight(size);
                     byte[] data = ttf.GetCodepointBitmap((char)c, scale, scale, out fontChar.width, out fontChar.height, out fontChar.xOffset, out fontChar.yOffset);
 
                     for (int i = 0; i < data.Length; ++i)
                     {
                         var b = data[i];
-                        data_colorized.Add(new Color4(b, b, b, b));
+                        dataColorized.Add(new Color4(b, b, b, b));
                     }
-                    
-                    Texture tex = Texture.FromData(data_colorized.ToArray(), fontChar.width, fontChar.height);
+
+                    Texture tex = Texture.FromData(dataColorized.ToArray(), fontChar.width, fontChar.height);
                     tex.name = filename + "_" + c;
+                    tex.textureWrapMode = OpenTK.Graphics.OpenGL4.TextureWrapMode.ClampToBorder;
                     fontChar.texture = tex;
                     fontChar.type = CharacterType.Standard;
 

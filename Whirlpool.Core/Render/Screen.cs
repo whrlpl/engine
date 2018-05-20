@@ -79,18 +79,18 @@ namespace Whirlpool.Core.Render
                 bool tooltipShown = false;
                 foreach (RenderComponent rc in renderComponents)
                 {
-                    rc.Update();
                     if (rc.GetType().BaseType == typeof(UIComponent))
                     {
                         var uic = (UIComponent)rc;
                         var status = InputHandler.GetStatus();
                         if (uic.tooltipText != "" && new Rectangle(uic.position.X, uic.position.Y, uic.size.X, uic.size.Y).Contains(status.mousePosition))
                         {
-                            currentTooltip.text = uic.tooltipText;
                             currentTooltip.position = status.mousePosition;
+                            currentTooltip.text = uic.tooltipText;
                             tooltipShown = true;
                         }
                     }
+                    rc.Update();
                 }
                 if (!tooltipShown) currentTooltip.text = "";
             }
@@ -98,6 +98,7 @@ namespace Whirlpool.Core.Render
             {
                 Logging.Write("Error updating screen: " + ex.ToString(), LogStatus.Error);
             }
+            ScreenEvents.GetEvent("OnUpdate")?.Invoke(this);
         }
 
         public virtual void Init()
@@ -125,6 +126,7 @@ namespace Whirlpool.Core.Render
                 Logging.Write("Error rendering screen: " + ex.ToString(), LogStatus.Error);
             }
             if (currentTooltip.text != "") currentTooltip.Render();
-}
+            ScreenEvents.GetEvent("OnRender")?.Invoke(this);
+        }
     }
 }

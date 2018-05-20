@@ -19,9 +19,7 @@
 		<Y>70</Y>
 	</Label>
 	<Label>
-		<Text>Play
-Team
-Social</Text>
+		<Text>Play</Text>
 		<Font>
 			<Name>MenuLabelText</Name>
 			<Location>Content\Fonts\Montserrat-Regular.ttf</Location>
@@ -32,6 +30,7 @@ Social</Text>
 		<X>35</X>
 		<Y>135</Y>
 		<Centered>False</Centered>
+    <OnClick>StartGame</OnClick>
 	</Label>
 	<Label>
     <Name>UserText</Name>
@@ -82,7 +81,6 @@ Social</Text>
   <Image>
     <Name>Prime</Name>
     <Visible>False</Visible>
-    <!-- <Centered>True</Centered> -->
     <Tooltip>Prime member</Tooltip>
     <Image>Content\prime.png</Image>
 		<X>70</X>
@@ -92,4 +90,15 @@ Social</Text>
     <HorizontalAnchor>Right</HorizontalAnchor>
     <VerticalAnchor>Bottom</VerticalAnchor>
   </Image>
+  <DialogBox>
+    <Name>MOTDBox</Name>
+    <Image>blank</Image>
+		<Font>LabelText</Font>
+    <Width>100%</Width>
+    <Height>35%</Height>
+    <Centered>True</Centered>
+    <HorizontalAnchor>Middle</HorizontalAnchor>
+    <VerticalAnchor>Middle</VerticalAnchor>
+    <Tint><R>0</R><G>0</G><B>0</B><A>150</A></Tint>
+  </DialogBox>
 </Screen>

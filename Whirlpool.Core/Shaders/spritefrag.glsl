@@ -13,6 +13,6 @@ uniform bool flipY;
 //----------------------------------------
 
 void main() {
-	frag_color = texture(albedoTexture, vec2(((flipX) ? -outTexCoord.x : outTexCoord.x) * textureRepetitions, 
-		((flipY) ? -outTexCoord.y : outTexCoord.y) * textureRepetitions)) * tint;
+	frag_color = texture(albedoTexture, vec2(((flipX) ? 1 - outTexCoord.x : outTexCoord.x) * textureRepetitions, 
+		((flipY) ? 1 - outTexCoord.y : outTexCoord.y) * textureRepetitions)) * tint;
 }

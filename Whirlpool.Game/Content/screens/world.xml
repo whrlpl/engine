@@ -1,0 +1,15 @@
+﻿<Screen>
+	<Label>
+    <Name>TestLabel</Name>
+		<Font>
+			<Name>DebugText</Name>
+			<Location>Content\Fonts\RobotoMono-Regular.ttf</Location>
+			<Size>24</Size>
+			<Kerning>0</Kerning>
+		</Font>
+    <X>8</X>
+    <Y>16</Y>
+    <Text></Text>
+    <FormatColor>True</FormatColor>
+	</Label>
+</Screen>

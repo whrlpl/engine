@@ -10,7 +10,7 @@ using Whirlpool.Bytecode.Shared;
 
 namespace Whirlpool.Bytecode.Compiler
 {
-    /* TODO: this entire bytecode programming language
+    /*  TODO: this entire bytecode programming language
      * thing needs a huge re-think and re-write
      * it isn't efficient and could definitely do with
      * something to help its design become more object

@@ -18,7 +18,6 @@ namespace Whirlpool.Game
         {
             UIEvents.AddEvent("LogIn", (screen) =>
             {
-                Console.WriteLine("Log in event called");
                 if (UserAPI.LogIn(screen.GetUIComponent("UsernameBox").text, screen.GetUIComponent("PasswordBox").text))
                 {
                     screen.LoadFromFile("Content\\Screens\\mainmenu.xml");
@@ -42,8 +41,13 @@ namespace Whirlpool.Game
 
             UIEvents.AddEvent("OpenRegister", (screen) =>
             {
-                Console.WriteLine("Register event called");
                 System.Diagnostics.Process.Start("https://gu3.me/oslo/signup");
+                return 0;
+            });
+
+            UIEvents.AddEvent("StartGame", (screen) =>
+            {
+                screen.LoadFromFile("Content\\Screens\\world.xml");
                 return 0;
             });
         }

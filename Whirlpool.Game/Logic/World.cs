@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Whirlpool.Core;
+﻿using System.Threading;
 using Whirlpool.Game.Render;
 using Network = Whirlpool.Core.Network;
 
@@ -37,8 +31,10 @@ namespace Whirlpool.Game.Logic
                 netClient.Send(Network.PacketType.Move, playerPos);
             };
 
-            model = new Model() { objName = "Content\\octahedron.obj" };
+
+            model = new Model() { objName = "Content\\lamborghini.obj", size = new OpenTK.Vector3(0.5f, 0.5f, 0.5f) };
             model.Init(null);
+            MainGame.currentScreens[0].GetUIComponent("TestLabel").text = "*" + model.obj.vertices.Count + "* vertices";
         }
 
         public void Update()

@@ -65,7 +65,7 @@ namespace Whirlpool.Core.IO
             var instance = GetInstance();
             if (instance == null || instance.currentStatus == null)
                 instance.currentStatus = new InputStatus();
-            instance.currentStatus.mousePosition = new Vector2(mouseX, mouseY); // BUG: theres an offset of about 48 pixels.  HACK: we should figure out why this happens
+            instance.currentStatus.mousePosition = new Vector2(mouseX, mouseY);
             instance.onMouseMoved?.Invoke(null, null);
         }
 

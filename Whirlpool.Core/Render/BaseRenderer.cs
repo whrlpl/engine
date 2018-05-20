@@ -19,7 +19,6 @@ namespace Whirlpool.Core.Render
     public class BaseRenderer : Singleton<BaseRenderer>
     {
         int VAO, VBO, EBO;
-        int cubeVAO, cubeVBO, cubeEBO;
 
         static Material defaultMaterial, spriteMaterial, gradientMaterial, framebufferMaterial, fontMaterial;
         protected bool _initialized;

@@ -25,7 +25,6 @@ namespace Whirlpool.Core.IO
                 UIComponent component = null;
                 Vector2 componentSize = Vector2.Zero;
                 Vector2 componentPosition = Vector2.Zero;
-                Logging.Write(element.Name + ": " + element.Value, LogStatus.General);
 
                 switch (element.Name.ToString())
                 {
@@ -50,15 +49,16 @@ namespace Whirlpool.Core.IO
                     case "Textbox":
                         component = new Textbox();
                         break;
+                    case "DialogBox":
+                        component = new DialogBox();
+                        break;
                     default:
                         Logging.Write("Unknown element '" + element.Name + "'.", LogStatus.Error);
                         break;
                 }
-                Logging.Write("Children:");
 
                 foreach (var child in element.Elements())
                 {
-                    Logging.Write("\t" + child.Name + ": " + child.Value, LogStatus.General);
                     switch (child.Name.ToString())
                     {
                         case "Tooltip":
@@ -114,6 +114,10 @@ namespace Whirlpool.Core.IO
                             if (element.Name == "Textbox")
                                 ((Textbox)component).placeholder = child.Value;
                             break;
+                        case "FormatColor":
+                            if (element.Name == "Label")
+                                ((Label)component).formatColor = (child.Value == "True" ? true : false);
+                            break;
                         case "LineSpacing":
                             if (element.Name == "LineSpacing")
                                 ((Label)component).lineSpacing = int.Parse(child.Value);
@@ -121,6 +125,9 @@ namespace Whirlpool.Core.IO
                         case "Password":
                             if (element.Name == "Textbox")
                                 ((Textbox)component).isPassword = (child.Value == "True" ? true : false);
+                            break;
+                        case "Visible":
+                            component.visible = (child.Value == "True" ? true : false);
                             break;
                         case "OnClick":
                             component.onClickEvent = child.Value;
@@ -257,7 +264,7 @@ namespace Whirlpool.Core.IO
                 }
                 catch (IOException ex)
                 {
-                    if (i <= 3)
+                    if (i < 3)
                     {
                         Thread.Sleep(50); // bad practice but we only really load 1 screen
                     }

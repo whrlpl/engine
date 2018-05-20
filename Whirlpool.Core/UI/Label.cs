@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using OpenTK;
 using OpenTK.Graphics;
 using Whirlpool.Core.Render;
@@ -11,6 +10,7 @@ namespace Whirlpool.Core.UI
     public class Label : UIComponent
     {
         public int lineSpacing = 0;
+        public bool formatColor = false;
         private RenderToTexture rtt;
 
 
@@ -50,6 +50,7 @@ namespace Whirlpool.Core.UI
             //float x = 0, y = 0;
             float x = position.X;
             float y = position.Y;
+            Color4 color = font.color;
             if (font == null) throw new Exception("No font attached to label.");
 
             for (int i = 0; i < text.Length; ++i)
@@ -73,13 +74,19 @@ namespace Whirlpool.Core.UI
                         y += font.baseCharHeight + 10 + lineSpacing;
                         break;
                     default:
+                        if (c == '*' && formatColor)
+                        {
+                            if (color == Color4.Tomato) color = Color4.White;
+                            else if (color == Color4.White) color = Color4.Tomato;
+                            continue;
+                        }
                         Character fontChar = font.GetCharacter(c, forceEmoji);
                         BaseRenderer.RenderQuad(
                             position: (fontChar.type == CharacterType.Standard) ? new Vector2(x + fontChar.xOffset, y + font.baseCharHeight + (fontChar.yOffset)) : new Vector2(x + fontChar.xOffset, y - (font.size / 2) + (fontChar.yOffset)),
                             size: new Vector2(fontChar.width, fontChar.height),
                             texture: fontChar.texture,
                             flipMode: (fontChar.type == CharacterType.Standard) ? FlipMode.FlipY : FlipMode.None,
-                            tint: font.color
+                            tint: color
                         );
                         if (i != text.Length - 1)
                             if (fontChar.type == CharacterType.Standard)
@@ -88,6 +95,8 @@ namespace Whirlpool.Core.UI
                                 x += font.size + fontChar.xOffset - font.ttf.GetCodepointKernAdvance((char)c, text[i + 1]) + font.kerning;
                         break;
                 }
+
+                //if (size.Y > 0 && y > size.Y) return;
 
                 if (forceEmoji) ++i; // we shouldn't render the variation selector char
             }

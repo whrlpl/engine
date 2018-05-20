@@ -27,13 +27,13 @@
 		<Font>
 			<Name>TextboxText</Name>
 			<Location>Content\Fonts\Montserrat-Regular.ttf</Location>
-			<Size>22</Size>
+			<Size>20</Size>
 			<Kerning>0</Kerning>
     	<Tint><R>255</R><G>99</G><B>71</B><A>255</A></Tint>
 		</Font>
 		<X>0</X>
 		<Y>10</Y>
-    <Width>250</Width>
+    <Width>20%</Width>
     <Height>100</Height>
     <Focused>True</Focused>
     <HorizontalAnchor>Middle</HorizontalAnchor>
@@ -46,7 +46,7 @@
 		<Font>TextboxText</Font>
 		<X>0</X>
 		<Y>55</Y>
-    <Width>250</Width>
+    <Width>20%</Width>
     <Height>100</Height>
     <Password>True</Password>
     <HorizontalAnchor>Middle</HorizontalAnchor>
@@ -54,17 +54,17 @@
 		<Centered>True</Centered>
 	</Textbox>
 	<Label>
-		<Text>not got an account yet? register</Text>
+		<Text>don't have an account yet? register</Text>
     <Tooltip>Click to open in browser</Tooltip>
 		<Font>
 			<Name>LabelText</Name>
 			<Location>Content\Fonts\Montserrat-Regular.ttf</Location>
-			<Size>14</Size>
+			<Size>16</Size>
 			<Kerning>0</Kerning>
 		</Font>
-		<X>-125</X>
+		<!-- <X>-125</X> -->
 		<Y>85</Y>
-		<Centered>False</Centered>
+		<Centered>True</Centered>
     <HorizontalAnchor>Middle</HorizontalAnchor>
     <VerticalAnchor>Middle</VerticalAnchor>
     <OnClick>OpenRegister</OnClick>
@@ -83,7 +83,7 @@
 		<Font>TextboxText</Font>
 		<X>0</X>
 		<Y>120</Y>
-    <Width>250</Width>
+    <Width>20%</Width>
     <Height>40</Height>
 		<Centered>True</Centered>
     <HorizontalAnchor>Middle</HorizontalAnchor>

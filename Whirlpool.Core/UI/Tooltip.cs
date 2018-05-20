@@ -1,13 +1,7 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 using OpenTK.Graphics;
 using Whirlpool.Core.Render;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Whirlpool.Core.IO;
-using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.UI
 {
@@ -38,7 +32,7 @@ namespace Whirlpool.Core.UI
         public override void Render()
         {
             label.text = text;
-            var tempPosition = position;
+            var tempPosition = position + new Vector2(0, 16);
             if (position.X > BaseGame.Size.Width - 250)
             {
                 tempPosition.X -= size.X;

@@ -1,50 +1,42 @@
-﻿using System.Threading;
-using OpenTK;
-using OpenTK.Graphics;
-using Whirlpool.Core;
-using Whirlpool.Core.Render;
-using Whirlpool.Game.Logic;
+﻿using Whirlpool.Core;
 using Whirlpool.Core.IO;
-using UI = Whirlpool.Core.UI;
-using Network = Whirlpool.Core.Network;
+using Whirlpool.Game.Logic;
 
 namespace Whirlpool.Game
 {
     class MainGame : BaseGame
     {
-        public static System.Drawing.Size windowSize;
-
-        public World world;
+        public static World world = new World();
 
         #region "Game properties"
         public new string gameName = "OSLO";
-        public new string gameVersion = "0.2.0";
+        public new string gameVersion = "0.2.1";
+        public new string windowTitle = "%{gamename} build %{build} | game version v%{gamever} | %{fps} fps";
         #endregion
 
-        public override void Update()
-        {
-            world.Update();
-
-            if (windowSize != Size)
-            {
-                windowSize = Size;
-            }
-        }
+        public override void Update() { }
 
         public override void Init()
         {
-            windowTitle = "OSLO build %{build} | game version v%{gamever} | ogl %{glver} | %{fps} fps";
-            windowSize = Size;
-            world = new World();
-            world.Init();
+            ParseWindowTitle();
             OnClickEvents.Register();
             ScreenCode.Register();
             base.Init();
         }
 
-        public override void Render()
+        public override void Render() { }
+
+        public override void OneSecondPassed() => ParseWindowTitle();
+
+        protected void ParseWindowTitle()
         {
-            world.Render();
+            Title = windowTitle
+                .Replace("%{gamename}", gameName)
+                .Replace("%{gamever}", gameVersion)
+                .Replace("%{times}", Time.GetSeconds().ToString())
+                .Replace("%{timems}", Time.GetMilliseconds().ToString())
+                .Replace("%{build}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Build.ToString())
+                .Replace("%{fps}", framesLastSecond.ToString());
         }
     }
 }

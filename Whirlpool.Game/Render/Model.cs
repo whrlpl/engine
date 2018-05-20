@@ -1,11 +1,5 @@
 ﻿using OpenTK;
-using OpenTK.Graphics;
 using Whirlpool.Core.Render;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Whirlpool.Game.Render
 {
@@ -16,7 +10,7 @@ namespace Whirlpool.Game.Render
         public Vector3 rotation = Vector3.Zero;
         public string objName = string.Empty;
 
-        private Whirlpool.Core.IO.Object obj;
+        public Whirlpool.Core.IO.Object obj;
 
         public override void Init(Screen screen)
         {

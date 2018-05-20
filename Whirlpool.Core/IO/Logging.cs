@@ -27,10 +27,23 @@ namespace Whirlpool.Core.IO
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     break;
             }
-            if (BaseGame.consoleScreen != null)
-                BaseGame.consoleScreen.GetUIComponent("LogText").text += "[" + status.ToString() + "] " + str + "\n";
-
             Console.WriteLine("[" + status.ToString() + "] " + str);
+            
+            string emojiPrefix = "";
+
+            if (BaseGame.consoleScreen != null)
+            {
+                switch (status)
+                {
+                    case LogStatus.Error:
+                        emojiPrefix = "❌";
+                        break;
+                    case LogStatus.Warning:
+                        emojiPrefix = "⚠";
+                        break;
+                }
+                BaseGame.consoleScreen.GetUIComponent("LogText").text += "*[" + status.ToString() + "]* " + emojiPrefix + " " + str + "\n";
+            }
 
             Console.ForegroundColor = ConsoleColor.Gray;
         }

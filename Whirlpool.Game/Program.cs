@@ -13,8 +13,18 @@ namespace Whirlpool.Game
 #endif
             using (var g = new MainGame())
             {
-                if (args.Length > 0 && args[0] == "-nc")
-                    UnsafeNativeMethods.HideConsole();
+                foreach (string arg in args)
+                {
+                    switch (arg)
+                    {
+                        case "-nc":
+                            UnsafeNativeMethods.HideConsole();
+                            break;
+                        default:
+                            Logging.Write("Unrecognized argument '" + arg + "'.", LogStatus.Error);
+                            break;
+                    }
+                }
                 g.Run();
             }
 #if !DEBUG

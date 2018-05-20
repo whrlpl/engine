@@ -13,6 +13,7 @@
 			<Size>16</Size>
 			<Kerning>0</Kerning>
 		</Font>
+    <FormatColor>True</FormatColor>
     <X>8</X>
     <Y>16</Y>
 	</Label>
