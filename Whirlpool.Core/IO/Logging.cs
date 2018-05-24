@@ -42,7 +42,9 @@ namespace Whirlpool.Core.IO
                         emojiPrefix = "⚠";
                         break;
                 }
-                BaseGame.consoleScreen.GetUIComponent("LogText").text += "*[" + status.ToString() + "]* " + emojiPrefix + " " + str + "\n";
+                var logTextComponent = BaseGame.consoleScreen.GetUIComponent("LogText");
+                if (logTextComponent != null)
+                    logTextComponent.text += "*[" + status.ToString() + "]* " + emojiPrefix + " " + str + "\n";
             }
 
             Console.ForegroundColor = ConsoleColor.Gray;
