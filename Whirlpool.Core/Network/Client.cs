@@ -42,7 +42,9 @@ namespace Whirlpool.Core.Network
             client.Connect(endPoint);
             client.Send(new byte[] { (byte)PacketType.Handshake }, 1); // handshake
             if (client.Active)
+            {
                 connected = true;
+            }
             else
                 Logging.Write("Could not connect to server.", LogStatus.Error);
         }

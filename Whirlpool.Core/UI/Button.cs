@@ -14,6 +14,7 @@ namespace Whirlpool.Core.UI
     public class Button : UIComponent
     {
         public Label label;
+        public Color4 backgroundTint;
 
         public override Vector2 CalculateCenterPos(Vector2 point)
         {
@@ -48,7 +49,7 @@ namespace Whirlpool.Core.UI
 
         public override void Render()
         {
-            BaseRenderer.RenderQuad(position, size, "blank", tint: tint);
+            BaseRenderer.RenderQuad(position, size, "blank", tint: backgroundTint);
             label.Render();
         }
 

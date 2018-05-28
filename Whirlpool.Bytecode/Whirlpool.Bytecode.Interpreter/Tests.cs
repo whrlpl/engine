@@ -11,7 +11,7 @@ namespace Whirlpool.Script.Interpreter
 
     class Tests
     {
-        public static void Main() { RunTests(); }
+        public static void Main() => RunTests();
         
         public static void RunTests()
         {

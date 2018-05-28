@@ -22,8 +22,8 @@
 		<Centered>True</Centered>
 	</Label>
 	<Image>
-    <Image>UpdateBar</Image>
-    <Sprite>blank</Sprite>
+    <Name>UpdateBar</Name>
+    <Image>blank</Image>
 		<X>-125</X>
 		<Y>10</Y>
     <Width>250</Width>
@@ -33,8 +33,8 @@
     <Tint><R>0</R><G>0</G><B>0</B><A>150</A></Tint>
 	</Image>
 	<Image>
-    <Image>UpdateBarProgress</Image>
-    <Sprite>blank</Sprite>
+    <Name>UpdateBarProgress</Name>
+    <Image>blank</Image>
 		<X>-125</X>
 		<Y>10</Y>
     <Width>125</Width>

@@ -9,29 +9,42 @@ namespace Whirlpool.Core.IO
 {
     public class Time : Singleton<Time>
     {
-        private float currentTime_ = 0;
+        private float m_currentTime = 0;
+        private double m_lastFrameTime = 0;
 
         public static float currentTime
         {
             get
             {
-                return GetInstance().currentTime_;
+                return GetInstance().m_currentTime;
+            }
+        }
+
+        public static double lastFrameTime
+        {
+            get
+            {
+                return GetInstance().m_lastFrameTime;
+            }
+            set
+            {
+                GetInstance().m_lastFrameTime = value;
             }
         }
 
         public static void AddTime(float time)
         {
-            GetInstance().currentTime_ += time;
+            GetInstance().m_currentTime += time;
         }
 
         public static int GetSeconds()
         {
-            return (int)GetInstance().currentTime_;
+            return (int)GetInstance().m_currentTime;
         }
         
         public static int GetMilliseconds()
         {
-            return (int)(GetInstance().currentTime_ * 1000);
+            return (int)(GetInstance().m_currentTime * 1000);
         }
     }
 }

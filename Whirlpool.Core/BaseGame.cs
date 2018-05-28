@@ -27,7 +27,7 @@ namespace Whirlpool.Core
         public static new System.Drawing.Size Size = new System.Drawing.Size(GlobalSettings.Default.resolutionX, GlobalSettings.Default.resolutionY);
         public Font tempFont;
                 
-        public string screenFile = "Content\\screens\\splash.xml";
+        public string screenFile = "Content\\screens\\mainmenu.xml";
         public string consoleFile = "Content\\screens\\console.xml";
 
         #region "Game properties"
@@ -133,8 +133,8 @@ namespace Whirlpool.Core
 
         protected override void OnClosed(EventArgs e)
         {
-            Environment.Exit(0);
             base.OnClosed(e);
+            Environment.Exit(0);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -149,7 +149,7 @@ namespace Whirlpool.Core
             GL.DepthFunc(DepthFunction.Lequal);
 
             PostProcessing.GetInstance().PreRender();
-
+            
             foreach (Screen s in currentScreens)
             {
                 s.Render();
@@ -158,7 +158,6 @@ namespace Whirlpool.Core
             Render();
 
             if (consoleVisible) consoleScreen.Render();
-
             PostProcessing.GetInstance().PostRender();
             
             this.SwapBuffers();
@@ -170,6 +169,8 @@ namespace Whirlpool.Core
             if (frameCap > 0 && (frameEnd - frameStart).TotalMilliseconds < 1000.0f/frameCap)
                 Thread.Sleep((int)((1000.0f/frameCap) - (frameEnd - frameStart).TotalMilliseconds));
             ++framesLastSecond;
+
+            Time.lastFrameTime = (frameEnd - frameStart).TotalSeconds;
 
             if ((DateTime.Now - lastFrameCollection).TotalMilliseconds >= 1000)
             {

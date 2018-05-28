@@ -12,6 +12,7 @@ namespace Whirlpool.Core.UI
         public int lineSpacing = 0;
         public bool formatColor = false;
         private RenderToTexture rtt;
+        private Color4 originalTint;
 
 
         public override Vector2 CalculateCenterPos(Vector2 point)
@@ -27,6 +28,7 @@ namespace Whirlpool.Core.UI
         {
             var stringSize = font.GetStringSize(text);
             var bounds = new Rectangle(position.X, position.Y, stringSize.X, font.baseCharHeight);
+            originalTint = font.color;
             if (initialized)
             {
                 InputHandler.GetInstance().onMousePressed += (s, e) =>
@@ -67,7 +69,7 @@ namespace Whirlpool.Core.UI
                 switch (c)
                 {
                     case ' ':
-                        x += font.baseCharWidth / 2 + font.kerning;
+                        x += font.size / 4 + font.kerning;
                         break;
                     case '\n':
                         x = position.X;
@@ -76,8 +78,8 @@ namespace Whirlpool.Core.UI
                     default:
                         if (c == '*' && formatColor)
                         {
-                            if (color == Color4.Tomato) color = Color4.White;
-                            else if (color == Color4.White) color = Color4.Tomato;
+                            if (color == originalTint) color = Color4.Tomato;
+                            else color = originalTint;
                             continue;
                         }
                         Character fontChar = font.GetCharacter(c, forceEmoji);
@@ -86,7 +88,7 @@ namespace Whirlpool.Core.UI
                             size: new Vector2(fontChar.width, fontChar.height),
                             texture: fontChar.texture,
                             flipMode: (fontChar.type == CharacterType.Standard) ? FlipMode.FlipY : FlipMode.None,
-                            tint: color
+                            tint: (fontChar.type == CharacterType.Standard) ? color : Color4.White
                         );
                         if (i != text.Length - 1)
                             if (fontChar.type == CharacterType.Standard)

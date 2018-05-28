@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Logic\LocalPlayer.cs" />
+    <Compile Include="Logic\PerlinNoise.cs" />
     <Compile Include="Logic\UserAPI.cs" />
     <Compile Include="Logic\World.cs" />
     <Compile Include="OnClickEvents.cs" />
@@ -94,11 +95,15 @@
     <Content Include="Content\fortnut.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\screens\update.xml">
+    <Content Include="Content\Screens\serverbrowser.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Content\screens\world.xml">
+    <Content Include="Content\Screens\update.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\Screens\world.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\slitheen.jpg">
@@ -138,17 +143,20 @@
     <None Include="Content\octahedron.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Content\player.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Content\primitive.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Content Include="Content\screens\console.xml">
+    <Content Include="Content\Screens\console.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\screens\mainmenu.xml">
+    <Content Include="Content\Screens\mainmenu.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\screens\splash.xml">
+    <Content Include="Content\Screens\splash.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>

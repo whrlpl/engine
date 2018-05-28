@@ -20,7 +20,7 @@ namespace Whirlpool.Game
             {
                 if (UserAPI.LogIn(screen.GetUIComponent("UsernameBox").text, screen.GetUIComponent("PasswordBox").text))
                 {
-                    screen.LoadFromFile("Content\\Screens\\mainmenu.xml");
+                    screen.LoadFromFile("Content\\screens\\mainmenu.xml");
                     var user = UserAPI.GetInstance().loggedInUser;
                     screen.GetUIComponent("UserText").text = user.username;
                     screen.GetUIComponent("LevelText").text = "Level " + user.level;
@@ -47,7 +47,7 @@ namespace Whirlpool.Game
 
             UIEvents.AddEvent("StartGame", (screen) =>
             {
-                screen.LoadFromFile("Content\\Screens\\world.xml");
+                screen.LoadFromFile("Content\\screens\\world.xml");
                 return 0;
             });
         }

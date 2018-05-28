@@ -10,8 +10,8 @@ namespace Whirlpool.Game
 
         #region "Game properties"
         public new string gameName = "OSLO";
-        public new string gameVersion = "0.2.1";
-        public new string windowTitle = "%{gamename} build %{build} | game version v%{gamever} | %{fps} fps";
+        public new string gameVersion = "0.3.0";
+        public new string windowTitle = "%{gamename} build %{build} | game version v%{gamever} | %{fps} fps | %{delta} delta";
         #endregion
 
         public override void Update() { }
@@ -36,6 +36,7 @@ namespace Whirlpool.Game
                 .Replace("%{times}", Time.GetSeconds().ToString())
                 .Replace("%{timems}", Time.GetMilliseconds().ToString())
                 .Replace("%{build}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Build.ToString())
+                .Replace("%{delta}", Time.lastFrameTime.ToString())
                 .Replace("%{fps}", framesLastSecond.ToString());
         }
     }

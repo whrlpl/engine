@@ -139,13 +139,19 @@ namespace Whirlpool.Core.Render
 
             defaultMaterial?.Use();
             if (!_initialized) _Init();
-            Matrix4 model = Matrix4.Identity;
-            Matrix4 mvp = model * camera.vp * Matrix4.CreateRotationX(rotation.X) * Matrix4.CreateRotationY(rotation.Y) * Matrix4.CreateRotationZ(rotation.Z) * Matrix4.CreateScale(size)/* * Matrix4.CreateTranslation(position)*/;
+            Matrix4 model = Matrix4.CreateTranslation(position);
+            model.Transpose(); // wtf??? createtranslation gives a row-major matrix for some reason despite opentk being opengl focused...
+            model = model * Matrix4.CreateFromQuaternion(Quaternion.FromEulerAngles(new Vector3(
+                    MathHelper.DegreesToRadians(rotation.X), 
+                    MathHelper.DegreesToRadians(rotation.Y), 
+                    MathHelper.DegreesToRadians(rotation.Z)))) * Matrix4.CreateScale(size);
 
             defaultMaterial.SetVariable("albedoTexture", 0);
-            defaultMaterial.SetVariable("mvp", mvp);
+            defaultMaterial.SetVariable("vp", camera.vp);
+            defaultMaterial.SetVariable("model", model);
             defaultMaterial.SetVariable("textureRepetitions", 0);
             defaultMaterial.SetVariable("tint", Color4.Red);
+            defaultMaterial.SetVariable("mainLightPos", new Vector3(-1.0f, 0.0f, 1.0f));
             defaultMaterial.SetVariable("time", Time.currentTime);
 
             GL.DrawElements(BeginMode.Triangles, obj.indices.Count - 1, DrawElementsType.UnsignedInt, 0);
@@ -195,11 +201,11 @@ namespace Whirlpool.Core.Render
 
             float[] vertices =
             {
-                /* Vertices     Texcoords */
-                -1, 1, 0,       0, 1,
-                -1, -1, 0,      0, 0,
-                1, -1, 0,       1, 0,
-                1, 1, 0,        1, 1,
+                /* Vertices     Texcoords       Normals (not used)*/
+                -1, 1, 0,       0, 1,           0, 0, 0,
+                -1, -1, 0,      0, 0,           0, 0, 0,
+                1, -1, 0,       1, 0,           0, 0, 0,
+                1, 1, 0,        1, 1,           0, 0, 0
             };
 
             uint[] buffers =
@@ -213,10 +219,12 @@ namespace Whirlpool.Core.Render
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
             GL.BufferData(BufferTarget.ElementArrayBuffer, buffers.Length * sizeof(float), buffers, BufferUsageHint.StaticDraw);
 
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0 * sizeof(float));
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 0 * sizeof(float));
             GL.EnableVertexAttribArray(0);
-            GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
+            GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 8 * sizeof(float), 3 * sizeof(float));
             GL.EnableVertexAttribArray(1);
+            GL.VertexAttribPointer(2, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 5 * sizeof(float));
+            GL.EnableVertexAttribArray(2);
 
             PostProcessing.GetInstance().Init(windowSize);
 

@@ -5,8 +5,9 @@ namespace Whirlpool.Core.Render
 {
     public class Camera
     {
-        Vector3 position = new Vector3(0, 0, 1.0f);
-        Vector3 cameraFront = new Vector3(0, 0, -1.0f);
+        public Vector3 position = new Vector3(0, 0, 10);
+
+        Vector3 cameraFront = new Vector3(0, 0, 0);
         Vector3 cameraUp = new Vector3(0.0f, 1.0f, 0.0f);
 
         /// <summary>
@@ -16,7 +17,7 @@ namespace Whirlpool.Core.Render
         {
             get
             {
-                return Matrix4.LookAt(position, position + cameraFront, cameraUp);
+                return Matrix4.LookAt(position, cameraFront, cameraUp);
             }
         }
 
@@ -27,7 +28,7 @@ namespace Whirlpool.Core.Render
         {
             get
             {
-                return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(90), windowRatio, 0.1f, 100.0f);
+                return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45), windowRatio, 0.1f, 100.0f);
             }
         }
 
@@ -51,7 +52,7 @@ namespace Whirlpool.Core.Render
         {
             get
             {
-                return view * projection;
+                return projection * view;
             }
         }
 

@@ -15,6 +15,11 @@ namespace Whirlpool.Core.IO
         public bool mouseButtonRight = false;
         public Dictionary<Key, bool> keyboardKeys = new Dictionary<Key, bool>();
         public bool shift = false;
+        public InputStatus()
+        {
+            for (Key i = Key.Unknown; i < Key.LastKey; ++i)
+                keyboardKeys.Add(i, false);
+        }
     }
 
     public class KeyEventArgs : EventArgs

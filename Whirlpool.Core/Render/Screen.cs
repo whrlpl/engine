@@ -114,6 +114,7 @@ namespace Whirlpool.Core.Render
         
         public virtual void Render()
         {
+            ScreenEvents.GetEvent("OnRender")?.Invoke(this);
             try
             {
                 foreach (RenderComponent rc in renderComponents)
@@ -126,7 +127,6 @@ namespace Whirlpool.Core.Render
                 Logging.Write("Error rendering screen: " + ex.ToString(), LogStatus.Error);
             }
             if (currentTooltip.text != "") currentTooltip.Render();
-            ScreenEvents.GetEvent("OnRender")?.Invoke(this);
         }
     }
 }

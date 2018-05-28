@@ -1,4 +1,8 @@
-﻿using System.Threading;
+﻿using OpenTK.Graphics;
+using System;
+using System.Threading;
+using Whirlpool.Core.IO;
+using Whirlpool.Core.Render;
 using Whirlpool.Game.Render;
 using Network = Whirlpool.Core.Network;
 
@@ -11,6 +15,9 @@ namespace Whirlpool.Game.Logic
         public Thread networkThread; // networking runs on an alternative thread for speed purposes
         public LocalPlayer localPlayer;
 
+        // perlin noise test
+        public Texture perlinTest;
+
         Model model;
 
         public void Init()
@@ -21,6 +28,20 @@ namespace Whirlpool.Game.Logic
 
             localPlayer = new LocalPlayer();
             localPlayer.Init();
+            /*
+             *        |+y  /-z   
+             *        |   /    
+             *        |  /    
+             *        | /     
+             *        |/       
+             * -x--------------+x
+             *       /|        
+             *      / |        
+             *     /  |        
+             *    /   |        
+             *   /    |-y        
+             */
+            localPlayer.position = new OpenTK.Vector3(0.0f, 0.0f, -1.0f);
 
             netClient.OnUpdate = () =>
             {
@@ -32,20 +53,37 @@ namespace Whirlpool.Game.Logic
             };
 
 
-            model = new Model() { objName = "Content\\lamborghini.obj", size = new OpenTK.Vector3(0.5f, 0.5f, 0.5f) };
+            model = new Model() { objName = "Content\\octahedron.obj", rotation = new OpenTK.Vector3(0.0f, 270.0f, 0.0f) };
             model.Init(null);
             MainGame.currentScreens[0].GetUIComponent("TestLabel").text = "*" + model.obj.vertices.Count + "* vertices";
+            // We managed to connect to the server, lets update the discord presence with server data
+            DiscordController.currentPresence = new UnsafeNativeMethods.RichPresence()
+            {
+                details = "In game",
+                state = "Idle",
+                partySize = 1,
+                partyMax = 128,
+                partyId = "partyid325891",
+                joinSecret = "joinsecret23858",
+                largeImageKey = "ingame"
+            };
+
+            perlinTest = new PerlinNoise().generateTexture();
         }
 
         public void Update()
         {
+            localPlayer.Update();
             netClient.Update();
+            model.position = localPlayer.position;
             model.Update();
         }
 
         public void Render()
         {
             model.Render();
+
+            BaseRenderer.RenderQuad(new OpenTK.Vector2(100, 100), new OpenTK.Vector2(128, 128), perlinTest, Color4.White);
         }
     }
 }

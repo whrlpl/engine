@@ -7,8 +7,9 @@ namespace Whirlpool.Core.IO
     [NeedsRefactoring]
     public class DiscordController : Singleton<DiscordController>
     {
+        public static UnsafeNativeMethods.RichPresence currentPresence { get { return GetInstance().m_currentPresence; } set { GetInstance().m_currentPresence = value; } }
 
-        private UnsafeNativeMethods.RichPresence currentPresence = new UnsafeNativeMethods.RichPresence()
+        public UnsafeNativeMethods.RichPresence m_currentPresence = new UnsafeNativeMethods.RichPresence()
         {
             details = "In menus",
             state = "Idle",
@@ -50,7 +51,7 @@ namespace Whirlpool.Core.IO
         {
             var instance = GetInstance();
             UnsafeNativeMethods.DiscordRunCallbacks();
-            UnsafeNativeMethods.DiscordUpdatePresence(instance.currentPresence);
+            UnsafeNativeMethods.DiscordUpdatePresence(currentPresence);
         }
 
         /// <summary>

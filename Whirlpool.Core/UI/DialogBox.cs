@@ -45,8 +45,9 @@ namespace Whirlpool.Core.UI
                 m_position = position + new Vector2(padding.X, size.Y - padding.Y),
                 size = new Vector2(110, 40),
                 text = "✔️ Got it",
-                font = new Font(font.filename, Color4.Tomato, font.size, font.kerning),
+                font = new Font(font.filename, Color4.White, font.size, font.kerning),
                 onClickEvent = "DialogCloseEvent",
+                backgroundTint = Color4.Tomato,
                 centered = true
             };
 

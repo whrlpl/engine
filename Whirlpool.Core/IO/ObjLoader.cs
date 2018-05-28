@@ -28,12 +28,16 @@ namespace Whirlpool.Core.IO
 
             // Buffer data
             uint[] indices_ = indices.ToArray();
-            float[] vertices_ = new float[vertices.Count * 3];
+            float[] vertices_ = new float[vertices.Count * 6];
             for (int i = 0; i < vertices.Count; ++i)
             {
-                vertices_[i * 3+ 2] = vertices[i].X;
-                vertices_[i * 3 + 1] = vertices[i].Y;
-                vertices_[i * 3] = vertices[i].Z;
+                vertices_[i * 6 + 5] = normals[i].X;
+                vertices_[i * 6 + 4] = normals[i].Y;
+                vertices_[i * 6 + 3] = normals[i].Z;
+
+                vertices_[i * 6 + 2] = vertices[i].X;
+                vertices_[i * 6 + 1] = vertices[i].Y;
+                vertices_[i * 6] = vertices[i].Z;
             }
             GL.BindVertexArray(VAO);
             GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
@@ -41,8 +45,10 @@ namespace Whirlpool.Core.IO
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
             GL.BufferData(BufferTarget.ElementArrayBuffer, indices_.Length * sizeof(uint), indices_, BufferUsageHint.StaticDraw);
 
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0 * sizeof(float));
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0 * sizeof(float));
             GL.EnableVertexAttribArray(0);
+            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
+            GL.EnableVertexAttribArray(1);
         }
     }
 

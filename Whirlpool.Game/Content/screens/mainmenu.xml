@@ -8,7 +8,7 @@
     <Tint><R>255</R><G>99</G><B>71</B><A>255</A></Tint>
   </Image>
 	<Label>
-		<Text>Oslo</Text>
+		<Text>OSLO</Text>
 		<Font>
 			<Name>TitleText</Name>
 			<Location>Content\Fonts\Heebo-Bold.ttf</Location>
@@ -19,7 +19,7 @@
 		<Y>70</Y>
 	</Label>
 	<Label>
-		<Text>Play</Text>
+		<Text>Server Browser</Text>
 		<Font>
 			<Name>MenuLabelText</Name>
 			<Location>Content\Fonts\Montserrat-Regular.ttf</Location>
@@ -93,12 +93,18 @@
   <DialogBox>
     <Name>MOTDBox</Name>
     <Image>blank</Image>
-		<Font>LabelText</Font>
+		<Font>
+			<Name>LabelTextBlack</Name>
+			<Location>Content\Fonts\Montserrat-Regular.ttf</Location>
+			<Size>22</Size>
+			<Kerning>0</Kerning>
+      <Tint><R>0</R><G>0</G><B>0</B><A>255</A></Tint>
+    </Font>
     <Width>100%</Width>
     <Height>35%</Height>
     <Centered>True</Centered>
     <HorizontalAnchor>Middle</HorizontalAnchor>
     <VerticalAnchor>Middle</VerticalAnchor>
-    <Tint><R>0</R><G>0</G><B>0</B><A>150</A></Tint>
+    <Tint><R>255</R><G>255</G><B>255</B><A>255</A></Tint>
   </DialogBox>
 </Screen>

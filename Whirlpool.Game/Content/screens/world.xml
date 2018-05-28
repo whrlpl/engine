@@ -2,14 +2,34 @@
 	<Label>
     <Name>TestLabel</Name>
 		<Font>
-			<Name>DebugText</Name>
-			<Location>Content\Fonts\RobotoMono-Regular.ttf</Location>
-			<Size>24</Size>
+			<Name>HUDText</Name>
+			<Location>Content\Fonts\Montserrat-Regular.ttf</Location>
+			<Size>32</Size>
 			<Kerning>0</Kerning>
 		</Font>
     <X>8</X>
     <Y>16</Y>
     <Text></Text>
     <FormatColor>True</FormatColor>
+	</Label>
+	<Label>
+    <Name>MoneyLabel</Name>
+		<Font>HUDText</Font>
+    <X>192</X>
+    <Y>16</Y>
+    <Text>$1234567890</Text>
+    <HorizontalAnchor>Right</HorizontalAnchor>
+    <FormatColor>True</FormatColor>
+    <Center>True</Center>
+	</Label>
+	<Label>
+    <Name>BankLabel</Name>
+		<Font>HUDText</Font>
+    <X>192</X>
+    <Y>64</Y>
+    <Text>$0987654321</Text>
+    <HorizontalAnchor>Right</HorizontalAnchor>
+    <FormatColor>True</FormatColor>
+    <Center>True</Center>
 	</Label>
 </Screen>
