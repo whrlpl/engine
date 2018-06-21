@@ -4,6 +4,7 @@ using OpenTK.Graphics;
 using Whirlpool.Core.Render;
 using Whirlpool.Core.IO;
 using Whirlpool.Core.Type;
+using Whirlpool.Core.IO.Events;
 
 namespace Whirlpool.Core.UI
 {
@@ -11,10 +12,9 @@ namespace Whirlpool.Core.UI
     {
         public int lineSpacing = 0;
         public bool formatColor = false;
-        private RenderToTexture rtt;
+        private RenderTexture rtt = null;
         private Color4 originalTint;
-
-
+        
         public override Vector2 CalculateCenterPos(Vector2 point)
         {
             if (centered)
@@ -83,7 +83,7 @@ namespace Whirlpool.Core.UI
                             continue;
                         }
                         Character fontChar = font.GetCharacter(c, forceEmoji);
-                        BaseRenderer.RenderQuad(
+                        Renderer.RenderQuad(
                             position: (fontChar.type == CharacterType.Standard) ? new Vector2(x + fontChar.xOffset, y + font.baseCharHeight + (fontChar.yOffset)) : new Vector2(x + fontChar.xOffset, y - (font.size / 2) + (fontChar.yOffset)),
                             size: new Vector2(fontChar.width, fontChar.height),
                             texture: fontChar.texture,
@@ -115,7 +115,7 @@ namespace Whirlpool.Core.UI
                 x = position.X - (fontTextMeasured.X / 2) - font.baseCharWidth;
                 y = position.Y - (fontTextMeasured.Y / 2);
             }
-            BaseRenderer.RenderQuad(new Vector2(x, y), new Vector2(rtt.texture.width, rtt.texture.height), rtt.texture, Color4.White);
+            Renderer.RenderQuad(new Vector2(x, y), new Vector2(rtt.texture.width, rtt.texture.height), rtt.texture, Color4.White);
         }
 
         public int GetUtf32Char(string text, int pos)

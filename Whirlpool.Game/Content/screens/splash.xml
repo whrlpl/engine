@@ -1,22 +1,36 @@
-﻿<Screen>
+﻿<Screen Transition="FadeIn">
   <Image>
     <Image>blank</Image>
 		<X>0</X>
 		<Y>0</Y>
     <Width>100%</Width>
     <Height>100%</Height>
-    <Tint><R>255</R><G>99</G><B>71</B><A>255</A></Tint>
+    <Tint><R>34</R><G>34</G><B>34</B><A>255</A></Tint>
   </Image>
 	<Label>
-		<Text>OSLO</Text>
+		<Text>intelligence</Text>
 		<Font>
 			<Name>TitleText</Name>
-			<Location>Content\Fonts\Heebo-Bold.ttf</Location>
-			<Size>128</Size>
+			<Location>Content\Fonts\SpaceMono-Regular.ttf</Location>
+			<Size>84</Size>
 			<Kerning>0</Kerning>
 		</Font>
-		<X>-30</X>
+		<X>-20</X>
 		<Y>-50</Y>
+    <HorizontalAnchor>Middle</HorizontalAnchor>
+    <VerticalAnchor>Middle</VerticalAnchor>
+		<Centered>True</Centered>
+	</Label>
+	<Label>
+		<Text>BETA</Text>
+		<Font>
+			<Name>BetaText</Name>
+			<Location>Content\Fonts\SpaceMono-Regular.ttf</Location>
+			<Size>22</Size>
+			<Kerning>0</Kerning>
+		</Font>
+		<X>195</X>
+		<Y>-70</Y>
     <HorizontalAnchor>Middle</HorizontalAnchor>
     <VerticalAnchor>Middle</VerticalAnchor>
 		<Centered>True</Centered>
@@ -26,10 +40,10 @@
 		<Placeholder>username</Placeholder>
 		<Font>
 			<Name>TextboxText</Name>
-			<Location>Content\Fonts\Montserrat-Regular.ttf</Location>
-			<Size>20</Size>
+			<Location>Content\Fonts\Roboto-Regular.ttf</Location>
+			<Size>22</Size>
 			<Kerning>0</Kerning>
-    	<Tint><R>255</R><G>99</G><B>71</B><A>255</A></Tint>
+      <Tint><R>34</R><G>34</G><B>34</B><A>255</A></Tint>
 		</Font>
 		<X>0</X>
 		<Y>10</Y>
@@ -58,12 +72,12 @@
     <Tooltip>Click to open in browser</Tooltip>
 		<Font>
 			<Name>LabelText</Name>
-			<Location>Content\Fonts\Montserrat-Regular.ttf</Location>
+			<Location>Content\Fonts\Roboto-Regular.ttf</Location>
 			<Size>16</Size>
 			<Kerning>0</Kerning>
 		</Font>
 		<!-- <X>-125</X> -->
-		<Y>85</Y>
+		<Y>87</Y>
 		<Centered>True</Centered>
     <HorizontalAnchor>Middle</HorizontalAnchor>
     <VerticalAnchor>Middle</VerticalAnchor>

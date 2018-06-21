@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Whirlpool.Core.IO;
 using Whirlpool.Core.Type;
-
+using Whirlpool.Core.IO.Events;
 
 namespace Whirlpool.Core.UI
 {
@@ -67,7 +67,7 @@ namespace Whirlpool.Core.UI
 
         public override void Render()
         {
-            BaseRenderer.RenderQuad(position, size, "blank", tint: tint);
+            Renderer.RenderQuad(position, size, "blank", tint: tint);
             label.Render();
             headingLabel.Render();
             button.Render();

@@ -33,10 +33,30 @@ namespace Whirlpool.Game.Logic
                    { "type", "login" }
                 };
             var content = new FormUrlEncodedContent(values);
-            var response = instance.client.PostAsync("http://gu3.me/oslo/api/user.php", content);
-            var responseString = response.Result.Content.ReadAsStringAsync();
-            if (responseString.Result == "success")
+            var response = instance.client.PostAsync("http://oslo.gu3.me/api/user.php", content);
+            try
             {
+                var responseString = response.Result.Content.ReadAsStringAsync();
+                if (responseString.Result == "success")
+                {
+                    instance.currentUser = new User()
+                    {
+                        username = username,
+                        prime = true,
+                        level = 1,
+                        experience = 0,
+                        title = "Deep Pockets"
+                    };
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+#if DEBUG
                 instance.currentUser = new User()
                 {
                     username = username,
@@ -46,10 +66,9 @@ namespace Whirlpool.Game.Logic
                     title = "Deep Pockets"
                 };
                 return true;
-            }
-            else
-            {
+#else
                 return false;
+#endif
             }
         }
     }

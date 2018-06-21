@@ -6,16 +6,12 @@ using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.Render
 {
-    [NeedsRefactoring]
-    public class RenderToTexture
+    public class RenderTexture
     {
-        int framebuffer;
+        int FBO, oldFBO, width = 0, height = 0;
         public Texture texture;
-        int width = 0, height = 0;
 
-        int oldFramebuffer;
-
-        public RenderToTexture(Vector2 size)
+        public RenderTexture(Vector2 size)
         {
             width = (int)size.X;
             height = (int)size.Y;
@@ -27,8 +23,8 @@ namespace Whirlpool.Core.Render
                 height = height,
                 animated = false
             };
-            GL.GenFramebuffers(1, out framebuffer);
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
+            GL.GenFramebuffers(1, out FBO);
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, FBO);
 
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.GenTextures(1, out texture.glTexture);
@@ -43,8 +39,8 @@ namespace Whirlpool.Core.Render
 
         public void Attach()
         {
-            GL.GetInteger(GetPName.DrawFramebufferBinding, out oldFramebuffer);
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
+            GL.GetInteger(GetPName.DrawFramebufferBinding, out oldFBO);
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, FBO);
             GL.Viewport(0, 0, width, height);
         }
 

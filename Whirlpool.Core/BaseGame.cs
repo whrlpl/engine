@@ -26,15 +26,19 @@ namespace Whirlpool.Core
 
         public static new System.Drawing.Size Size = new System.Drawing.Size(GlobalSettings.Default.resolutionX, GlobalSettings.Default.resolutionY);
         public Font tempFont;
-                
+
+#if !DEBUG
+        public string screenFile = "Content\\screens\\mainmenu.xml";
+#else
         public string screenFile = "Content\\screens\\splash.xml";
+#endif
         public string consoleFile = "Content\\screens\\console.xml";
 
         #region "Game properties"
         public static string gameName { get; set; }
         public static string gameVersion { get; set; }
         public static string windowTitle { get; set; }
-        #endregion
+#endregion
 
         public abstract void Render();
         public abstract void Update();
@@ -116,7 +120,7 @@ namespace Whirlpool.Core
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(Size);
-            BaseRenderer.GetInstance().windowSize = new Vector2(Size.Width, Size.Height);
+            Renderer.GetInstance().windowSize = new Vector2(Size.Width, Size.Height);
             PostProcessing.GetInstance().Resize(Size);
             base.OnResize(e);
         }
@@ -141,7 +145,7 @@ namespace Whirlpool.Core
         {
             Time.AddTime((float)e.Time);
             DateTime frameStart = DateTime.Now;
-            GL.ClearColor(Color4.Purple);
+            GL.ClearColor(Color4.CornflowerBlue);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.ClearDepth(1);
             GL.DepthMask(true);
@@ -179,7 +183,7 @@ namespace Whirlpool.Core
                 framesLastSecond = 0;
                 lastFrameCollection = DateTime.Now;
             }
-            #endregion
+#endregion
         }
 
         protected void UpdateThread()

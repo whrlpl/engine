@@ -19,7 +19,7 @@ namespace Whirlpool.Core.UI
             originalSprite = FileBank.GetTexture(spriteLoc);
             var sliceWidth = originalSprite.width / 9;
             var sliceHeight = originalSprite.height / 9;
-            var originalData = originalSprite.getData();
+            var originalData = originalSprite.GetData();
             for (int i = 0; i < 9; ++i)
             {
                 Color4[] data = new Color4[sliceWidth * sliceHeight];
@@ -41,7 +41,7 @@ namespace Whirlpool.Core.UI
 
         public override void Render()
         {
-            BaseRenderer.RenderQuad(position, size, originalSprite, tint);
+            Renderer.RenderQuad(position, size, originalSprite, tint);
         }
 
         public override void Update()

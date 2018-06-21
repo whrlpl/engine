@@ -24,7 +24,7 @@ namespace Whirlpool.Core.UI
         public override void Render()
         {
             if (!visible) return;
-            BaseRenderer.RenderQuad(position, size, image, tint);
+            Renderer.RenderQuad(position, size, image, tint);
         }
 
         public override void Update() { }

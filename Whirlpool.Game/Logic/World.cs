@@ -19,6 +19,7 @@ namespace Whirlpool.Game.Logic
         public Texture perlinTest;
 
         Model model;
+        Model terrain;
 
         public void Init()
         {
@@ -53,9 +54,11 @@ namespace Whirlpool.Game.Logic
             };
 
 
-            model = new Model() { objName = "Content\\octahedron.obj", rotation = new OpenTK.Vector3(0.0f, 270.0f, 0.0f) };
+            model = new Model() { objName = "Content\\Hagrid.obj", rotation = new OpenTK.Vector3(0.0f, 270.0f, 0.0f) };
+            terrain = new Model() { objName = "Content\\floor.obj" };
             model.Init(null);
-            MainGame.currentScreens[0].GetUIComponent("TestLabel").text = "*" + model.obj.vertices.Count + "* vertices";
+            terrain.Init(null);
+            MainGame.currentScreens[0].GetUIComponent("TestLabel").text = "*Test* test";
             // We managed to connect to the server, lets update the discord presence with server data
             DiscordController.currentPresence = new UnsafeNativeMethods.RichPresence()
             {
@@ -76,14 +79,16 @@ namespace Whirlpool.Game.Logic
             localPlayer.Update();
             netClient.Update();
             model.position = localPlayer.position;
+            localPlayer.camera.position = new OpenTK.Vector3(localPlayer.position.X, localPlayer.position.Y + 1.0f, localPlayer.position.Z);
             model.Update();
+            terrain.Update();
         }
 
         public void Render()
         {
             model.Render();
-
-            BaseRenderer.RenderQuad(new OpenTK.Vector2(100, 100), new OpenTK.Vector2(128, 128), perlinTest, Color4.White);
+            terrain.Render();
+            Renderer.RenderQuad(new OpenTK.Vector2(100, 100), new OpenTK.Vector2(128, 128), perlinTest, Color4.White);
         }
     }
 }

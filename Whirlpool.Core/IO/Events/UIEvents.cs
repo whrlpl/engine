@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Whirlpool.Core.Pattern;
 using Whirlpool.Core.Render;
 
-namespace Whirlpool.Core.IO
+namespace Whirlpool.Core.IO.Events
 {
     public class UIEvents : Singleton<UIEvents>
     {

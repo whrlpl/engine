@@ -59,7 +59,7 @@ namespace Whirlpool.Game.Logic
             float scale = 5.0f;
             // gen gradients
             gradient = new Vector3[texSize * texSize];
-            var rand = new Random(3756547);
+            var rand = new Random(1);
 
             for (int y = 0; y < texSize; ++y)
             {

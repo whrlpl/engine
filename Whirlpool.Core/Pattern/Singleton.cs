@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace Whirlpool.Core.Pattern
     /// Class for the singleton pattern.
     /// </summary>
     /// <typeparam name="T">The type of the singleton</typeparam>
+    [ComVisible(true)]
     public class Singleton<T>
     {
         protected static T instance;

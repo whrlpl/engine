@@ -1,4 +1,4 @@
-﻿//#define POSTPROCESSING
+﻿#define POSTPROCESSING
 using System;
 using System.Drawing;
 using OpenTK;
@@ -76,7 +76,7 @@ namespace Whirlpool.Core.Render
 #if POSTPROCESSING
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
             GL.Viewport(0, 0, width, height);
-            BaseRenderer.RenderFramebuffer(new Vector2(0, 0), new Vector2(width, height), textureBufferTexture);
+            Renderer.RenderFramebuffer(new Vector2(0, 0), new Vector2(width, height), textureBufferTexture);
 #endif
         }
 

@@ -1,5 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL4;
+using System;
 
 namespace Whirlpool.Core.Render
 {
@@ -7,7 +8,19 @@ namespace Whirlpool.Core.Render
     {
         public Vector3 position = new Vector3(0, 0, 10);
 
-        Vector3 cameraFront = new Vector3(0, 0, 0);
+        public float vAngle;
+        public float hAngle;
+
+        Vector3 cameraFront
+        {
+            get
+            {
+                return new Vector3((float)(Math.Cos(vAngle) * Math.Sin(hAngle)),
+                    (float)Math.Sin(vAngle),
+                    (float)(Math.Cos(vAngle) * Math.Cos(hAngle)));
+            }
+        }
+
         Vector3 cameraUp = new Vector3(0.0f, 1.0f, 0.0f);
 
         /// <summary>
@@ -17,7 +30,7 @@ namespace Whirlpool.Core.Render
         {
             get
             {
-                return Matrix4.LookAt(position, cameraFront, cameraUp);
+                return Matrix4.LookAt(position, position + cameraFront, cameraUp);
             }
         }
 

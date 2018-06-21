@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Whirlpool.Core.IO.Assets;
 using Whirlpool.Core.Pattern;
 using Whirlpool.Core.Render;
 using Whirlpool.Core.UI;
@@ -45,7 +46,7 @@ namespace Whirlpool.Core.IO
             foreach (string file in Directory.GetFiles(folder))
             {
                 if (file.EndsWith(".png") || file.EndsWith(".jpg") || file.EndsWith(".bmp"))
-                    AddTexture(file, Texture.FromFile(file));
+                    AddTexture(file, TextureLoader.LoadAsset(file));
             }
         }
 

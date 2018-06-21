@@ -5,6 +5,8 @@ using OpenTK.Input;
 using Whirlpool.Core.IO;
 using Whirlpool.Core.Type;
 using Whirlpool.Core.Render;
+using Whirlpool.Core.IO.Events;
+using Whirlpool.Core.IO.Assets;
 
 namespace Whirlpool.Core.UI
 {
@@ -53,7 +55,7 @@ namespace Whirlpool.Core.UI
                 text = placeholder,
                 font = font
             };
-            bgTex = Texture.FromFile("Content\\shadow.png");
+            bgTex = TextureLoader.LoadAsset("Content\\shadow.png");
 
             if (initialized)
             {
@@ -103,7 +105,7 @@ namespace Whirlpool.Core.UI
 
         public override void Render()
         {
-            BaseRenderer.RenderQuad(position, size, "blank", tint);
+            Renderer.RenderQuad(position, size, "blank", tint);
             if (text == "") placeholderLabel.Render();
             label.Render();
         }

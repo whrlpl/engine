@@ -37,9 +37,6 @@ namespace Whirlpool.Core.IO
                     case "Label":
                         component = new Label();
                         break;
-                    case "Notification":
-                        component = new Notification();
-                        break;
                     case "SlicedSprite":
                         component = new SlicedSprite();
                         break;
@@ -208,10 +205,16 @@ namespace Whirlpool.Core.IO
                             component.tint = temp;
                             break;
                         case "X":
-                            componentPosition.X = int.Parse(child.Value.ToString());
+                            if (child.Value.EndsWith("%"))
+                                componentPosition.X = BaseGame.Size.Height / 100 * int.Parse(child.Value.ToString().Remove(child.Value.Length - 1));
+                            else
+                                componentPosition.X = int.Parse(child.Value.ToString());
                             break;
                         case "Y":
-                            componentPosition.Y = int.Parse(child.Value.ToString());
+                            if (child.Value.EndsWith("%"))
+                                componentPosition.Y = BaseGame.Size.Height / 100 * int.Parse(child.Value.ToString().Remove(child.Value.Length - 1));
+                            else
+                                componentPosition.Y = int.Parse(child.Value.ToString());
                             break;
                         case "Width":
                             if (child.Value.EndsWith("%"))
@@ -270,7 +273,7 @@ namespace Whirlpool.Core.IO
                     }
                     else
                     {
-                        Logging.Write("Failed to read the file " + path + " after 150ms.", LogStatus.Error);
+                        Logging.Write("Failed to read the file " + path + " after 150ms (" + ex.ToString() + ")", LogStatus.Error);
                     }
                 }
             }

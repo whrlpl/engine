@@ -1,5 +1,6 @@
 ﻿using Whirlpool.Core;
 using Whirlpool.Core.IO;
+using Whirlpool.Game.Events;
 using Whirlpool.Game.Logic;
 
 namespace Whirlpool.Game

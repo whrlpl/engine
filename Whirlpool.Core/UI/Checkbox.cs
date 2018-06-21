@@ -23,9 +23,9 @@ namespace Whirlpool.Core.UI
 
         public override void Render()
         {
-            BaseRenderer.RenderQuad(position, size, checkboxTexture, Color4.White);
+            Renderer.RenderQuad(position, size, checkboxTexture, Color4.White);
             if (isChecked)
-                BaseRenderer.RenderQuad(position, size, checkboxCheckedTexture, Color4.White);
+                Renderer.RenderQuad(position, size, checkboxCheckedTexture, Color4.White);
         }
 
         public override void Update()

@@ -2,8 +2,8 @@
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using Whirlpool.Core.IO;
+using Whirlpool.Core.IO.Assets;
 using Whirlpool.Core.Pattern;
-using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.Render
 {
@@ -15,8 +15,7 @@ namespace Whirlpool.Core.Render
         FlipXAndY
     }
 
-    [NeedsRefactoring]
-    public class BaseRenderer : Singleton<BaseRenderer>
+    public partial class Renderer : Singleton<Renderer>
     {
         int VAO, VBO, EBO;
 
@@ -131,11 +130,11 @@ namespace Whirlpool.Core.Render
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
 
-        protected void _RenderModel(IO.Object obj, Vector3 position, Vector3 size, Vector3 rotation)
+        protected void _RenderMesh(Mesh mesh, Vector3 position, Vector3 size, Vector3 rotation)
         {
-            GL.BindVertexArray(obj.VAO);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, obj.VBO);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, obj.EBO);
+            GL.BindVertexArray(mesh.VAO);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, mesh.VBO);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, mesh.EBO);
 
             defaultMaterial?.Use();
             if (!_initialized) _Init();
@@ -154,7 +153,7 @@ namespace Whirlpool.Core.Render
             defaultMaterial.SetVariable("mainLightPos", new Vector3(-1.0f, 0.0f, 1.0f));
             defaultMaterial.SetVariable("time", Time.currentTime);
 
-            GL.DrawElements(BeginMode.Triangles, obj.indices.Count - 1, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(BeginMode.Triangles, mesh.vertexIndices.Count - 1, DrawElementsType.UnsignedInt, 0);
         }
 
         protected void _Init()
@@ -228,7 +227,7 @@ namespace Whirlpool.Core.Render
 
             PostProcessing.GetInstance().Init(windowSize);
 
-            blurTextureTest = Texture.FromFile("Content\\blurtexturetest.png");
+            blurTextureTest = TextureLoader.LoadAsset("Content\\blurtexturetest.png");
             blurTextureTest.textureUnit = TextureUnit.Texture1;
 
             camera = new Camera();
@@ -244,41 +243,6 @@ namespace Whirlpool.Core.Render
         protected Vector2 _PixelsToNDCSize(Vector2 pixels)
         {
             return new Vector2((2 / windowSize.X * dpiUpscale) * pixels.X / 2, (2 / windowSize.Y * dpiUpscale) * pixels.Y / 2);
-        }
-
-        public static void RenderFramebuffer(Vector2 position, Vector2 size, Texture texture)
-        {
-            GetInstance()._RenderFramebuffer(position, size, texture);
-        }
-
-        public static void RenderQuad(Vector2 position, Vector2 size, Texture texture, Color4 tint, Material material = null, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
-        {
-            GetInstance()._RenderQuad(position, size, texture, textureRepetitions, tint, rotation, flipMode, material);
-        }
-
-        public static void RenderFontGlyph(Vector2 position, Vector2 size, Texture texture, Color4 tint, Material material = null, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
-        {
-            GetInstance()._RenderFontGlyph(position, size, texture, textureRepetitions, tint, rotation, flipMode, material);
-        }
-
-        public static void RenderQuad(Vector2 position, Vector2 size, string texture, Color4 tint, Material material = null, float textureRepetitions = 1, float rotation = 0, FlipMode flipMode = FlipMode.None)
-        {
-            GetInstance()._RenderQuad(position, size, GetTextureFromString(texture), textureRepetitions, tint, rotation, flipMode, material);
-        }
-
-        public static void RenderGradient(Vector2 position, Vector2 size)
-        {
-            GetInstance()._RenderGradient(position, size);
-        }
-
-        protected static Texture GetTextureFromString(string texture)
-        {
-            return FileBank.GetTexture(texture);
-        }
-
-        public static void RenderModel(IO.Object obj, Vector3 position, Vector3 size, Vector3 rotation)
-        {
-            GetInstance()._RenderModel(obj, position, size, rotation);
         }
     }
 }

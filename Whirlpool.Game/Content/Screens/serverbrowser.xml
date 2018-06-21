@@ -5,7 +5,7 @@
 		<Y>0</Y>
     <Width>100%</Width>
     <Height>100%</Height>
-    <Tint><R>255</R><G>99</G><B>71</B><A>255</A></Tint>
+    <Tint><R>34</R><G>34</G><B>34</B><A>255</A></Tint>
   </Image>
 	<Label>
 		<Text>Servers</Text>
@@ -20,16 +20,16 @@
 	</Label>
   <Image>
     <Image>blank</Image>
-		<X>16</X>
-		<Y>142</Y>
-    <Width>100%</Width>
-    <Height>100%</Height>
-    <Tint><R>0</R><G>0</G><B>0</B><A>150</A></Tint>
+		<X>2%</X>
+		<Y>134</Y>
+    <Width>98%</Width>
+    <Height>88%</Height>
+    <Tint><R>34</R><G>34</G><B>34</B><A>255</A></Tint>
   </Image>
   <Image>
     <Image>blank</Image>
-		<X>16</X>
-		<Y>142</Y>
+		<X>2%</X>
+		<Y>134</Y>
     <Width>100%</Width>
     <Height>80</Height>
     <Tint><R>255</R><G>255</G><B>255</B><A>255</A></Tint>
@@ -41,9 +41,9 @@
 			<Location>Content\Fonts\Montserrat-Regular.ttf</Location>
 			<Size>32</Size>
 			<Kerning>0</Kerning>
-      <Tint><R>255</R><G>99</G><B>71</B><A>255</A></Tint>
+    <Tint><R>34</R><G>34</G><B>34</B><A>255</A></Tint>
 		</Font>
-		<X>32</X>
+		<X>2%</X>
 		<Y>174</Y>
 	</Label>
 </Screen>

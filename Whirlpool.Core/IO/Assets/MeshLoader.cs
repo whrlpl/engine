@@ -1,63 +1,16 @@
 ﻿using OpenTK;
-using OpenTK.Graphics.OpenGL4;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Whirlpool.Core.Type;
+using Whirlpool.Core.Render;
 
-namespace Whirlpool.Core.IO
+namespace Whirlpool.Core.IO.Assets
 {
-    [NeedsRefactoring]
-    public class Object
+    public class MeshLoader
     {
-        public List<Vector3> vertices = new List<Vector3>();
-        public List<uint> indices = new List<uint>();
-        public List<Vector2> texCoords = new List<Vector2>();
-        public List<Vector3> normals = new List<Vector3>();
-        public int VAO, VBO, EBO;
-
-        public void GenerateBuffers()
+        public static Mesh LoadAsset(string fileName)
         {
-            // Generate VAO, VBO
-            GL.GenVertexArrays(1, out VAO);
-            GL.GenBuffers(1, out VBO);
-            GL.GenBuffers(1, out EBO);
-
-            // Buffer data
-            uint[] indices_ = indices.ToArray();
-            float[] vertices_ = new float[vertices.Count * 6];
-            for (int i = 0; i < vertices.Count; ++i)
-            {
-                vertices_[i * 6 + 5] = normals[i].X;
-                vertices_[i * 6 + 4] = normals[i].Y;
-                vertices_[i * 6 + 3] = normals[i].Z;
-
-                vertices_[i * 6 + 2] = vertices[i].X;
-                vertices_[i * 6 + 1] = vertices[i].Y;
-                vertices_[i * 6] = vertices[i].Z;
-            }
-            GL.BindVertexArray(VAO);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-            GL.BufferData(BufferTarget.ArrayBuffer, vertices_.Length * sizeof(float), vertices_, BufferUsageHint.StaticDraw);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, indices_.Length * sizeof(uint), indices_, BufferUsageHint.StaticDraw);
-
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0 * sizeof(float));
-            GL.EnableVertexAttribArray(0);
-            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
-            GL.EnableVertexAttribArray(1);
-        }
-    }
-
-    [NeedsRefactoring]
-    public class ObjLoader
-    {
-        public static Object Load(string fileName)
-        {
-            Object temp = new Object();
+            Mesh temp = new Mesh();
             using (var sr = new StreamReader(fileName))
             {
                 List<int> vertexIndices = new List<int>();
@@ -148,10 +101,24 @@ namespace Whirlpool.Core.IO
                                 var parameters = new List<string>();
                                 foreach (string p in tmp)
                                     foreach (string s in p.Split(' '))
+                                    {
                                         parameters.Add(s);
-                                temp.indices.Add(uint.Parse(parameters[0]) - 1);
-                                temp.indices.Add(uint.Parse(parameters[3]) - 1);
-                                temp.indices.Add(uint.Parse(parameters[6]) - 1);
+                                        if (string.IsNullOrEmpty(s))
+                                        {
+                                            throw new Exception("Parameter had no value (" + fileName + ")");
+                                        }
+                                    }
+                                temp.vertexIndices.Add(uint.Parse(parameters[0]) - 1); // v1
+                                //temp.textureIndices.Add(uint.Parse(parameters[1]) - 1); // vt1
+                                temp.normalIndices.Add(uint.Parse(parameters[2]) - 1); // vn1
+
+                                temp.vertexIndices.Add(uint.Parse(parameters[3]) - 1); // v2
+                                //temp.textureIndices.Add(uint.Parse(parameters[4]) - 1); // vt2
+                                temp.normalIndices.Add(uint.Parse(parameters[5]) - 1); // vn2
+
+                                temp.vertexIndices.Add(uint.Parse(parameters[6]) - 1); // v3
+                                //temp.textureIndices.Add(uint.Parse(parameters[7]) - 1); // vt3
+                                temp.normalIndices.Add(uint.Parse(parameters[8]) - 1); // vn3
                             }
                             else
                             {
@@ -184,7 +151,18 @@ namespace Whirlpool.Core.IO
             return temp;
         }
 
-        [NeedsRefactoring]
-        public static int CountInstancesOfCharInString(string s, char c) { var i = 0; foreach (char c_ in s) if (c_ == c) ++i; return i; }
+
+        public static int CountInstancesOfCharInString(string s, char c)
+        {
+            var i = 0;
+            foreach (char c_ in s)
+            {
+                if (c_ == c)
+                {
+                    ++i;
+                }
+            }
+            return i;
+        }
     }
 }

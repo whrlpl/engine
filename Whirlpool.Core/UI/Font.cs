@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Whirlpool.Core.IO;
+using Whirlpool.Core.IO.Assets;
 
 namespace Whirlpool.Core.UI
 {
@@ -66,8 +67,8 @@ namespace Whirlpool.Core.UI
 
         public Character GetCharacter(int c, bool forceEmoji = false) 
         {
-            // TODO: forceEmoji here will only work if we're getting the character for the first time - should not be a problem, but fix anyway!!!
-            if (!characters.ContainsKey(c)) characters[c] = RequestCharGeneration(c, forceEmoji);
+            if (!characters.ContainsKey(c))
+                characters[c] = RequestCharGeneration(c, forceEmoji);
             return characters[c];
         }
 
@@ -79,9 +80,8 @@ namespace Whirlpool.Core.UI
                 {
                     var emojiLoc = "Content\\emoji\\" + c.ToString("X").ToLower() + ".png";
                     Logging.Write("Loading emoji " + emojiLoc);
-                    Texture tex = Texture.FromFile(emojiLoc);
+                    Texture tex = TextureLoader.LoadAsset(emojiLoc);
                     tex.textureWrapMode = OpenTK.Graphics.OpenGL4.TextureWrapMode.ClampToBorder;
-                    tex.name = filename;
 
                     Character fontChar = new Character()
                     {
@@ -119,9 +119,8 @@ namespace Whirlpool.Core.UI
         }
         
         public Vector2 GetStringSize(string text) // TODO: really need some way of making it so that there's only 1 set of this code (see label.cs)
-                                                    // TODO (cont) - can be removed with switch to render textures
         {
-            float x = 0, y = 0;
+            float x = 0;
             int numLines = 1;
             for (int i = 0; i < text.Length; ++i)
             {

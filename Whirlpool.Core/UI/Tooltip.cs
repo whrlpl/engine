@@ -39,7 +39,7 @@ namespace Whirlpool.Core.UI
             }
             label.m_position = tempPosition + new Vector2(8, font.baseCharHeight * 2);
             size = new Vector2(font.GetStringSize(text).X + 24, font.baseCharHeight * 3 + 16);
-            BaseRenderer.RenderQuad(tempPosition, size, "blank", tint: new Color4(0, 0, 0, 150));
+            Renderer.RenderQuad(tempPosition, size, "blank", tint: new Color4(0, 0, 0, 150));
             label.Render();
         }
 

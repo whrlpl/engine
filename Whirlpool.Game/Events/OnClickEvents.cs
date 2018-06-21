@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Whirlpool.Core;
 using Whirlpool.Core.IO;
+using Whirlpool.Core.IO.Events;
 using Whirlpool.Core.Render;
 using Whirlpool.Game.Logic;
 
-namespace Whirlpool.Game
+namespace Whirlpool.Game.Events
 {
     // TODO: Move this all to bytecode
     public class OnClickEvents
@@ -18,7 +19,7 @@ namespace Whirlpool.Game
         {
             UIEvents.AddEvent("LogIn", (screen) =>
             {
-                if (UserAPI.LogIn(screen.GetUIComponent("UsernameBox").text, screen.GetUIComponent("PasswordBox").text))
+                if (UserAPI.LogIn(screen.GetUIComponent("UsernameBox").text, screen.GetUIComponent("PasswordBox").text)) // BUG: this will throw an exception if double clicked??
                 {
                     screen.LoadFromFile("Content\\screens\\mainmenu.xml");
                     var user = UserAPI.GetInstance().loggedInUser;
@@ -41,12 +42,13 @@ namespace Whirlpool.Game
 
             UIEvents.AddEvent("OpenRegister", (screen) =>
             {
-                System.Diagnostics.Process.Start("https://gu3.me/oslo/signup");
+                System.Diagnostics.Process.Start("https://oslo.gu3.me/signup");
                 return 0;
             });
 
             UIEvents.AddEvent("StartGame", (screen) =>
             {
+                //screen.LoadFromFile("Content\\screens\\serverbrowser.xml");
                 screen.LoadFromFile("Content\\screens\\world.xml");
                 return 0;
             });

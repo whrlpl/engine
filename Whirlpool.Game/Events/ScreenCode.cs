@@ -4,9 +4,10 @@ using System.Net.Http;
 using System.Xml.Linq;
 using Whirlpool.Core;
 using Whirlpool.Core.IO;
+using Whirlpool.Core.IO.Events;
 using Whirlpool.Core.UI;
 
-namespace Whirlpool.Game
+namespace Whirlpool.Game.Events
 {
     public class ScreenCode
     {
@@ -18,7 +19,7 @@ namespace Whirlpool.Game
                 else if (screen.name == "Content\\screens\\mainmenu.xml")
                 {
                     // Get MOTD
-                    var response = new HttpClient().PostAsync("http://gu3.me/oslo/motd.txt", null);
+                    var response = new HttpClient().PostAsync("http://oslo.gu3.me/motd.txt", null);
                     var responseString = response.Result.Content.ReadAsStringAsync();
                     Logging.Write("MOTD: " + responseString.Result);
                     var separatedResponse = responseString.Result.Split('\n');

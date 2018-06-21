@@ -10,11 +10,13 @@ namespace Whirlpool.Game.Logic
         public Vector3 position;
         public Vector3 rotation;
         public float walkSpeed = 0.1f * 0.016f;
-        
+        public float turnSpeed = 0.00001f * 0.016f;
+
         public void Init()
         {
             position = rotation = Vector3.Zero;
             camera = new Camera();
+            Renderer.GetInstance().camera = camera;
         }
 
         public void Update()
@@ -36,6 +38,24 @@ namespace Whirlpool.Game.Logic
             if (status.keyboardKeys[OpenTK.Input.Key.D])
             {
                 MovePlayer(new Vector3(1.0f, 0.0f, 0.0f));
+            }
+
+
+            if (status.keyboardKeys[OpenTK.Input.Key.Up])
+            {
+                camera.vAngle += 1 * turnSpeed;
+            }
+            if (status.keyboardKeys[OpenTK.Input.Key.Down])
+            {
+                camera.vAngle -= 1 * turnSpeed;
+            }
+            if (status.keyboardKeys[OpenTK.Input.Key.Left])
+            {
+                camera.hAngle += 1 * turnSpeed;
+            }
+            if (status.keyboardKeys[OpenTK.Input.Key.Right])
+            {
+                camera.hAngle -= 1 * turnSpeed;
             }
         }
 

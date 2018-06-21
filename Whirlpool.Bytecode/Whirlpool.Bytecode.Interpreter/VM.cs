@@ -85,7 +85,6 @@ namespace Whirlpool.Script.Interpreter
                     }
                 case Instruction.IN:
                     throw new NotImplementedException();
-                    break;
                 case Instruction.LD:
                     {
                         var location = Pop();

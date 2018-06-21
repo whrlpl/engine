@@ -5,13 +5,22 @@
 		<Y>0</Y>
     <Width>100%</Width>
     <Height>100%</Height>
-    <Tint><R>255</R><G>99</G><B>71</B><A>255</A></Tint>
+    <Tint><R>0</R><G>168</G><B>197</B><A>255</A></Tint>
+    <Tint><R>34</R><G>34</G><B>34</B><A>255</A></Tint>
+  </Image>
+  <Image>
+    <Image>blank</Image>
+		<X>2%</X>
+		<Y>12</Y>
+    <Width>98%</Width>
+    <Height>135</Height>
+    <Tint><R>34</R><G>34</G><B>34</B><A>255</A></Tint>
   </Image>
 	<Label>
-		<Text>OSLO</Text>
+		<Text>intelligence</Text>
 		<Font>
 			<Name>TitleText</Name>
-			<Location>Content\Fonts\Heebo-Bold.ttf</Location>
+			<Location>Content\Fonts\SpaceMono-Regular.ttf</Location>
 			<Size>128</Size>
 			<Kerning>0</Kerning>
 		</Font>
@@ -28,7 +37,7 @@
 		</Font>
     <LineSpacing>100</LineSpacing>
 		<X>35</X>
-		<Y>135</Y>
+		<Y>165</Y>
 		<Centered>False</Centered>
     <OnClick>StartGame</OnClick>
 	</Label>
