@@ -26,12 +26,7 @@ namespace Whirlpool.Core
 
         public static new System.Drawing.Size Size = new System.Drawing.Size(GlobalSettings.Default.resolutionX, GlobalSettings.Default.resolutionY);
         public Font tempFont;
-
-#if !DEBUG
-        public string screenFile = "Content\\screens\\mainmenu.xml";
-#else
         public string screenFile = "Content\\screens\\splash.xml";
-#endif
         public string consoleFile = "Content\\screens\\console.xml";
 
         #region "Game properties"
