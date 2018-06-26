@@ -42,6 +42,7 @@ namespace Whirlpool.Core.Render
                 vertices_[i * 6 + 1] = vertices[i].Y;
                 vertices_[i * 6] = vertices[i].Z;
             }
+
             GL.BindVertexArray(VAO);
             GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
             GL.BufferData(BufferTarget.ArrayBuffer, vertices_.Length * sizeof(float), vertices_, BufferUsageHint.StaticDraw);

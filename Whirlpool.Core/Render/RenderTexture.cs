@@ -1,5 +1,4 @@
-﻿#define POSTPROCESSING
-using System;
+﻿using System;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK;
 using Whirlpool.Core.Type;

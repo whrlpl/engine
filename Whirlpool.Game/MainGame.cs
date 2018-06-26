@@ -1,6 +1,5 @@
 ﻿using Whirlpool.Core;
 using Whirlpool.Core.IO;
-using Whirlpool.Game.Events;
 using Whirlpool.Game.Logic;
 
 namespace Whirlpool.Game
@@ -15,17 +14,22 @@ namespace Whirlpool.Game
         public new string windowTitle = "%{gamename} build %{build} | game version v%{gamever} | %{fps} fps | %{delta} delta";
         #endregion
 
-        public override void Update() { }
+        public override void Update()
+        {
+            world.Update();
+        }
 
         public override void Init()
         {
             ParseWindowTitle();
-            OnClickEvents.Register();
-            ScreenCode.Register();
+            world.Init();
             base.Init();
         }
 
-        public override void Render() { }
+        public override void Render()
+        {
+            world.Render();
+        }
 
         public override void OneSecondPassed() => ParseWindowTitle();
 

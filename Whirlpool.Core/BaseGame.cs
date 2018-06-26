@@ -7,7 +7,6 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 using Whirlpool.Core.IO;
 using Whirlpool.Core.Render;
-using Whirlpool.Core.UI;
 using Whirlpool.Script.Interpreter;
 
 namespace Whirlpool.Core
@@ -19,15 +18,10 @@ namespace Whirlpool.Core
         public float framesLastSecond;
         public VM gameBytecodeVM;
         public Thread updateThread;
-        public static List<Screen> currentScreens = new List<Screen>();
-        public static Screen consoleScreen;
 
         public bool consoleVisible = false;
 
         public static new System.Drawing.Size Size = new System.Drawing.Size(GlobalSettings.Default.resolutionX, GlobalSettings.Default.resolutionY);
-        public Font tempFont;
-        public string screenFile = "Content\\screens\\splash.xml";
-        public string consoleFile = "Content\\screens\\console.xml";
 
         #region "Game properties"
         public static string gameName { get; set; }
@@ -59,18 +53,13 @@ namespace Whirlpool.Core
 
             FileBank.AddTexture("blank", Texture.FromData(new Color4[] { Color4.White }, 1, 1));
             FileBank.LoadTexturesFromFolder("Content");
-
-            currentScreens.Add(new Screen(screenFile));
-            consoleScreen = new Screen(consoleFile);
-
-
+            
             InputHandler.GetInstance().onKeyPressed += (s, e) =>
             {
                 var status = InputHandler.GetStatus();
                 if (status.keyboardKeys.ContainsKey(Key.F1) && status.keyboardKeys[Key.F1]) consoleVisible = !consoleVisible;
             };
-
-            tempFont = new Font("Content\\Fonts\\Montserrat-Regular.ttf", Color4.White, 14, 0);
+            
 
             DiscordController.Init();
             Mouse.ButtonDown += Mouse_ButtonDown;
@@ -148,15 +137,9 @@ namespace Whirlpool.Core
             GL.DepthFunc(DepthFunction.Lequal);
 
             PostProcessing.GetInstance().PreRender();
-            
-            foreach (Screen s in currentScreens)
-            {
-                s.Render();
-            }
 
             Render();
-
-            if (consoleVisible) consoleScreen.Render();
+            
             PostProcessing.GetInstance().PostRender();
             
             this.SwapBuffers();
@@ -187,19 +170,7 @@ namespace Whirlpool.Core
             {
                 InputHandler.UpdateMousePos(Mouse.X, Mouse.Y);
 
-                try
-                {
-                    foreach (Screen s in currentScreens)
-                        s.Update();
-
-                    if (consoleVisible) consoleScreen.Update();
-                }
-                catch (Exception ex)
-                {
-                    Logging.Write(ex.ToString(), LogStatus.Error);
-                }
-
-                if (Time.GetMilliseconds() % 1500 == 0)
+                if (Time.GetMilliseconds() % 15000 == 0)
                 {
                     DiscordController.Update();
                 }

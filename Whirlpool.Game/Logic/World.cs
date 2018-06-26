@@ -18,8 +18,7 @@ namespace Whirlpool.Game.Logic
         // perlin noise test
         public Texture perlinTest;
 
-        Model model;
-        Model terrain;
+        public Model model, terrain;
 
         public void Init()
         {
@@ -56,9 +55,8 @@ namespace Whirlpool.Game.Logic
 
             model = new Model() { objName = "Content\\Hagrid.obj", rotation = new OpenTK.Vector3(0.0f, 270.0f, 0.0f) };
             terrain = new Model() { objName = "Content\\floor.obj" };
-            model.Init(null);
-            terrain.Init(null);
-            MainGame.currentScreens[0].GetUIComponent("TestLabel").text = "*Test* test";
+            model.Init();
+            terrain.Init();
             // We managed to connect to the server, lets update the discord presence with server data
             DiscordController.currentPresence = new UnsafeNativeMethods.RichPresence()
             {
@@ -76,12 +74,28 @@ namespace Whirlpool.Game.Logic
 
         public void Update()
         {
+            if (localPlayer == null) return; // not inited before first update
             localPlayer.Update();
             netClient.Update();
             model.position = localPlayer.position;
-            localPlayer.camera.position = new OpenTK.Vector3(localPlayer.position.X, localPlayer.position.Y + 1.0f, localPlayer.position.Z);
+            //localPlayer.camera.position = new OpenTK.Vector3(localPlayer.position.X, localPlayer.position.Y + 1.0f, localPlayer.position.Z);
             model.Update();
             terrain.Update();
+
+            //debugText = "";
+
+            //string[] variablesToDebug = new[] { "model.position", "terrain.position", "model.rotation", "terrain.rotation", "localPlayer.camera.position", "localPlayer.camera.hAngle", "localPlayer.camera.vAngle" };
+
+            //foreach (string variable in variablesToDebug)
+            //{
+            //    var levels = variable.Split('.');
+            //    var fieldInfo = GetType().GetField(levels[0]).GetValue(this);
+            //    for (int i = 1; i < levels.Length; ++i) fieldInfo = fieldInfo.GetType().GetField(levels[i]).GetValue(fieldInfo);
+            //    debugText += variable + " = " + fieldInfo.ToString() + "\n";
+            //}
+
+            //debugTextScreen.GetUIComponent("DebugText").text = debugText;
+            //debugTextScreen.Update();
         }
 
         public void Render()

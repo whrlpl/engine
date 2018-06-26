@@ -29,7 +29,6 @@ void main() {
 	//frag_color = vec4(outTexCoord.x, outTexCoord.y, 0, 1.0);
 	//frag_color = (texture(albedoTexture, vec2(outTexCoord.x * textureRepetitions, outTexCoord.y * textureRepetitions)) + fakeLighting) * tint;
 	//frag_color = texture(albedoTexture, vec2(outTexCoord.x * textureRepetitions, outTexCoord.y * textureRepetitions)) * tint;
-
 	float ambientLightStrength = 0.1;
 	vec3 ambientBase = ambientLightStrength * tint.xyz;
 	vec3 normalizedNormal = normalize(outNormal);
@@ -41,5 +40,6 @@ void main() {
 
 	vec3 result = (ambientBase + diffuseBase) * tint.xyz;
 	frag_color = vec4(result, 1.0);
+	frag_color = vec4(1, 1, 1, 1);
 }
 

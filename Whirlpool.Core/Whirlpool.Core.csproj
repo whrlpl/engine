@@ -90,9 +90,6 @@
     <Compile Include="IO\InputHandler.cs" />
     <Compile Include="IO\Logging.cs" />
     <Compile Include="Render\Mesh.cs" />
-    <Compile Include="IO\Events\ScreenEvents.cs" />
-    <Compile Include="IO\Events\UIEvents.cs" />
-    <Compile Include="IO\UILoader.cs" />
     <Compile Include="IO\UnsafeNativeMethods.cs" />
     <Compile Include="IO\FileBank.cs" />
     <Compile Include="IO\Time.cs" />
@@ -106,21 +103,10 @@
     <Compile Include="Render\PublicRenderFunctions.cs" />
     <Compile Include="Render\RenderComponent.cs" />
     <Compile Include="Render\RenderTexture.cs" />
-    <Compile Include="Render\Screen.cs" />
     <Compile Include="Render\Shader.cs" />
     <Compile Include="Render\Texture.cs" />
     <Compile Include="Type\NeedsRefactoring.cs" />
     <Compile Include="Type\Rectangle.cs" />
-    <Compile Include="UI\Button.cs" />
-    <Compile Include="UI\Checkbox.cs" />
-    <Compile Include="UI\DialogBox.cs" />
-    <Compile Include="UI\Font.cs" />
-    <Compile Include="UI\Image.cs" />
-    <Compile Include="UI\Label.cs" />
-    <Compile Include="UI\SlicedSprite.cs" />
-    <Compile Include="UI\Textbox.cs" />
-    <Compile Include="UI\Tooltip.cs" />
-    <Compile Include="UI\UIComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -170,12 +156,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="Render\PostProcessing.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Whirlpool.Bytecode\Whirlpool.Bytecode.Interpreter\Whirlpool.Bytecode.Interpreter.csproj">
-      <Project>{5c639a98-985c-48c2-b6cd-d9ee7a4b1158}</Project>
-      <Name>Whirlpool.Bytecode.Interpreter</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
