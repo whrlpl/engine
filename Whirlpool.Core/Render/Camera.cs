@@ -30,7 +30,7 @@ namespace Whirlpool.Core.Render
         {
             get
             {
-                return Matrix4.LookAt(position, new Vector3(0, 0, 0), cameraUp);
+                return Matrix4.LookAt(position, new Vector3(0, 0, -4.0f), cameraUp);
             }
         }
 

@@ -7,7 +7,6 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 using Whirlpool.Core.IO;
 using Whirlpool.Core.Render;
-using Whirlpool.Script.Interpreter;
 
 namespace Whirlpool.Core
 {
@@ -16,11 +15,8 @@ namespace Whirlpool.Core
         int frameCap = -1;
         DateTime lastFrameCollection;
         public float framesLastSecond;
-        public VM gameBytecodeVM;
         public Thread updateThread;
-
-        public bool consoleVisible = false;
-
+        
         public static new System.Drawing.Size Size = new System.Drawing.Size(GlobalSettings.Default.resolutionX, GlobalSettings.Default.resolutionY);
 
         #region "Game properties"
@@ -53,27 +49,10 @@ namespace Whirlpool.Core
 
             FileBank.AddTexture("blank", Texture.FromData(new Color4[] { Color4.White }, 1, 1));
             FileBank.LoadTexturesFromFolder("Content");
-            
-            InputHandler.GetInstance().onKeyPressed += (s, e) =>
-            {
-                var status = InputHandler.GetStatus();
-                if (status.keyboardKeys.ContainsKey(Key.F1) && status.keyboardKeys[Key.F1]) consoleVisible = !consoleVisible;
-            };
-            
 
             DiscordController.Init();
             Mouse.ButtonDown += Mouse_ButtonDown;
             Mouse.ButtonUp += Mouse_ButtonUp;
-
-            try 
-            {
-                gameBytecodeVM = new VM();
-                gameBytecodeVM.RunFile("Content\\Game\\main.wcc");
-            }
-            catch (Exception ex)
-            {
-                Logging.Write("There was a problem loading the VM: " + ex.Message, LogStatus.Error);
-            }
 
             lastFrameCollection = DateTime.Now;
         }

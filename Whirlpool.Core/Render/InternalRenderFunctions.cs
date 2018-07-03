@@ -19,7 +19,7 @@ namespace Whirlpool.Core.Render
     {
         int VAO, VBO, EBO;
 
-        static Material defaultMaterial, spriteMaterial, gradientMaterial, framebufferMaterial, fontMaterial;
+        static Material defaultMaterial, spriteMaterial, framebufferMaterial;
         protected bool _initialized;
 
         public Vector2 windowSize;
