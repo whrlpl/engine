@@ -42,6 +42,24 @@ namespace Whirlpool.Core.Render
             gradientMaterial.SetVariable("size", _PixelsToNDCSize(size));
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
+
+        protected void _RenderAtlas(Vector2 position, Vector2 size, Vector2 texturePoint, Vector2 textureSize, Texture texture)
+        {
+            GL.BindVertexArray(VAO);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
+            spriteMaterial?.Use();
+            if (!_initialized) _Init();
+            texture.Bind();
+
+            spriteMaterial.SetVariable("albedoTexture", 0);
+            spriteMaterial.SetVariable("position", _PixelsToNDC(position));
+            spriteMaterial.SetVariable("size", _PixelsToNDCSize(size));
+            spriteMaterial.SetVariable("atlas", true);
+            spriteMaterial.SetVariable("atlasPoint", _PixelsToNDC(texturePoint));
+            spriteMaterial.SetVariable("atlasSize", _PixelsToNDCSize(textureSize));
+            GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
+        }
         
         protected void _RenderFramebuffer(Vector2 position, Vector2 size, Texture texture)
         {
