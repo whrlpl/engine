@@ -36,16 +36,36 @@ namespace Whirlpool.Core.Render
             framebufferMaterial?.Use();
             if (!_initialized) _Init();
             texture.Bind();
-            blurTextureTest.Bind();
+            //blurTextureTest.Bind();
 
             framebufferMaterial.SetVariable("flipX", false);
             framebufferMaterial.SetVariable("flipY", false);
 
             framebufferMaterial.SetVariable("renderedTexture", 0);
-            framebufferMaterial.SetVariable("blurTexture", 1);
+            //framebufferMaterial.SetVariable("blurTexture", 1);
 
             framebufferMaterial.SetVariable("position", _PixelsToNDC(position));
             framebufferMaterial.SetVariable("size", _PixelsToNDCSize(size));
+            GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
+        }
+
+        protected void _RenderAtlas(Vector2 position, Vector2 size, Vector2 texturePoint, Vector2 textureSize, Texture texture)
+        {
+            GL.BindVertexArray(VAO);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
+            spriteMaterial?.Use();
+            if (!_initialized) _Init();
+            texture.Bind();
+
+            Vector2 imageSize = new Vector2(texture.width, texture.height);
+
+            spriteMaterial.SetVariable("albedoTexture", 0);
+            spriteMaterial.SetVariable("position", _PixelsToNDC(position));
+            spriteMaterial.SetVariable("size", _PixelsToNDCSize(size));
+            spriteMaterial.SetVariable("atlas", true);
+            spriteMaterial.SetVariable("atlasPoint", _PixelsToNDCImg(texturePoint, imageSize));
+            spriteMaterial.SetVariable("atlasSize", _PixelsToNDCImgSize(textureSize, imageSize));
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
 
@@ -181,6 +201,16 @@ namespace Whirlpool.Core.Render
         protected Vector2 _PixelsToNDCSize(Vector2 pixels)
         {
             return new Vector2((2 / windowSize.X * dpiUpscale) * pixels.X / 2, (2 / windowSize.Y * dpiUpscale) * pixels.Y / 2);
+        }
+
+        protected Vector2 _PixelsToNDCImg(Vector2 pixels, Vector2 imgSize)
+        {
+            return new Vector2((2 / imgSize.X * dpiUpscale) * -pixels.X + 1, (2 / imgSize.Y * dpiUpscale) * pixels.Y - 1);
+        }
+
+        protected Vector2 _PixelsToNDCImgSize(Vector2 pixels, Vector2 imgSize)
+        {
+            return new Vector2((2 / imgSize.X * dpiUpscale) * pixels.X / 2, (2 / imgSize.Y * dpiUpscale) * pixels.Y / 2);
         }
     }
 }

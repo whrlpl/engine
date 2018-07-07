@@ -1,4 +1,4 @@
-﻿//#define POSTPROCESSING
+﻿#define POSTPROCESSING
 using System;
 using System.Drawing;
 using OpenTK;
@@ -17,12 +17,17 @@ namespace Whirlpool.Core.Render
         Texture textureBufferTexture;
 
         int width = 0, height = 0;
+        int drawWidth = 0, drawHeight = 0;
 #endif
-		public void Init(Vector2 windowSize)
+		public void Init(Vector2 windowSize, int width = -1, int height =-1)
         {
 #if POSTPROCESSING
-            width = (int)windowSize.X;
-            height = (int)windowSize.Y;
+            drawWidth = (int)windowSize.X;
+            drawHeight = (int)windowSize.Y;
+            if (width <= 0)
+                width = (int)windowSize.X;
+            if (height <= 0)
+                height = (int)windowSize.Y;
 #endif
             //GL.Enable(EnableCap.Multisample);            
             GL.Enable(EnableCap.Blend);
@@ -75,8 +80,8 @@ namespace Whirlpool.Core.Render
         {
 #if POSTPROCESSING
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-            GL.Viewport(0, 0, width, height);
-            Renderer.RenderFramebuffer(new Vector2(0, 0), new Vector2(width, height), textureBufferTexture);
+            GL.Viewport(0, 0, drawWidth, drawHeight);
+            Renderer.RenderFramebuffer(new Vector2(0, 0), new Vector2(drawWidth, drawHeight), textureBufferTexture);
 #endif
         }
 

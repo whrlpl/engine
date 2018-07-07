@@ -21,6 +21,11 @@ namespace Whirlpool.Core.Render
             GetInstance()._RenderQuad(position, size, GetTextureFromString(texture), textureRepetitions, tint, rotation, flipMode, material);
         }
 
+        public static void RenderAtlas(Vector2 position, Vector2 size, Vector2 texturePoint, Vector2 textureSize, Texture texture)
+        {
+            GetInstance()._RenderAtlas(position, size, texturePoint, textureSize, texture);
+        }
+
         protected static Texture GetTextureFromString(string texture)
         {
             return FileBank.GetTexture(texture);
