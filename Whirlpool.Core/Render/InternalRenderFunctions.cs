@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
+using System;
 using Whirlpool.Core.IO;
 using Whirlpool.Core.IO.Assets;
 using Whirlpool.Core.Pattern;
@@ -27,6 +28,8 @@ namespace Whirlpool.Core.Render
         public Camera camera;
 
         public Texture blurTextureTest;
+
+        public Vector2 renderResolution = new Vector2(-1, -1);
                 
         protected void _RenderFramebuffer(Vector2 position, Vector2 size, Texture texture)
         {
@@ -44,8 +47,10 @@ namespace Whirlpool.Core.Render
             framebufferMaterial.SetVariable("renderedTexture", 0);
             //framebufferMaterial.SetVariable("blurTexture", 1);
 
-            framebufferMaterial.SetVariable("position", _PixelsToNDC(position));
-            framebufferMaterial.SetVariable("size", _PixelsToNDCSize(size));
+            //framebufferMaterial.SetVariable("position", new Vector2(1.0f, -1.0f));
+            //framebufferMaterial.SetVariable("size", new Vector2(1, 1));
+            framebufferMaterial.SetVariable("position", position);
+            framebufferMaterial.SetVariable("size", size);
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
 
@@ -69,7 +74,7 @@ namespace Whirlpool.Core.Render
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
 
-        protected void _RenderQuad(Vector2 position, Vector2 size, Texture texture, float textureRepetitions, Color4 tint, float rotation, FlipMode flipMode, Material material)
+        protected void _RenderQuad(Vector2 position, Vector2 size, Texture texture, float textureRepetitions, Color4 tint, float rotation, FlipMode flipMode, Material material, float opacity)
         {
             GL.BindVertexArray(VAO);
             GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
@@ -96,13 +101,15 @@ namespace Whirlpool.Core.Render
             spriteMaterial.SetVariable("albedoTexture", 0);
             spriteMaterial.SetVariable("textureRepetitions", textureRepetitions);
             spriteMaterial.SetVariable("tint", tint);
+            // there are only 32 levels of transparency supported by a ps1 console
+            spriteMaterial.SetVariable("opacity", (float)(Math.Round(opacity * 32) / 32));
             spriteMaterial.SetVariable("position", _PixelsToNDC(position));
             spriteMaterial.SetVariable("size", _PixelsToNDCSize(size));
             spriteMaterial.SetVariable("rotation", rotation);
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
 
-        protected void _RenderMesh(Mesh mesh, Vector3 position, Vector3 size, Vector3 rotation)
+        protected void _RenderMesh(Mesh mesh, Vector3 position, Vector3 size, Vector3 rotation, Texture texture)
         {
             GL.BindVertexArray(mesh.VAO);
             GL.BindBuffer(BufferTarget.ArrayBuffer, mesh.VBO);
@@ -116,16 +123,20 @@ namespace Whirlpool.Core.Render
                     MathHelper.DegreesToRadians(rotation.X), 
                     MathHelper.DegreesToRadians(rotation.Y), 
                     MathHelper.DegreesToRadians(rotation.Z)))) * Matrix4.CreateScale(size);
+            texture?.Bind();
 
             defaultMaterial.SetVariable("albedoTexture", 0);
             defaultMaterial.SetVariable("vp", camera.vp);
             defaultMaterial.SetVariable("model", model);
             defaultMaterial.SetVariable("textureRepetitions", 0);
-            defaultMaterial.SetVariable("tint", Color4.Red);
+            defaultMaterial.SetVariable("tint", Color4.White);
             defaultMaterial.SetVariable("mainLightPos", new Vector3(-1.0f, 0.0f, 1.0f));
+            defaultMaterial.SetVariable("mainLightTint", new Color4(Time.currentTime % 1, Time.currentTime % 1, Time.currentTime % 1, 255));
             defaultMaterial.SetVariable("time", Time.currentTime);
 
-            GL.DrawElements(BeginMode.Triangles, mesh.vertexIndices.Count - 1, DrawElementsType.UnsignedInt, 0);
+            GL.DrawArrays(PrimitiveType.Triangles, 0, mesh.vertexIndices.Count);
+
+            //GL.DrawElements(BeginMode.Triangles, mesh.vertexIndices.Count - 1, DrawElementsType.UnsignedInt, 0);
         }
 
         protected void _Init()
@@ -183,7 +194,7 @@ namespace Whirlpool.Core.Render
             GL.VertexAttribPointer(2, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 5 * sizeof(float));
             GL.EnableVertexAttribArray(2);
 
-            PostProcessing.GetInstance().Init(windowSize);
+            PostProcessing.GetInstance().Init(windowSize, (int)renderResolution.X, (int)renderResolution.Y);
 
             blurTextureTest = TextureLoader.LoadAsset("Content\\blurtexturetest.png");
             blurTextureTest.textureUnit = TextureUnit.Texture1;
@@ -193,14 +204,24 @@ namespace Whirlpool.Core.Render
             _initialized = true;
         }
 
-        protected Vector2 _PixelsToNDC(Vector2 pixels)
+        protected Vector2 _PixelsToNDCFramebuffer(Vector2 pixels)
         {
             return new Vector2((2 / windowSize.X * dpiUpscale) * -pixels.X + 1, (2 / windowSize.Y * dpiUpscale) * pixels.Y - 1);
         }
 
-        protected Vector2 _PixelsToNDCSize(Vector2 pixels)
+        protected Vector2 _PixelsToNDCSizeFramebuffer(Vector2 pixels)
         {
             return new Vector2((2 / windowSize.X * dpiUpscale) * pixels.X / 2, (2 / windowSize.Y * dpiUpscale) * pixels.Y / 2);
+        }
+
+        protected Vector2 _PixelsToNDC(Vector2 pixels)
+        {
+            return new Vector2((2 / renderResolution.X * dpiUpscale) * -pixels.X + 1, (2 / renderResolution.Y * dpiUpscale) * pixels.Y - 1);
+        }
+
+        protected Vector2 _PixelsToNDCSize(Vector2 pixels)
+        {
+            return new Vector2((2 / renderResolution.X * dpiUpscale) * pixels.X / 2, (2 / renderResolution.Y * dpiUpscale) * pixels.Y / 2);
         }
 
         protected Vector2 _PixelsToNDCImg(Vector2 pixels, Vector2 imgSize)

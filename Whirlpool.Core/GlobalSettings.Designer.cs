@@ -25,7 +25,7 @@ namespace Whirlpool.Core {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1600")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1280")]
         public int resolutionX {
             get {
                 return ((int)(this["resolutionX"]));
@@ -37,7 +37,7 @@ namespace Whirlpool.Core {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("900")]
+        [global::System.Configuration.DefaultSettingValueAttribute("960")]
         public int resolutionY {
             get {
                 return ((int)(this["resolutionY"]));

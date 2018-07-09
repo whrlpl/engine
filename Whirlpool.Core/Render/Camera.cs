@@ -30,7 +30,7 @@ namespace Whirlpool.Core.Render
         {
             get
             {
-                return Matrix4.LookAt(position, new Vector3(0, 0, -4.0f), cameraUp);
+                return Matrix4.LookAt(position, new Vector3(0, 0, -5.0f), cameraUp);
             }
         }
 
@@ -41,7 +41,7 @@ namespace Whirlpool.Core.Render
         {
             get
             {
-                return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45), windowRatio, 0.1f, 100.0f);
+                return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(50), windowRatio, 0.1f, 1.0f);
             }
         }
 

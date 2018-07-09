@@ -89,6 +89,7 @@
     <Compile Include="IO\DiscordController.cs" />
     <Compile Include="IO\InputHandler.cs" />
     <Compile Include="IO\Logging.cs" />
+    <Compile Include="Render\Color4Extension.cs" />
     <Compile Include="Render\Mesh.cs" />
     <Compile Include="IO\UnsafeNativeMethods.cs" />
     <Compile Include="IO\FileBank.cs" />

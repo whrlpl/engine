@@ -12,7 +12,7 @@ namespace Whirlpool.Core
 {
     public abstract class BaseGame : OpenTK.GameWindow
     {
-        int frameCap = -1;
+        int frameCap = 30;
         DateTime lastFrameCollection;
         public float framesLastSecond;
         public Thread updateThread;
@@ -32,12 +32,12 @@ namespace Whirlpool.Core
         public BaseGame() : base(
             Size.Width,
             Size.Height,
-            new GraphicsMode(ColorFormat.Empty, 32), 
+            new GraphicsMode(new ColorFormat(32), 24), 
             windowTitle,
             GlobalSettings.Default.fullscreenMode ? GameWindowFlags.Fullscreen : GameWindowFlags.FixedWindow, 
             DisplayDevice.Default,
             4, 6, 
-            GraphicsContextFlags.Default)
+            GraphicsContextFlags.ForwardCompatible)
         {
             Init();
         }
@@ -108,12 +108,6 @@ namespace Whirlpool.Core
         {
             Time.AddTime((float)e.Time);
             DateTime frameStart = DateTime.Now;
-            GL.ClearColor(Color4.CornflowerBlue);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            GL.ClearDepth(1);
-            GL.DepthMask(true);
-            GL.Enable(EnableCap.CullFace);
-            GL.DepthFunc(DepthFunction.Lequal);
 
             PostProcessing.GetInstance().PreRender();
 
