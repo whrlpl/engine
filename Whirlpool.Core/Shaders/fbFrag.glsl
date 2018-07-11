@@ -39,7 +39,7 @@ void main() {
 	}
 	else
 	{*/
-		frag_color = texture(renderedTexture, vec2(outTexCoord.x, outTexCoord.y));
+		frag_color = vec4(texture(renderedTexture, vec2(outTexCoord.x, outTexCoord.y)).xyz, 1.0);
 	//}
 	
 	/*if (outTexCoord.x >= 0.4995 && outTexCoord.x <= 0.5005 || outTexCoord.y >= 0.4995 && outTexCoord.y <= 0.5005)

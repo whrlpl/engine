@@ -16,7 +16,9 @@ namespace Whirlpool.Core
         DateTime lastFrameCollection;
         public float framesLastSecond;
         public Thread updateThread;
-        
+
+        public bool initialized;
+
         public static new System.Drawing.Size Size = new System.Drawing.Size(GlobalSettings.Default.resolutionX, GlobalSettings.Default.resolutionY);
 
         #region "Game properties"
@@ -26,24 +28,23 @@ namespace Whirlpool.Core
 #endregion
 
         public abstract void Render();
+        public abstract void Init();
         public abstract void Update();
         public abstract void OneSecondPassed();
 
         public BaseGame() : base(
             Size.Width,
             Size.Height,
-            new GraphicsMode(new ColorFormat(32), 24), 
+            GraphicsMode.Default,
             windowTitle,
-            GlobalSettings.Default.fullscreenMode ? GameWindowFlags.Fullscreen : GameWindowFlags.FixedWindow, 
+            GlobalSettings.Default.fullscreenMode ? GameWindowFlags.Fullscreen : GameWindowFlags.FixedWindow,
             DisplayDevice.Default,
-            4, 6, 
-            GraphicsContextFlags.ForwardCompatible)
-        {
-            Init();
-        }
+            4, 6,
+            GraphicsContextFlags.ForwardCompatible) { }
 
-        public virtual void Init()
+        protected override void OnLoad(EventArgs e)
         {
+            base.OnLoad(e);
             updateThread = new Thread(UpdateThread);
             updateThread.Start();
 
@@ -55,6 +56,7 @@ namespace Whirlpool.Core
             Mouse.ButtonUp += Mouse_ButtonUp;
 
             lastFrameCollection = DateTime.Now;
+            Init();
         }
 
         private void HandleMouseEvent(MouseButtonEventArgs e)
@@ -82,10 +84,10 @@ namespace Whirlpool.Core
 
         protected override void OnResize(EventArgs e)
         {
+            base.OnResize(e);
             GL.Viewport(Size);
             Renderer.GetInstance().windowSize = new Vector2(Size.Width, Size.Height);
-            PostProcessing.GetInstance().Resize(Size);
-            base.OnResize(e);
+            //PostProcessing.GetInstance().Resize(Size);
         }
 
         protected override void OnKeyUp(KeyboardKeyEventArgs e)
@@ -106,6 +108,7 @@ namespace Whirlpool.Core
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
+            base.OnRenderFrame(e);
             Time.AddTime((float)e.Time);
             DateTime frameStart = DateTime.Now;
 
@@ -134,13 +137,15 @@ namespace Whirlpool.Core
                 framesLastSecond = 0;
                 lastFrameCollection = DateTime.Now;
             }
-#endregion
+            #endregion
+            initialized = true; // everything is only fully initialized after first render call.
         }
 
         protected void UpdateThread()
         {
             while (true)
             {
+                if (!initialized) continue;
                 InputHandler.UpdateMousePos(Mouse.X, Mouse.Y);
 
                 if (Time.GetMilliseconds() % 15000 == 0)

@@ -32,9 +32,9 @@ void main() {
 
 	outFragPos = vec3(model * vec4(inVertexPos, 1.0));
 
-	//gl_Position = mvp * vec4(inVertexPos + vec3(random(calcVertPos.xy) / 8), 1.0);
+	gl_Position = mvp * vec4(inVertexPos + vec3(random(calcVertPos.xy) / 8), 1.0);
 
 	//gl_Position = mvp * (vec4(vec3(random(outFragPos.xy)), 1.0) + vec4(inVertexPos.xyz, 1.0));
-	gl_Position = mvp * vec4(inVertexPos.xyz, 1.0);
+	//gl_Position = mvp * vec4(inVertexPos.xyz, 1.0);
 	debugCol = vec4(gl_Position.xyz, 1.0);
 }

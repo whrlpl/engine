@@ -118,6 +118,12 @@
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <None Include="Shaders\blur.glsl" />
+    <None Include="Shaders\Cars\frag.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\Cars\vert.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Shaders\clouds.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -158,5 +164,6 @@
     </Content>
     <Compile Include="Render\PostProcessing.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

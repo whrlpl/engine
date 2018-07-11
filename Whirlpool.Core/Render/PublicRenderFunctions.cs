@@ -31,9 +31,14 @@ namespace Whirlpool.Core.Render
             return FileBank.GetTexture(texture);
         }
 
-        public static void RenderMesh(Mesh mesh, Vector3 position, Vector3 size, Vector3 rotation, Texture texture)
+        public static void RenderMesh(Mesh mesh, Vector3 position, Vector3 size, Vector3 rotation, Texture texture, Material material = null)
         {
-            GetInstance()._RenderMesh(mesh, position, size, rotation, texture);
+            GetInstance()._RenderMesh(mesh, position, size, rotation, texture, material);
+        }
+
+        public static void Init()
+        {
+            GetInstance()._Init();
         }
     }
 }

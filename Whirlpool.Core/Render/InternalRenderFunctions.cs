@@ -109,30 +109,38 @@ namespace Whirlpool.Core.Render
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
 
-        protected void _RenderMesh(Mesh mesh, Vector3 position, Vector3 size, Vector3 rotation, Texture texture)
+        protected void _RenderMesh(Mesh mesh, Vector3 position, Vector3 size, Vector3 rotation, Texture texture, Material material)
         {
             GL.BindVertexArray(mesh.VAO);
             GL.BindBuffer(BufferTarget.ArrayBuffer, mesh.VBO);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, mesh.EBO);
+            if (material == null) material = defaultMaterial;
 
-            defaultMaterial?.Use();
+            material?.Use();
             if (!_initialized) _Init();
             Matrix4 model = Matrix4.CreateTranslation(position);
-            model.Transpose(); // wtf??? createtranslation gives a row-major matrix for some reason despite opentk being opengl focused...
-            model = model * Matrix4.CreateFromQuaternion(Quaternion.FromEulerAngles(new Vector3(
-                    MathHelper.DegreesToRadians(rotation.X), 
-                    MathHelper.DegreesToRadians(rotation.Y), 
-                    MathHelper.DegreesToRadians(rotation.Z)))) * Matrix4.CreateScale(size);
+            model.Transpose();
+            model = model * Matrix4.CreateScale(size) * Matrix4.CreateFromQuaternion(Quaternion.FromEulerAngles(new Vector3(
+                    MathHelper.DegreesToRadians(rotation.X),
+                    MathHelper.DegreesToRadians(rotation.Y),
+                    MathHelper.DegreesToRadians(rotation.Z))));
+            //Matrix4 model = Matrix4.CreateScale(size);
+            //model = model * (Matrix4.CreateRotationX(rotation.X) + Matrix4.CreateRotationX(rotation.Y) + Matrix4.CreateRotationX(rotation.Z)) * Matrix4.CreateScale(size);
+            //model = Matrix4.Identity;
+            //model = Matrix4.CreateTranslation(position);
             texture?.Bind();
 
-            defaultMaterial.SetVariable("albedoTexture", 0);
-            defaultMaterial.SetVariable("vp", camera.vp);
-            defaultMaterial.SetVariable("model", model);
-            defaultMaterial.SetVariable("textureRepetitions", 0);
-            defaultMaterial.SetVariable("tint", Color4.White);
-            defaultMaterial.SetVariable("mainLightPos", new Vector3(-1.0f, 0.0f, 1.0f));
-            defaultMaterial.SetVariable("mainLightTint", new Color4(Time.currentTime % 1, Time.currentTime % 1, Time.currentTime % 1, 255));
-            defaultMaterial.SetVariable("time", Time.currentTime);
+            model.Transpose();
+            Matrix4 mvp = model * camera.view * camera.projection;
+
+            material.SetVariable("albedoTexture", 0);
+            material.SetVariable("mvp", mvp);
+            material.SetVariable("vp", camera.view * camera.projection);
+            material.SetVariable("textureRepetitions", 0);
+            material.SetVariable("tint", Color4.White);
+            material.SetVariable("mainLightPos", new Vector3(4, 3, 3));
+            material.SetVariable("mainLightTint", Color4.White);
+            material.SetVariable("time", Time.currentTime);
 
             GL.DrawArrays(PrimitiveType.Triangles, 0, mesh.vertexIndices.Count);
 
@@ -141,6 +149,8 @@ namespace Whirlpool.Core.Render
 
         protected void _Init()
         {
+            PostProcessing.GetInstance().Init(windowSize, (int)renderResolution.X, (int)renderResolution.Y);
+
             defaultMaterial = new MaterialBuilder()
                 .Build()
                 .Attach(new Shader("Shaders\\vert.glsl", ShaderType.VertexShader))
@@ -194,12 +204,11 @@ namespace Whirlpool.Core.Render
             GL.VertexAttribPointer(2, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 5 * sizeof(float));
             GL.EnableVertexAttribArray(2);
 
-            PostProcessing.GetInstance().Init(windowSize, (int)renderResolution.X, (int)renderResolution.Y);
-
             blurTextureTest = TextureLoader.LoadAsset("Content\\blurtexturetest.png");
             blurTextureTest.textureUnit = TextureUnit.Texture1;
 
             camera = new Camera();
+            camera.viewportSize = renderResolution;
 
             _initialized = true;
         }

@@ -12,6 +12,7 @@ layout(location = 0) out vec4 frag_color;
 //----------------------------------------
 uniform float textureRepetitions;
 uniform sampler2D albedoTexture;
+uniform sampler2D decalTexture;
 uniform vec4 tint;
 uniform mat4 mvp;
 uniform mat4 vp;
@@ -31,6 +32,11 @@ void main() {
 	vec3 ambientLight = ambientBase * tint.xyz;
 
 	vec3 result = texture(albedoTexture, outTexCoord).xyz;
+	
+	vec4 decalCol = texture(decalTexture, outTexCoord);
+	if (decalCol.w > 0)
+		result = mix(result.xyz, decalCol.xyz, decalCol.w);
+
 	result = max((ambientBase + diffuseBase), 0.2) * result;
 
 	frag_color = vec4(result, 1.0);
