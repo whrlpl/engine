@@ -42,6 +42,8 @@ void main() {
 
 	result = max((ambientBase + diffuseBase), 0.2) * result;
 
-	frag_color = vec4(mix(result, texture(reflectionTexture, vec2(debugCol.x + position.x, debugCol.y + position.y + 5) * 0.1).xyz, 0.1), 1.0);
+	vec4 mvpTex = mvp * vec4(outTexCoord, 1.0, 1.0);
+
+	frag_color = vec4(mix(result, texture(reflectionTexture, vec2(mvpTex.x + (position.z / 500), mvpTex.y + (-position.x / 500) + 5) * 5).xyz, 0.1), 1.0);
 }
 

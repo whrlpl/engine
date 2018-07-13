@@ -137,7 +137,7 @@ namespace Whirlpool.Core.Render
             material.SetVariable("vp", camera.view * camera.projection);
             material.SetVariable("textureRepetitions", 0);
             material.SetVariable("tint", Color4.White);
-            material.SetVariable("mainLightPos", new Vector3(4, 3, 3));
+            material.SetVariable("mainLightPos", new Vector3(0, 4, 0));
             material.SetVariable("mainLightTint", Color4.White);
             material.SetVariable("time", Time.currentTime);
             material.SetVariable("position", position);
