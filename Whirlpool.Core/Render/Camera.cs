@@ -34,6 +34,7 @@ namespace Whirlpool.Core.Render
         {
             get
             {
+                var rotationVector = new Vector3((float)Math.Sin(Time.currentTime) * 4, 0, (float)Math.Cos(Time.currentTime) * 4);
                 return Matrix4.LookAt(position, lookAtPos, cameraUp);
             }
         }
@@ -45,7 +46,7 @@ namespace Whirlpool.Core.Render
         {
             get
             {
-                return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(fieldOfView), windowRatio, 0.1f, 100.0f);
+                return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(fieldOfView), windowRatio, 0.1f, 250.0f);
             }
         }
 

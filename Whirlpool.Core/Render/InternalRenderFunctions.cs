@@ -20,7 +20,7 @@ namespace Whirlpool.Core.Render
     {
         int VAO, VBO, EBO;
 
-        static Material defaultMaterial, spriteMaterial, framebufferMaterial;
+        public static Material defaultMaterial, spriteMaterial, framebufferMaterial;
         protected bool _initialized;
 
         public Vector2 windowSize;
@@ -109,7 +109,7 @@ namespace Whirlpool.Core.Render
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
 
-        protected void _RenderMesh(Mesh mesh, Vector3 position, Vector3 size, Vector3 rotation, Texture texture, Material material)
+        protected void _RenderMesh(Mesh mesh, Vector3 position, Vector3 size, Quaternion rotation, Texture texture, Material material)
         {
             GL.BindVertexArray(mesh.VAO);
             GL.BindBuffer(BufferTarget.ArrayBuffer, mesh.VBO);
@@ -120,10 +120,7 @@ namespace Whirlpool.Core.Render
             if (!_initialized) _Init();
             Matrix4 model = Matrix4.CreateTranslation(position);
             model.Transpose();
-            model = model * Matrix4.CreateScale(size) * Matrix4.CreateFromQuaternion(Quaternion.FromEulerAngles(new Vector3(
-                    MathHelper.DegreesToRadians(rotation.X),
-                    MathHelper.DegreesToRadians(rotation.Y),
-                    MathHelper.DegreesToRadians(rotation.Z))));
+            model = model * Matrix4.CreateScale(size) * Matrix4.CreateFromQuaternion(rotation);
             //Matrix4 model = Matrix4.CreateScale(size);
             //model = model * (Matrix4.CreateRotationX(rotation.X) + Matrix4.CreateRotationX(rotation.Y) + Matrix4.CreateRotationX(rotation.Z)) * Matrix4.CreateScale(size);
             //model = Matrix4.Identity;
@@ -134,13 +131,16 @@ namespace Whirlpool.Core.Render
             Matrix4 mvp = model * camera.view * camera.projection;
 
             material.SetVariable("albedoTexture", 0);
+            material.SetVariable("depthTexture", 2);
             material.SetVariable("mvp", mvp);
+            material.SetVariable("model", model);
             material.SetVariable("vp", camera.view * camera.projection);
             material.SetVariable("textureRepetitions", 0);
             material.SetVariable("tint", Color4.White);
             material.SetVariable("mainLightPos", new Vector3(4, 3, 3));
             material.SetVariable("mainLightTint", Color4.White);
             material.SetVariable("time", Time.currentTime);
+            material.SetVariable("position", position);
 
             GL.DrawArrays(PrimitiveType.Triangles, 0, mesh.vertexIndices.Count);
 

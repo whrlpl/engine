@@ -8,7 +8,9 @@ in vec2 outTexCoord;
 out vec4 frag_color;
 //----------------------------------------
 uniform sampler2D renderedTexture;
+uniform sampler2D depthTexture;
 uniform sampler2D blurTexture;
+uniform float fogStrength;
 //----------------------------------------
 
 // modified from https://github.com/Jam3/glsl-fast-gaussian-blur/blob/master/5.glsl
@@ -31,16 +33,10 @@ vec4 blur(sampler2D image, vec2 uv, vec2 resolution, int strength) {
 
 void main() {
 
-	/*if (outTexCoord.x < 0.5)
+	/*if (outTexCoord.x < 0.5)*/
 
-	if (texture(blurTexture, outTexCoord.xy).xyz == vec3(1, 1, 1))
-	{
-		frag_color = blur(renderedTexture, outTexCoord.xy, vec2(1280, 720), 3);
-	}
-	else
-	{*/
-		frag_color = vec4(texture(renderedTexture, vec2(outTexCoord.x, outTexCoord.y)).xyz, 1.0);
-	//}
+	//frag_color = mix(vec4(texture(renderedTexture, outTexCoord.xy).xyz, 1.0), blur(renderedTexture, outTexCoord.xy, vec2(320, 240), 3), texture(depthTexture, outTexCoord.xy).x * 4);
+	frag_color = vec4(texture(renderedTexture, outTexCoord.xy));
 	
 	/*if (outTexCoord.x >= 0.4995 && outTexCoord.x <= 0.5005 || outTexCoord.y >= 0.4995 && outTexCoord.y <= 0.5005)
 		frag_color = vec4(1, 1, 1, 1);*/

@@ -48,7 +48,8 @@ namespace Whirlpool.Core.Render
                 name = "depthBufferTexture",
                 width = width,
                 height = height,
-                animated = false
+                animated = false,
+                textureUnit = TextureUnit.Texture2
             };
             GL.GenFramebuffers(1, out framebuffer);
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
@@ -131,6 +132,8 @@ namespace Whirlpool.Core.Render
                 Console.WriteLine("???");
                 return;
             }
+            depthBufferTexture.Bind();
+            Renderer.framebufferMaterial.SetVariable("fogStrength", 1.0f);
             Renderer.RenderFramebuffer(new Vector2(1.0f, -1.0f), new Vector2(1.0f, 1.0f), textureBufferTexture);
             //Renderer.RenderFramebuffer(new Vector2(drawWidth / 2, drawHeight / 2), new Vector2(drawWidth / 2, drawHeight / 2), textureBufferTexture);
 #endif
