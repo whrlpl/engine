@@ -7,6 +7,7 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 using Whirlpool.Core.IO;
 using Whirlpool.Core.Render;
+using Whirlpool.Core.Render.Nova;
 
 namespace Whirlpool.Core
 {
@@ -57,7 +58,9 @@ namespace Whirlpool.Core
 
             lastFrameCollection = DateTime.Now;
             Init();
-        }
+            Render3D.Init();
+            Render2D.Init();
+        } 
 
         private void HandleMouseEvent(MouseButtonEventArgs e)
         {

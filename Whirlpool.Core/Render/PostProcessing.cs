@@ -8,6 +8,7 @@ using Whirlpool.Core.Pattern;
 using Whirlpool.Core.IO;
 using Whirlpool.Core.Type;
 using OpenTK.Graphics;
+using Whirlpool.Core.Render.Nova;
 
 namespace Whirlpool.Core.Render
 {
@@ -133,8 +134,8 @@ namespace Whirlpool.Core.Render
                 return;
             }
             depthBufferTexture.Bind();
-            Renderer.framebufferMaterial.SetVariable("fogStrength", 1.0f);
-            Renderer.RenderFramebuffer(new Vector2(1.0f, -1.0f), new Vector2(1.0f, 1.0f), textureBufferTexture);
+            //Render2D.framebufferMaterial.SetVariable("fogStrength", 1.0f);
+            LegacyInterface.RenderFramebuffer(new Vector2(1.0f, -1.0f), new Vector2(1.0f, 1.0f), textureBufferTexture);
             //Renderer.RenderFramebuffer(new Vector2(drawWidth / 2, drawHeight / 2), new Vector2(drawWidth / 2, drawHeight / 2), textureBufferTexture);
 #endif
         }

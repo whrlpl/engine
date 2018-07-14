@@ -10,12 +10,10 @@ out vec2 outTexCoord;
 out vec3 outFragPos;
 out vec4 debugCol;
 //----------------------------------------
-uniform vec2 position;
-uniform vec2 size;
-uniform float rotation;
-uniform mat4 mvp;
-uniform mat4 model;
-uniform float time;
+uniform mat4 Projection;
+uniform mat4 View;
+uniform mat4 Model;
+uniform mat4 MVP;
 //----------------------------------------
 
 float random (vec2 st) {
@@ -28,13 +26,10 @@ void main() {
     outVertexPos = vec4(inVertexPos, 1.0); 
 	outTexCoord = _inTexCoord;
 	outNormal = inNormal;
-	vec4 calcVertPos = mvp * vec4(inVertexPos, 1.0);
 
-	outFragPos = vec3(model * vec4(inVertexPos, 1.0));
+	vec4 calcVertPos = MVP * vec4(inVertexPos, 1.0);
+	outFragPos = vec3(Model * vec4(inVertexPos, 1.0));
 
-	//gl_Position = mvp * vec4(inVertexPos + vec3(random(calcVertPos.xy) / 8), 1.0);
-
-	//gl_Position = mvp * (vec4(vec3(random(outFragPos.xy)), 1.0) + vec4(inVertexPos.xyz, 1.0));
-	gl_Position = mvp * vec4(inVertexPos.xyz, 1.0);
+	gl_Position = MVP * vec4(inVertexPos, 1.0);
 	debugCol = vec4(gl_Position.xyz, 1.0);
 }

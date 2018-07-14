@@ -111,11 +111,15 @@
     <Compile Include="Render\InternalRenderFunctions.cs" />
     <Compile Include="Render\Camera.cs" />
     <Compile Include="Render\Material.cs" />
+    <Compile Include="Render\Nova\LegacyInterface.cs" />
+    <Compile Include="Render\Nova\Render2D.cs" />
+    <Compile Include="Render\Nova\Render3D.cs" />
     <Compile Include="Render\PublicRenderFunctions.cs" />
     <Compile Include="Render\RenderComponent.cs" />
     <Compile Include="Render\RenderTexture.cs" />
     <Compile Include="Render\Shader.cs" />
     <Compile Include="Render\Texture.cs" />
+    <Compile Include="Type\Any.cs" />
     <Compile Include="Type\NeedsRefactoring.cs" />
     <Compile Include="Type\Rectangle.cs" />
   </ItemGroup>

@@ -10,28 +10,29 @@ in vec4 debugCol;
 //----------------------------------------
 layout(location = 0) out vec4 frag_color;
 //----------------------------------------
-uniform float textureRepetitions;
-uniform sampler2D albedoTexture;
-uniform vec4 tint;
-uniform mat4 mvp;
-uniform mat4 vp;
-uniform vec3 mainLightPos;
-uniform vec4 mainLightTint;
-uniform float time;
+uniform sampler2D AlbedoTexture;
+uniform mat4 Model;
+uniform mat4 View;
+uniform mat4 Projection;
+uniform mat4 MVP;
+uniform vec3 MainLightPos;
+uniform vec4 MainLightTint;
+uniform vec3 Position;
 //----------------------------------------
 
 void main() {
 	float ambientLightStrength = 1/2;
-	vec3 ambientBase = ambientLightStrength * mainLightTint.xyz;
+	vec3 ambientBase = ambientLightStrength * MainLightTint.xyz;
 	vec4 normalizedNormal = vec4(normalize(outNormal), 1);
-	vec4 lightDirection = normalize(vec4(mainLightPos, 1) - (vec4(outFragPos, 1)));
+	vec4 lightDirection = normalize(vec4(MainLightPos, 1) - vec4(outFragPos.xyz, 1));
 
 	float diffuseBase = max(dot(normalizedNormal, lightDirection), 0.0);
-	vec3 diffuseLight = diffuseBase * tint.xyz;
-	vec3 ambientLight = ambientBase * tint.xyz;
+	vec3 diffuseLight = diffuseBase * MainLightTint.xyz;
+	vec3 ambientLight = ambientBase * MainLightTint.xyz;
 
-	vec3 result = texture(albedoTexture, outTexCoord).xyz;
-	result = max((ambientBase + diffuseBase), 0.2) * result;
+	vec3 result = max((ambientBase + diffuseBase), 0.2) * texture(AlbedoTexture, outTexCoord).xyz;
+
+	vec4 mvpTex = MVP * vec4(outTexCoord, 1.0, 1.0);
 
 	frag_color = vec4(result, 1.0);
 }

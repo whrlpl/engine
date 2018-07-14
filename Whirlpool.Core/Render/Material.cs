@@ -1,9 +1,11 @@
 ﻿#define CACHELOCATIONS
+using System;
 using System.Collections.Generic;
 using System.Text;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
+using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.Render
 {
@@ -59,6 +61,14 @@ namespace Whirlpool.Core.Render
             if (locations.TryGetValue(variable, out var locationCached))
                 return locationCached;
             return -1;
+        }
+
+        public void SetVariables(List<Tuple<string, Any>> variables)
+        {
+            foreach (Tuple<string, Any> v in variables)
+            {
+                SetVariable(v.Item1, v.Item2.GetValue());
+            }
         }
 
         /// <summary>
