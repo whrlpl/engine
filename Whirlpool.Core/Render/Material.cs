@@ -63,11 +63,11 @@ namespace Whirlpool.Core.Render
             return -1;
         }
 
-        public void SetVariables(List<Tuple<string, Any>> variables)
+        public void SetVariables(Dictionary<string, Any> variables)
         {
-            foreach (Tuple<string, Any> v in variables)
+            foreach (KeyValuePair<string, Any> v in variables)
             {
-                SetVariable(v.Item1, v.Item2.GetValue());
+                SetVariable(v.Key, v.Value.GetValue());
             }
         }
 

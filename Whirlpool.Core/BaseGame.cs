@@ -7,13 +7,12 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 using Whirlpool.Core.IO;
 using Whirlpool.Core.Render;
-using Whirlpool.Core.Render.Nova;
 
 namespace Whirlpool.Core
 {
     public abstract class BaseGame : OpenTK.GameWindow
     {
-        int frameCap = 30;
+        int frameCap = -1;
         DateTime lastFrameCollection;
         public float framesLastSecond;
         public Thread updateThread;
@@ -58,8 +57,8 @@ namespace Whirlpool.Core
 
             lastFrameCollection = DateTime.Now;
             Init();
-            Render3D.Init();
-            Render2D.Init();
+
+            RenderShared.Init();
         } 
 
         private void HandleMouseEvent(MouseButtonEventArgs e)
@@ -89,7 +88,7 @@ namespace Whirlpool.Core
         {
             base.OnResize(e);
             GL.Viewport(Size);
-            Renderer.GetInstance().windowSize = new Vector2(Size.Width, Size.Height);
+            //RenderShared.windowSize = new Vector2(Size.Width, Size.Height);
             //PostProcessing.GetInstance().Resize(Size);
         }
 

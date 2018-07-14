@@ -7,7 +7,6 @@ using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.Render
 {
-    [NeedsRefactoring]
     public class Texture
     {
         public string name;
@@ -27,8 +26,9 @@ namespace Whirlpool.Core.Render
         {
             Texture temp = new Texture()
             {
-                name = string.Empty
+                name = "textureFromData_" + width + height
             };
+
             using (var stream = new MemoryStream())
             {
                 byte[] rawData;

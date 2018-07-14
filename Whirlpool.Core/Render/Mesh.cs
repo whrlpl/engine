@@ -27,13 +27,12 @@ namespace Whirlpool.Core.Render
             // Generate VAO, VBO
             GL.GenVertexArrays(1, out VAO);
             GL.GenBuffers(1, out VBO);
-            GL.GenBuffers(1, out EBO);
+            //GL.GenBuffers(1, out EBO);
 
             // Buffer data
             uint[] vertexIndices_ = vertexIndices.ToArray();
             float[] vertices_ = new float[vertexIndices_.Length * 8];
-            //for (int i = 0; i < vertices.Count; ++i)
-            for (int i = vertexIndices.Count - 1; i >= 0; --i)
+            for (int i = 0; i < vertexIndices.Count; ++i)
             {
                 vertices_[i * 8 + 7] = normals[(int)normalIndices[i]].X;
                 vertices_[i * 8 + 6] = normals[(int)normalIndices[i]].Y;

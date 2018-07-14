@@ -99,7 +99,6 @@
     <Compile Include="IO\DiscordController.cs" />
     <Compile Include="IO\InputHandler.cs" />
     <Compile Include="IO\Logging.cs" />
-    <Compile Include="Render\Color4Extension.cs" />
     <Compile Include="Render\Mesh.cs" />
     <Compile Include="IO\UnsafeNativeMethods.cs" />
     <Compile Include="IO\FileBank.cs" />
@@ -108,14 +107,11 @@
     <Compile Include="Pattern\Exceptions.cs" />
     <Compile Include="Pattern\Singleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Render\InternalRenderFunctions.cs" />
     <Compile Include="Render\Camera.cs" />
     <Compile Include="Render\Material.cs" />
-    <Compile Include="Render\Nova\LegacyInterface.cs" />
-    <Compile Include="Render\Nova\Render2D.cs" />
-    <Compile Include="Render\Nova\Render3D.cs" />
-    <Compile Include="Render\PublicRenderFunctions.cs" />
-    <Compile Include="Render\RenderComponent.cs" />
+    <Compile Include="Render\Render2D.cs" />
+    <Compile Include="Render\Render3D.cs" />
+    <Compile Include="Render\RenderShared.cs" />
     <Compile Include="Render\RenderTexture.cs" />
     <Compile Include="Render\Shader.cs" />
     <Compile Include="Render\Texture.cs" />
@@ -131,38 +127,19 @@
     </None>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
-    <None Include="Shaders\blur.glsl" />
-    <None Include="Shaders\Cars\frag.glsl">
+    <None Include="Shaders\2D\fbFrag.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Shaders\Cars\vert.glsl">
+    <None Include="Shaders\3D\frag.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Shaders\clouds.glsl">
+    <None Include="Shaders\2D\frag.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Shaders\fbFrag.glsl">
+    <None Include="Shaders\2D\vert.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Shaders\fontfrag.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Shaders\frag.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Shaders\grad.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Shaders\pulse.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Shaders\spritefrag.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Shaders\spritevert.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Shaders\vert.glsl">
+    <None Include="Shaders\3D\vert.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
