@@ -1,6 +1,7 @@
 ﻿#define CACHELOCATIONS
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 using OpenTK;
 using OpenTK.Graphics;
@@ -9,7 +10,7 @@ using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.Render
 {
-    public class Material
+    public unsafe class Material
     {
         private int shaderProgram;
         private Dictionary<string, int> locations = new Dictionary<string, int>();
@@ -109,6 +110,39 @@ namespace Whirlpool.Core.Render
         public void SetVariable(string variable, Matrix4 value)
         {
             GL.ProgramUniformMatrix4(shaderProgram, GetVariableLocation(variable), false, ref value);
+        }
+
+        public void SetVariable(string variable, int[] value)
+        {
+            GL.ProgramUniform4(shaderProgram, GetVariableLocation(variable), value.Length, value);
+        }
+
+        public void SetVariable(string variable, float[] value)
+        {
+            GL.ProgramUniform4(shaderProgram, GetVariableLocation(variable), value.Length, value);
+        }
+
+        public void SetVariable(string variable, Vector4[] value)
+        {
+            fixed (Vector4* ptr = &value[0])
+            {
+                GL.ProgramUniform4(shaderProgram, GetVariableLocation(variable), value.Length, (float*)ptr);
+            }
+        }
+        
+        public void SetVariable(string variable, Color4[] value)
+        {
+            fixed (Color4* ptr = &value[0])
+            {
+                GL.ProgramUniform4(shaderProgram, GetVariableLocation(variable), value.Length, (float*)ptr);
+            }
+        }
+        public void SetVariable(string variable, Vector3[] value)
+        {
+            fixed (Vector3* ptr = &value[0])
+            {
+                GL.ProgramUniform4(shaderProgram, GetVariableLocation(variable), value.Length, (float*)ptr);
+            }
         }
     }
     

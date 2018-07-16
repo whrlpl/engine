@@ -11,9 +11,10 @@ namespace Whirlpool.Core.Render
     {
         public static Vector2 renderResolution = new Vector2(-1, -1);
 
-        public static void Init()
+//        public static void Init(Vector2 desiredResolution)
         {
-            if (renderResolution.X < 0 || renderResolution.Y < 0)
+            renderResolution = desiredResolution;
+            if (desiredResolution.X < 0 || desiredResolution.Y < 0)
             {
                 renderResolution = new Vector2(BaseGame.Size.Width, BaseGame.Size.Height);
             }

@@ -58,7 +58,7 @@ namespace Whirlpool.Core
             lastFrameCollection = DateTime.Now;
             Init();
 
-            RenderShared.Init();
+            RenderShared.Init(new Vector2(GlobalSettings.Default.renderResolutionX, GlobalSettings.Default.renderResolutionY));
         } 
 
         private void HandleMouseEvent(MouseButtonEventArgs e)

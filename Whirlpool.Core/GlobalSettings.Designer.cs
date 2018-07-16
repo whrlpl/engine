@@ -37,7 +37,7 @@ namespace Whirlpool.Core {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("960")]
+        [global::System.Configuration.DefaultSettingValueAttribute("720")]
         public int resolutionY {
             get {
                 return ((int)(this["resolutionY"]));
@@ -92,6 +92,24 @@ namespace Whirlpool.Core {
             }
             set {
                 this["improvedLatency"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("320")]
+        public int renderResolutionX {
+            get {
+                return ((int)(this["renderResolutionX"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("240")]
+        public int renderResolutionY {
+            get {
+                return ((int)(this["renderResolutionY"]));
             }
         }
     }

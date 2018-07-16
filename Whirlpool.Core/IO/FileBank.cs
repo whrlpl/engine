@@ -27,7 +27,7 @@ namespace Whirlpool.Core.IO
 #if DEBUG
                 throw new TextureNotFoundException("Could not find the texture " + name + " (will be replaced with a placeholder in release builds)");
 #else
-                return instance.textureCache["texNotFound"];
+                return instance.textureBank["blank"];
 #endif
         }
 

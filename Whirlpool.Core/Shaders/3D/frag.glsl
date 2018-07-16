@@ -17,12 +17,12 @@ uniform mat4 Projection;
 uniform mat4 MVP;
 uniform vec3 MainLightPos;
 uniform vec4 MainLightTint;
+uniform float AmbientLightStrength;
 uniform vec3 Position;
 //----------------------------------------
 
 void main() {
-	float ambientLightStrength = 1/2;
-	vec3 ambientBase = ambientLightStrength * MainLightTint.xyz;
+	vec3 ambientBase = AmbientLightStrength * MainLightTint.xyz;
 	vec4 normalizedNormal = vec4(normalize(outNormal), 1);
 	vec4 lightDirection = normalize(vec4(MainLightPos, 1) - vec4(outFragPos.xyz, 1));
 
@@ -30,7 +30,7 @@ void main() {
 	vec3 diffuseLight = diffuseBase * MainLightTint.xyz;
 	vec3 ambientLight = ambientBase * MainLightTint.xyz;
 
-	vec3 result = max((ambientBase + diffuseBase), 0.2) * texture(AlbedoTexture, outTexCoord).xyz;
+	vec3 result = max((ambientBase + diffuseBase), AmbientLightStrength) * texture(AlbedoTexture, outTexCoord).xyz;
 
 	vec4 mvpTex = MVP * vec4(outTexCoord, 1.0, 1.0);
 

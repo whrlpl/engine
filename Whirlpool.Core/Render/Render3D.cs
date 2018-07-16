@@ -15,9 +15,9 @@ namespace Whirlpool.Core.Render
 
         public static void Init()
         {
-            PostProcessing.GetInstance().Init(new Vector2(BaseGame.Size.Width, BaseGame.Size.Height));
+            PostProcessing.GetInstance().Init(new Vector2(BaseGame.Size.Width, BaseGame.Size.Height), GlobalSettings.Default.renderResolutionX, GlobalSettings.Default.renderResolutionY);
             sceneCamera = new Camera();
-            sceneCamera.viewportSize = new Vector2(BaseGame.Size.Width, BaseGame.Size.Height);
+            sceneCamera.viewportSize = new Vector2(GlobalSettings.Default.renderResolutionX, GlobalSettings.Default.renderResolutionY);
             defaultMaterial = new MaterialBuilder()
                 .Build()
                 .Attach(new Shader("Shaders\\3D\\vert.glsl", ShaderType.VertexShader))
@@ -38,7 +38,7 @@ namespace Whirlpool.Core.Render
             material?.Use();
             texture?.Bind();
 
-            Matrix4 model = Matrix4.CreateTranslation(position);
+            Matrix4 model = Matrix4.CreateTranslation(position + sceneCamera.worldPosition); // lol??? TODO: maybe dont do this
             model.Transpose();
             model *= Matrix4.CreateScale(scale) * Matrix4.CreateFromQuaternion(rotation);
             model.Transpose();

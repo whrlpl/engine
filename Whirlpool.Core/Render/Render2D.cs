@@ -102,12 +102,22 @@ namespace Whirlpool.Core.Render
                 { "FlipX", false },
                 { "FlipY", false },
                 { "AlbedoTexture", 0 },
-                { "Position", position },
-                { "Scale", scale }
+                { "Position", position + new Vector2(PixelsToNDCScaleFBO(scale).X, -PixelsToNDCScaleFBO(scale).Y)},
+                { "Scale", PixelsToNDCScaleFBO(scale) }
             });
 
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
+        protected static Vector2 PixelsToNDCFBO(Vector2 pixels)
+        {
+            return new Vector2((2.0f / BaseGame.Size.Width) * -pixels.X + 1, (2.0f / BaseGame.Size.Height) * pixels.Y - 1.0f);
+        }
+
+        protected static Vector2 PixelsToNDCScaleFBO(Vector2 pixels)
+        {
+            return new Vector2((2.0f / BaseGame.Size.Width) * pixels.X / 2.0f, (2.0f / BaseGame.Size.Height) * pixels.Y / 2.0f);
+        }
+
         protected static Vector2 PixelsToNDC(Vector2 pixels)
         {
             return new Vector2((2 / renderResolution.X) * -pixels.X + 1, (2 / renderResolution.Y) * pixels.Y - 1);

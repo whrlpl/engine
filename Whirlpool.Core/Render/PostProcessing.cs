@@ -43,7 +43,7 @@ namespace Whirlpool.Core.Render
                 width = width,
                 height = height,
                 animated = false,
-                textureUnit = TextureUnit.Texture2
+                textureUnit = TextureUnit.Texture31
             };
             GL.GenFramebuffers(1, out framebuffer);
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
@@ -56,7 +56,8 @@ namespace Whirlpool.Core.Render
             textureBufferTexture.textureMinFilter = TextureMinFilter.Nearest;
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, PixelFormat.Rgba, PixelType.Float, IntPtr.Zero);
 
-            
+
+            GL.ActiveTexture(TextureUnit.Texture31);
             GL.GenTextures(1, out depthBufferTexture.glTexture);
             GL.BindTexture(TextureTarget.Texture2D, depthBufferTexture.glTexture);
             depthBufferTexture.textureMagFilter = TextureMagFilter.Nearest;
@@ -65,6 +66,7 @@ namespace Whirlpool.Core.Render
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Depth24Stencil8, width, height, 0, PixelFormat.DepthStencil, PixelType.UnsignedInt248, IntPtr.Zero);
             GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.Depth24Stencil8, width, height);
             GL.BindTexture(TextureTarget.Texture2D, 0);
+            GL.ActiveTexture(TextureUnit.Texture0);
 
             GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, textureBufferTexture.glTexture, 0);
             GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthStencilAttachment, TextureTarget.Texture2D, depthBufferTexture.glTexture, 0);
@@ -78,6 +80,8 @@ namespace Whirlpool.Core.Render
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.Enable(EnableCap.DepthTest);
+            //GL.Enable(EnableCap.DepthClamp);
+            GL.DepthRange(0.0f, 100.0f);
             GL.DepthMask(true);
             GL.Viewport(0, 0, width, height);
         }
@@ -85,7 +89,7 @@ namespace Whirlpool.Core.Render
         public void PostRender()
         {
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-            GL.ClearColor(Color4.Gray);
+            GL.ClearColor(Color4.Black);
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.Disable(EnableCap.DepthTest);
             GL.Viewport(0, 0, drawWidth, drawHeight);
@@ -95,7 +99,8 @@ namespace Whirlpool.Core.Render
                 return;
             }
             depthBufferTexture.Bind();
-            Render2D.DrawFramebuffer(new Vector2(1.0f, -1.0f), new Vector2(1.0f, 1.0f), textureBufferTexture);
+            var scale = (float)BaseGame.Size.Height / GlobalSettings.Default.renderResolutionY;
+            Render2D.DrawFramebuffer(new Vector2(0.0f, 0.0f), new Vector2(GlobalSettings.Default.renderResolutionX * scale, GlobalSettings.Default.renderResolutionY * scale), textureBufferTexture);
         }
 
         public void Resize(Size windowSize)
