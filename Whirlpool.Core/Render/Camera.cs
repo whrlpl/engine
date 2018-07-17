@@ -9,6 +9,8 @@ namespace Whirlpool.Core.Render
     {
         public Vector3 position = new Vector3(10, 2, 0);
         public Vector3 lookAtPos = new Vector3(-10, 0, 0);
+        public Vector3 camNormal = new Vector3(0, 1, 0);
+        public Vector3 worldPosition = new Vector3(0, 0, 0);
 
         public Vector2 viewportSize;
         public float fieldOfView = 50;
@@ -34,8 +36,11 @@ namespace Whirlpool.Core.Render
         {
             get
             {
-                var rotationVector = new Vector3((float)Math.Sin(Time.currentTime) * 4, 0, (float)Math.Cos(Time.currentTime) * 4);
-                return Matrix4.LookAt(position, lookAtPos, cameraUp);
+                var basis = BuildBasis();
+                var camPos = Vector3.TransformVector(position, basis);
+                var lookAtPos_ = Vector3.TransformVector(lookAtPos, basis);
+                return Matrix4.LookAt(camPos, lookAtPos_, cameraUp);
+                //return Matrix4.LookAt(position, lookAtPos, cameraUp);
             }
         }
 
@@ -46,7 +51,7 @@ namespace Whirlpool.Core.Render
         {
             get
             {
-                return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(fieldOfView), windowRatio, 0.1f, 250.0f);
+                return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(fieldOfView), windowRatio, 0.1f, 1000.0f);
             }
         }
 
@@ -76,5 +81,49 @@ namespace Whirlpool.Core.Render
         /// Update the camera.
         /// </summary>
         public void Update() { }
+
+
+        // Code ported from riperiperi/mkjs 
+        public Matrix4 BuildBasis()
+        {
+            vAngle = FixDir(vAngle);
+            var forward = new Vector3((float)Math.Sin(vAngle), 0, (float)-Math.Cos(vAngle));
+            var side = new Vector3((float)Math.Cos(vAngle), 0, (float)Math.Sin(vAngle));
+            var basis = GramSchmidt(camNormal, side, forward);
+            var tmp = basis[0];
+            basis[0] = basis[1];
+            basis[1] = tmp;
+            return new Matrix4(
+                basis[0].X, basis[0].Y, basis[0].Z, 0,
+                basis[1].X, basis[1].Y, basis[1].Z, 0,
+                basis[2].X, basis[2].Y, basis[2].Z, 0,
+                0, 0, 0, 1
+            );
+        }
+
+        // Code ported from riperiperi/mkjs 
+        public Vector3[] GramSchmidt(Vector3 v1, Vector3 v2, Vector3 v3)
+        {
+            var u1 = v1;
+            var u2 = v2 - Project(u1, v2);
+            var u3 = v3 - Project(u1, v3) - Project(u2, v3);
+            return new Vector3[] { Vector3.Normalize(u1), Vector3.Normalize(u2), Vector3.Normalize(u3) };
+        }
+
+        // Code ported from riperiperi/mkjs 
+        public Vector3 Project(Vector3 u, Vector3 v)
+        {
+            return u * (Vector3.Dot(u, v) / Vector3.Dot(u, u));
+        }
+
+        public float FixDir(float dir)
+        {
+            return PosMod(dir, (float)Math.PI * 2);
+        }
+
+        public float PosMod(float i, float n)
+        {
+            return (i % n + n) % n;
+        }
     }
 }
