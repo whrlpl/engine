@@ -14,6 +14,7 @@ namespace Whirlpool.Core.Render
     {
         private int shaderProgram;
         private Dictionary<string, int> locations = new Dictionary<string, int>();
+        public string name = "Unnamed material";
 
         public Material()
         {
@@ -144,6 +145,11 @@ namespace Whirlpool.Core.Render
                 GL.ProgramUniform4(shaderProgram, GetVariableLocation(variable), value.Length, (float*)ptr);
             }
         }
+
+        public override string ToString()
+        {
+            return name;
+        }
     }
     
     /// <summary>
@@ -156,6 +162,12 @@ namespace Whirlpool.Core.Render
         public MaterialBuilder Build()
         {
             instance = new Material();
+            return this;
+        }
+        
+        public MaterialBuilder SetName(string name)
+        {
+            instance.name = name;
             return this;
         }
 

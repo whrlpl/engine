@@ -61,6 +61,7 @@ namespace Whirlpool.Core.Render
 
             defaultSpriteMaterial = new MaterialBuilder()
                 .Build()
+                .SetName("Default Sprite Material")
                 .Attach(new Shader("Shaders\\2D\\vert.glsl", ShaderType.VertexShader))
                 .Attach(new Shader("Shaders\\2D\\frag.glsl", ShaderType.FragmentShader))
                 .Link()

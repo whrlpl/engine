@@ -11,12 +11,6 @@
     <Setting Name="fullscreenMode" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="lastUsername" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="firstTime" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="improvedLatency" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
