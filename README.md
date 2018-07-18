@@ -1,9 +1,6 @@
 ![Whirlpool Engine Logo](https://user-images.githubusercontent.com/12881812/39068823-8e4cf666-44d5-11e8-87ff-65ff17d14fd2.png)
 A project that I hope will let me get closer to bare-metal engine work.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/t4y74on4e96vstg3?svg=true)](https://ci.appveyor.com/project/LetsRaceBwoi/engine)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c1144699f9ae4d258a99d66b1379f3b8)](https://www.codacy.com/app/LetsRaceBwoi/engine?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=whirlpool-engine/engine&amp;utm_campaign=Badge_Grade)
-
 ## Roadmap
 There's no real roadmap.  There's no real "end project".  This is merely a sandbox for me to dump work into and come back to later if I like something.  Maybe I'll make a game out of this, maybe I won't.
 
@@ -21,5 +18,5 @@ Wow! Even the features have new features!
 
 - It renders nice cubes
 - It renders nice sprites
-- It renders models... sometimes...
-- It can do text rendering, but not efficiently
+- It renders models
+- It's actually pretty neat and has custom materials, shader support, etc.
