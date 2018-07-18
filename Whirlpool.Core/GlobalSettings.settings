@@ -6,19 +6,19 @@
       <Value Profile="(Default)">1280</Value>
     </Setting>
     <Setting Name="resolutionY" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">960</Value>
+      <Value Profile="(Default)">720</Value>
     </Setting>
     <Setting Name="fullscreenMode" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="lastUsername" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="firstTime" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="improvedLatency" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="renderResolutionX" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">320</Value>
+    </Setting>
+    <Setting Name="renderResolutionY" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">240</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -1,6 +1,7 @@
 ﻿#define CACHELOCATIONS
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 using OpenTK;
 using OpenTK.Graphics;
@@ -9,10 +10,11 @@ using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.Render
 {
-    public class Material
+    public unsafe class Material
     {
         private int shaderProgram;
         private Dictionary<string, int> locations = new Dictionary<string, int>();
+        public string name = "Unnamed material";
 
         public Material()
         {
@@ -63,11 +65,11 @@ namespace Whirlpool.Core.Render
             return -1;
         }
 
-        public void SetVariables(List<Tuple<string, Any>> variables)
+        public void SetVariables(Dictionary<string, Any> variables)
         {
-            foreach (Tuple<string, Any> v in variables)
+            foreach (KeyValuePair<string, Any> v in variables)
             {
-                SetVariable(v.Item1, v.Item2.GetValue());
+                SetVariable(v.Key, v.Value.GetValue());
             }
         }
 
@@ -110,6 +112,44 @@ namespace Whirlpool.Core.Render
         {
             GL.ProgramUniformMatrix4(shaderProgram, GetVariableLocation(variable), false, ref value);
         }
+
+        public void SetVariable(string variable, int[] value)
+        {
+            GL.ProgramUniform4(shaderProgram, GetVariableLocation(variable), value.Length, value);
+        }
+
+        public void SetVariable(string variable, float[] value)
+        {
+            GL.ProgramUniform4(shaderProgram, GetVariableLocation(variable), value.Length, value);
+        }
+
+        public void SetVariable(string variable, Vector4[] value)
+        {
+            fixed (Vector4* ptr = &value[0])
+            {
+                GL.ProgramUniform4(shaderProgram, GetVariableLocation(variable), value.Length, (float*)ptr);
+            }
+        }
+        
+        public void SetVariable(string variable, Color4[] value)
+        {
+            fixed (Color4* ptr = &value[0])
+            {
+                GL.ProgramUniform4(shaderProgram, GetVariableLocation(variable), value.Length, (float*)ptr);
+            }
+        }
+        public void SetVariable(string variable, Vector3[] value)
+        {
+            fixed (Vector3* ptr = &value[0])
+            {
+                GL.ProgramUniform4(shaderProgram, GetVariableLocation(variable), value.Length, (float*)ptr);
+            }
+        }
+
+        public override string ToString()
+        {
+            return name;
+        }
     }
     
     /// <summary>
@@ -122,6 +162,12 @@ namespace Whirlpool.Core.Render
         public MaterialBuilder Build()
         {
             instance = new Material();
+            return this;
+        }
+        
+        public MaterialBuilder SetName(string name)
+        {
+            instance.name = name;
             return this;
         }
 

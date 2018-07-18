@@ -11,6 +11,7 @@ namespace Whirlpool.Core.IO.Assets
         public static Mesh LoadAsset(string fileName)
         {
             Mesh temp = new Mesh();
+            temp.fileName = fileName;
             using (var sr = new StreamReader(fileName))
             {
                 List<int> vertexIndices = new List<int>();

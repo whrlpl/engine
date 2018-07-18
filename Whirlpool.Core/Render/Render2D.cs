@@ -6,14 +6,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Whirlpool.Core.Render.Nova
+namespace Whirlpool.Core.Render
 {
     public class Render2D
     {
-        private static Material defaultUnlitMaterial;
+        public static Material defaultSpriteMaterial;
         private static int QuadVAO, QuadVBO, QuadEBO;
 
         public static Vector2 renderResolution;
+
+        public enum FlipMode : byte
+        {
+            X = 0b0001,
+            Y = 0b0010,
+            None = 0b0000
+        }
+
 
         public static void Init()
         {
@@ -51,10 +59,11 @@ namespace Whirlpool.Core.Render.Nova
             GL.VertexAttribPointer(2, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 5 * sizeof(float));
             GL.EnableVertexAttribArray(2);
 
-            defaultUnlitMaterial = new MaterialBuilder()
+            defaultSpriteMaterial = new MaterialBuilder()
                 .Build()
-                .Attach(new Shader("Shaders\\spritevert.glsl", ShaderType.VertexShader))
-                .Attach(new Shader("Shaders\\spritefrag.glsl", ShaderType.FragmentShader))
+                .SetName("Default Sprite Material")
+                .Attach(new Shader("Shaders\\2D\\vert.glsl", ShaderType.VertexShader))
+                .Attach(new Shader("Shaders\\2D\\frag.glsl", ShaderType.FragmentShader))
                 .Link()
                 .GetMaterial();
         }
@@ -64,17 +73,17 @@ namespace Whirlpool.Core.Render.Nova
             GL.BindVertexArray(QuadVAO);
             GL.BindBuffer(BufferTarget.ArrayBuffer, QuadVBO);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, QuadEBO);
-            if (material == null) material = defaultUnlitMaterial;
+            if (material == null) material = defaultSpriteMaterial;
 
             material.Use();
             texture?.Bind();
 
-            material.SetVariables(new List<Tuple<string, Type.Any>>{
-                new Tuple<string, Type.Any>("FlipX", false),
-                new Tuple<string, Type.Any>("FlipY", false),
-                new Tuple<string, Type.Any>("AlbedoTexture", 0),
-                new Tuple<string, Type.Any>("Position", PixelsToNDC(position)),
-                new Tuple<string, Type.Any>("Scale", PixelsToNDCScale(scale))
+            material.SetVariables(new Dictionary<string, Type.Any>(){
+                { "FlipX", false },
+                { "FlipY", false },
+                { "AlbedoTexture", 0 },
+                { "Position", PixelsToNDC(position) },
+                { "Scale", PixelsToNDCScale(scale) }
             });
 
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
@@ -85,21 +94,31 @@ namespace Whirlpool.Core.Render.Nova
             GL.BindVertexArray(QuadVAO);
             GL.BindBuffer(BufferTarget.ArrayBuffer, QuadVBO);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, QuadEBO);
-            Material material = defaultUnlitMaterial;
+            Material material = defaultSpriteMaterial;
 
             material.Use();
             texture?.Bind();
 
-            material.SetVariables(new List<Tuple<string, Type.Any>>{
-                new Tuple<string, Type.Any>("FlipX", false),
-                new Tuple<string, Type.Any>("FlipY", false),
-                new Tuple<string, Type.Any>("AlbedoTexture", 0),
-                new Tuple<string, Type.Any>("Position", position),
-                new Tuple<string, Type.Any>("Scale", scale)
+            material.SetVariables(new Dictionary<string, Type.Any>(){
+                { "FlipX", false },
+                { "FlipY", false },
+                { "AlbedoTexture", 0 },
+                { "Position", position + new Vector2(PixelsToNDCScaleFBO(scale).X, -PixelsToNDCScaleFBO(scale).Y)},
+                { "Scale", PixelsToNDCScaleFBO(scale) }
             });
 
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
+        protected static Vector2 PixelsToNDCFBO(Vector2 pixels)
+        {
+            return new Vector2((2.0f / BaseGame.Size.Width) * -pixels.X + 1, (2.0f / BaseGame.Size.Height) * pixels.Y - 1.0f);
+        }
+
+        protected static Vector2 PixelsToNDCScaleFBO(Vector2 pixels)
+        {
+            return new Vector2((2.0f / BaseGame.Size.Width) * pixels.X / 2.0f, (2.0f / BaseGame.Size.Height) * pixels.Y / 2.0f);
+        }
+
         protected static Vector2 PixelsToNDC(Vector2 pixels)
         {
             return new Vector2((2 / renderResolution.X) * -pixels.X + 1, (2 / renderResolution.Y) * pixels.Y - 1);
