@@ -58,13 +58,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="OpenTK, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpenTK.2.0.0\lib\net20\OpenTK.dll</HintPath>
+      <HintPath>..\..\..\..\source\repos\DungeonGame\packages\OpenTK.2.0.0\lib\net20\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\source\repos\DungeonGame\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\source\repos\DungeonGame\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\source\repos\DungeonGame\packages\System.Runtime.CompilerServices.Unsafe.4.4.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -89,10 +99,8 @@
     <Compile Include="IO\DiscordController.cs" />
     <Compile Include="IO\InputHandler.cs" />
     <Compile Include="IO\Logging.cs" />
+    <Compile Include="Render\Color4Extension.cs" />
     <Compile Include="Render\Mesh.cs" />
-    <Compile Include="IO\Events\ScreenEvents.cs" />
-    <Compile Include="IO\Events\UIEvents.cs" />
-    <Compile Include="IO\UILoader.cs" />
     <Compile Include="IO\UnsafeNativeMethods.cs" />
     <Compile Include="IO\FileBank.cs" />
     <Compile Include="IO\Time.cs" />
@@ -103,24 +111,17 @@
     <Compile Include="Render\InternalRenderFunctions.cs" />
     <Compile Include="Render\Camera.cs" />
     <Compile Include="Render\Material.cs" />
+    <Compile Include="Render\Nova\LegacyInterface.cs" />
+    <Compile Include="Render\Nova\Render2D.cs" />
+    <Compile Include="Render\Nova\Render3D.cs" />
     <Compile Include="Render\PublicRenderFunctions.cs" />
     <Compile Include="Render\RenderComponent.cs" />
     <Compile Include="Render\RenderTexture.cs" />
-    <Compile Include="Render\Screen.cs" />
     <Compile Include="Render\Shader.cs" />
     <Compile Include="Render\Texture.cs" />
+    <Compile Include="Type\Any.cs" />
     <Compile Include="Type\NeedsRefactoring.cs" />
     <Compile Include="Type\Rectangle.cs" />
-    <Compile Include="UI\Button.cs" />
-    <Compile Include="UI\Checkbox.cs" />
-    <Compile Include="UI\DialogBox.cs" />
-    <Compile Include="UI\Font.cs" />
-    <Compile Include="UI\Image.cs" />
-    <Compile Include="UI\Label.cs" />
-    <Compile Include="UI\SlicedSprite.cs" />
-    <Compile Include="UI\Textbox.cs" />
-    <Compile Include="UI\Tooltip.cs" />
-    <Compile Include="UI\UIComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -131,6 +132,12 @@
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <None Include="Shaders\blur.glsl" />
+    <None Include="Shaders\Cars\frag.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\Cars\vert.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Shaders\clouds.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -171,11 +178,6 @@
     </Content>
     <Compile Include="Render\PostProcessing.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Whirlpool.Bytecode\Whirlpool.Bytecode.Interpreter\Whirlpool.Bytecode.Interpreter.csproj">
-      <Project>{5c639a98-985c-48c2-b6cd-d9ee7a4b1158}</Project>
-      <Name>Whirlpool.Bytecode.Interpreter</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

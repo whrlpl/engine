@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="resolutionX" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1600</Value>
+      <Value Profile="(Default)">1280</Value>
     </Setting>
     <Setting Name="resolutionY" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">900</Value>
+      <Value Profile="(Default)">960</Value>
     </Setting>
     <Setting Name="fullscreenMode" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

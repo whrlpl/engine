@@ -11,6 +11,8 @@ in vec4 debugCol;
 layout(location = 0) out vec4 frag_color;
 //----------------------------------------
 uniform sampler2D AlbedoTexture;
+uniform sampler2D DecalTexture;
+uniform sampler2D ReflectionTexture;
 uniform mat4 Model;
 uniform mat4 View;
 uniform mat4 Projection;
@@ -30,10 +32,17 @@ void main() {
 	vec3 diffuseLight = diffuseBase * MainLightTint.xyz;
 	vec3 ambientLight = ambientBase * MainLightTint.xyz;
 
-	vec3 result = max((ambientBase + diffuseBase), 0.2) * texture(AlbedoTexture, outTexCoord).xyz;
+	vec3 result = texture(AlbedoTexture, outTexCoord).xyz;
+	
+	vec4 decalCol = texture(DecalTexture, outTexCoord);
+	if (decalCol.w > 0)
+		result = mix(result.xyz, decalCol.xyz, decalCol.w);
+
+	result = max((ambientBase + diffuseBase), 0.2) * result;
 
 	vec4 mvpTex = MVP * vec4(outTexCoord, 1.0, 1.0);
 
-	frag_color = vec4(result, 1.0);
+	frag_color = vec4(mix(result, texture(ReflectionTexture, vec2(mvpTex.x + (Position.z / 500), mvpTex.y + (-Position.x / 500) + 5) * 5).xyz, 0.1), 1.0);
+	//frag_color = texture(AlbedoTexture, outTexCoord);
 }
 

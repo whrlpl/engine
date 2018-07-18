@@ -1,5 +1,4 @@
-﻿#define POSTPROCESSING
-using System;
+﻿using System;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK;
 using Whirlpool.Core.Type;
@@ -46,7 +45,7 @@ namespace Whirlpool.Core.Render
 
         public void Detach()
         {
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, oldFBO);
             GL.Viewport(0, 0, width, height);
         }
     }

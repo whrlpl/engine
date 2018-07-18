@@ -28,24 +28,6 @@ namespace Whirlpool.Core.IO
                     break;
             }
             Console.WriteLine("[" + status.ToString() + "] " + str);
-            
-            string emojiPrefix = "";
-
-            if (BaseGame.consoleScreen != null)
-            {
-                switch (status)
-                {
-                    case LogStatus.Error:
-                        emojiPrefix = "❌";
-                        break;
-                    case LogStatus.Warning:
-                        emojiPrefix = "⚠";
-                        break;
-                }
-                var logTextComponent = BaseGame.consoleScreen.GetUIComponent("LogText");
-                if (logTextComponent != null)
-                    logTextComponent.text += "*[" + status.ToString() + "]* " + emojiPrefix + " " + str + "\n";
-            }
 
             Console.ForegroundColor = ConsoleColor.Gray;
         }

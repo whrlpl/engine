@@ -4,7 +4,7 @@ using Whirlpool.Core.Render;
 
 namespace Whirlpool.Game.Render
 {
-    class Model : RenderComponent
+    public class Model : RenderComponent
     {
         public Vector3 position = Vector3.Zero;
         public Vector3 size = Vector3.One;
@@ -13,7 +13,7 @@ namespace Whirlpool.Game.Render
         public Mesh mesh;
         public Mesh collisionMesh;
 
-        public override void Init(Screen screen)
+        public override void Init()
         {
             // Load model
             mesh = MeshLoader.LoadAsset(objName);

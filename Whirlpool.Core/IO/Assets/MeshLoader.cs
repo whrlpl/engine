@@ -59,13 +59,15 @@ namespace Whirlpool.Core.IO.Assets
                             }
                             else if (parameterCount == 3)
                             {
+                                Logging.Write("UVW used");
                                 // uvw
                                 var baseLine = line.Remove(0, line.IndexOf(' ') + 1);
                                 var u = baseLine.Remove(baseLine.IndexOf(' '));
                                 var v = baseLine.Remove(0, baseLine.IndexOf(' ') + 1);
                                 v = v.Remove(v.LastIndexOf(' ') - 1);
                                 var w = baseLine.Remove(0, baseLine.LastIndexOf(' ') + 1);
-                                temp.normals.Add(new Vector3(float.Parse(u), float.Parse(v), float.Parse(w)));
+                                //temp.normals.Add(new Vector3(float.Parse(u), float.Parse(v), float.Parse(w)));
+                                temp.texCoords.Add(new Vector2(float.Parse(u), float.Parse(v)));
                             }
                             else
                             {
@@ -90,7 +92,7 @@ namespace Whirlpool.Core.IO.Assets
                             }
                             break;
                         case "vp": // Parameter space vertex (u[vw])
-                            Logging.Write("Parameter space vertices are not implemented yet.", LogStatus.Warning);
+                            Logging.Write("Parameter space vertices are not supported by this mesh loader.", LogStatus.Error);
                             break;
                         case "f": // Face
                             // Indices
@@ -100,6 +102,7 @@ namespace Whirlpool.Core.IO.Assets
                                 var tmp = baseLine.Split('/');
                                 var parameters = new List<string>();
                                 foreach (string p in tmp)
+                                {
                                     foreach (string s in p.Split(' '))
                                     {
                                         parameters.Add(s);
@@ -108,16 +111,17 @@ namespace Whirlpool.Core.IO.Assets
                                             throw new Exception("Parameter had no value (" + fileName + ")");
                                         }
                                     }
+                                }                                    
                                 temp.vertexIndices.Add(uint.Parse(parameters[0]) - 1); // v1
-                                //temp.textureIndices.Add(uint.Parse(parameters[1]) - 1); // vt1
+                                temp.textureIndices.Add(uint.Parse(parameters[1]) - 1); // vt1
                                 temp.normalIndices.Add(uint.Parse(parameters[2]) - 1); // vn1
 
                                 temp.vertexIndices.Add(uint.Parse(parameters[3]) - 1); // v2
-                                //temp.textureIndices.Add(uint.Parse(parameters[4]) - 1); // vt2
+                                temp.textureIndices.Add(uint.Parse(parameters[4]) - 1); // vt2
                                 temp.normalIndices.Add(uint.Parse(parameters[5]) - 1); // vn2
 
                                 temp.vertexIndices.Add(uint.Parse(parameters[6]) - 1); // v3
-                                //temp.textureIndices.Add(uint.Parse(parameters[7]) - 1); // vt3
+                                temp.textureIndices.Add(uint.Parse(parameters[7]) - 1); // vt3
                                 temp.normalIndices.Add(uint.Parse(parameters[8]) - 1); // vn3
                             }
                             else
@@ -126,7 +130,7 @@ namespace Whirlpool.Core.IO.Assets
                             }
                             break;
                         case "l": // Line
-                            Logging.Write("Lines are not implemented yet.", LogStatus.Warning);
+                            Logging.Write("Polylines are not supported by this mesh loader.", LogStatus.Error);
                             break;
                         case "mtllib": // Define material
                             Logging.Write("Materials are not implemented yet.", LogStatus.Warning);
@@ -135,14 +139,14 @@ namespace Whirlpool.Core.IO.Assets
                             Logging.Write("Materials are not implemented yet.", LogStatus.Warning);
                             break;
                         case "o": // Object
+                            break;
                         case "g": // Polygon group
-                            Logging.Write("Polygon grouping is not implemented yet.", LogStatus.Warning);
                             break;
                         case "s": // Smooth shading
-                            Logging.Write("Smooth shading is not implemented yet.", LogStatus.Warning);
+                            Logging.Write("Smooth shading is not supported by this mesh loader.", LogStatus.Error);
                             break;
                         default:
-                            Logging.Write("obj file is not valid.", LogStatus.Error);
+                            Logging.Write("OBJ file is not valid!", LogStatus.Error);
                             break;
                     }
                 }

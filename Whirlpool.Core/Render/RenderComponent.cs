@@ -5,8 +5,7 @@
     /// </summary>
     public abstract class RenderComponent
     {
-        public Screen parentScreen;
-        public abstract void Init(Screen screen);
+        public abstract void Init();
         public abstract void Update();
         public abstract void Render();
     }

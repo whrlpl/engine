@@ -1,13 +1,17 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using System;
+using Whirlpool.Core.IO;
 
 namespace Whirlpool.Core.Render
 {
     public class Camera
     {
-        public Vector3 position = new Vector3(0, 0, 10);
+        public Vector3 position = new Vector3(10, 2, 0);
+        public Vector3 lookAtPos = new Vector3(-10, 0, 0);
 
+        public Vector2 viewportSize;
+        public float fieldOfView = 50;
         public float vAngle;
         public float hAngle;
 
@@ -26,22 +30,23 @@ namespace Whirlpool.Core.Render
         /// <summary>
         /// View matrix for camera matrix calculations.
         /// </summary>
-        Matrix4 view
+        public Matrix4 view
         {
             get
             {
-                return Matrix4.LookAt(position, position + cameraFront, cameraUp);
+                var rotationVector = new Vector3((float)Math.Sin(Time.currentTime) * 4, 0, (float)Math.Cos(Time.currentTime) * 4);
+                return Matrix4.LookAt(position, lookAtPos, cameraUp);
             }
         }
 
         /// <summary>
         /// Projection matrix for camera matrix calculations.
         /// </summary>
-        Matrix4 projection
+        public Matrix4 projection
         {
             get
             {
-                return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45), windowRatio, 0.1f, 100.0f);
+                return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(fieldOfView), windowRatio, 0.1f, 250.0f);
             }
         }
 
@@ -52,9 +57,7 @@ namespace Whirlpool.Core.Render
         {
             get
             {
-                int[] viewport = new int[4];
-                GL.GetInteger(GetPName.Viewport, viewport);
-                return (float)viewport[2] / viewport[3];
+                return viewportSize.X / viewportSize.Y;
             }
         }
 
