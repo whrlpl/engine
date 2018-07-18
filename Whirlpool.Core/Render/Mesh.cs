@@ -20,6 +20,8 @@ namespace Whirlpool.Core.Render
         public List<uint> normalIndices = new List<uint>();
         public List<uint> textureIndices = new List<uint>();
 
+        public string fileName;
+
         public int VAO, VBO, EBO;
 
         public void GenerateBuffers()
@@ -61,6 +63,11 @@ namespace Whirlpool.Core.Render
             GL.EnableVertexAttribArray(1);
             GL.VertexAttribPointer(2, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 5 * sizeof(float));
             GL.EnableVertexAttribArray(2);
+        }
+
+        public override string ToString()
+        {
+            return this.fileName;
         }
     }
 }

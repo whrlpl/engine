@@ -20,13 +20,14 @@ namespace Whirlpool.Core.Render
             sceneCamera.viewportSize = new Vector2(GlobalSettings.Default.renderResolutionX, GlobalSettings.Default.renderResolutionY);
             defaultMaterial = new MaterialBuilder()
                 .Build()
+                .SetName("Default Material")
                 .Attach(new Shader("Shaders\\3D\\vert.glsl", ShaderType.VertexShader))
                 .Attach(new Shader("Shaders\\3D\\frag.glsl", ShaderType.FragmentShader))
                 .Link()
                 .GetMaterial();
         }
 
-        public static void DrawMesh(Mesh mesh, Vector3 position, Vector3 scale, Quaternion rotation, Texture texture = null, Material material = null)
+        public static void DrawMesh(Mesh mesh, Vector3 position, Vector3 scale, Quaternion rotation, Quaternion localRotation, Texture texture = null, Material material = null)
         {
             var indexed = (mesh.EBO != -1);
 
@@ -40,7 +41,7 @@ namespace Whirlpool.Core.Render
 
             Matrix4 model = Matrix4.CreateTranslation(position + sceneCamera.worldPosition); // lol??? TODO: maybe dont do this
             model.Transpose();
-            model *= Matrix4.CreateScale(scale) * Matrix4.CreateFromQuaternion(rotation);
+            model = Matrix4.CreateFromQuaternion(rotation) * model * Matrix4.CreateFromQuaternion(localRotation) * Matrix4.CreateScale(scale);
             model.Transpose();
 
             Matrix4 mvp = model * sceneCamera.view * sceneCamera.projection;

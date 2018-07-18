@@ -17,8 +17,8 @@ namespace Whirlpool.Core.Render
         public int height;
 
         public TextureWrapMode textureWrapMode = TextureWrapMode.Repeat;
-        public TextureMagFilter textureMagFilter = TextureMagFilter.Linear;
-        public TextureMinFilter textureMinFilter = TextureMinFilter.Linear;
+        public TextureMagFilter textureMagFilter = TextureMagFilter.Nearest;
+        public TextureMinFilter textureMinFilter = TextureMinFilter.Nearest;
         public TextureUnit textureUnit = TextureUnit.Texture0;
         private byte[] data;
 
@@ -74,6 +74,11 @@ namespace Whirlpool.Core.Render
         public byte[] GetData()
         {
             return data;
+        }
+
+        public override string ToString()
+        {
+            return this.name;
         }
     }
 }
