@@ -9,6 +9,7 @@ namespace Whirlpool.Core.Render
     {
         public ShaderType shaderType;
         public string fileName;
+        public string shaderSource;
         public int glShader;
 
         /// <summary>
@@ -21,7 +22,8 @@ namespace Whirlpool.Core.Render
             using (StreamReader sr = new StreamReader(file))
             {
                 glShader = GL.CreateShader(type);
-                GL.ShaderSource(glShader, sr.ReadToEnd());
+                shaderSource = sr.ReadToEnd();
+                GL.ShaderSource(glShader, shaderSource);
                 GL.CompileShader(glShader);
                 fileName = file;
                 GL.GetShader(glShader, ShaderParameter.CompileStatus, out var status);

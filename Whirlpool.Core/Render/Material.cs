@@ -14,6 +14,7 @@ namespace Whirlpool.Core.Render
     {
         private int shaderProgram;
         private Dictionary<string, int> locations = new Dictionary<string, int>();
+        public List<Shader> shaders = new List<Shader>();
         public string name = "Unnamed material";
 
         public Material()
@@ -173,6 +174,7 @@ namespace Whirlpool.Core.Render
 
         public MaterialBuilder Attach(Shader shader)
         {
+            instance.shaders.Add(shader);
             instance.Attach(shader);
             return this;
         }

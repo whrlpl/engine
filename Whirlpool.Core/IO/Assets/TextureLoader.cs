@@ -31,6 +31,7 @@ namespace Whirlpool.Core.IO.Assets
                 if (f.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb || f.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppRgb)
                     imageFormat = PixelFormat.Bgr;
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, f.Width, f.Height - 1, 0, imageFormat, PixelType.UnsignedByte, ptr);
+                GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
                 temp.width = f.Width;
                 temp.height = f.Height;
                 temp.SetData(rawData);

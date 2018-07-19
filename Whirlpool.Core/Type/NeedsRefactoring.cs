@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Whirlpool.Core.Type
 {
-    public class NeedsRefactoring : Attribute { }
+    internal class NeedsRefactoring : Attribute { }
 }

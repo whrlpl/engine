@@ -12,7 +12,7 @@ namespace Whirlpool.Core.Type
         public Any(object value)
         {
             this.value = value;
-            this.valueType = value.GetType();
+            valueType = value.GetType();
         }
 
         public dynamic GetValue() => Convert.ChangeType(value, valueType);

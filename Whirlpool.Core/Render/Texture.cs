@@ -18,7 +18,7 @@ namespace Whirlpool.Core.Render
 
         public TextureWrapMode textureWrapMode = TextureWrapMode.Repeat;
         public TextureMagFilter textureMagFilter = TextureMagFilter.Nearest;
-        public TextureMinFilter textureMinFilter = TextureMinFilter.Nearest;
+        public TextureMinFilter textureMinFilter = TextureMinFilter.NearestMipmapNearest;
         public TextureUnit textureUnit = TextureUnit.Texture0;
         private byte[] data;
 
@@ -46,6 +46,7 @@ namespace Whirlpool.Core.Render
                 Marshal.Copy(rawData, 0, ptr, rawData.Length);
                 PixelFormat imageFormat = PixelFormat.Bgra;
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, imageFormat, PixelType.UnsignedByte, ptr);
+                GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
                 temp.width = width;
                 temp.height = height;
                 if (retainData)
