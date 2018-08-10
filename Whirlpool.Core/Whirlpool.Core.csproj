@@ -77,6 +77,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NAudio, Version=1.8.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\source\repos\DungeonGame\packages\NAudio.1.8.4\lib\net35\NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\source\repos\DungeonGame\packages\OpenTK.2.0.0\lib\net20\OpenTK.dll</HintPath>
     </Reference>
@@ -107,6 +110,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio\Track.cs" />
     <Compile Include="BaseGame.cs" />
     <Compile Include="GlobalSettings.cs" />
     <Compile Include="GlobalSettings.Designer.cs">
@@ -116,6 +120,7 @@
     </Compile>
     <Compile Include="IO\Assets\MeshLoader.cs" />
     <Compile Include="IO\Assets\TextureLoader.cs" />
+    <Compile Include="IO\Assets\TrackLoader.cs" />
     <Compile Include="IO\DiscordController.cs" />
     <Compile Include="IO\InputHandler.cs" />
     <Compile Include="IO\Logging.cs" />
@@ -123,7 +128,6 @@
     <Compile Include="IO\UnsafeNativeMethods.cs" />
     <Compile Include="IO\FileBank.cs" />
     <Compile Include="IO\Time.cs" />
-    <Compile Include="Network\Client.cs" />
     <Compile Include="Pattern\Exceptions.cs" />
     <Compile Include="Pattern\Singleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -138,6 +142,7 @@
     <Compile Include="Type\Any.cs" />
     <Compile Include="Type\NeedsRefactoring.cs" />
     <Compile Include="Type\Rectangle.cs" />
+    <Compile Include="Type\VectorExt.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -5,6 +5,7 @@ using OpenTK;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL4;
+using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.Render
 {
@@ -27,7 +28,7 @@ namespace Whirlpool.Core.Render
                 .GetMaterial();
         }
 
-        public static void DrawMesh(Mesh mesh, Vector3 position, Vector3 scale, Quaternion rotation, Quaternion localRotation, Texture texture = null, Material material = null)
+        public static void DrawMesh(Mesh mesh, Vector3 position, Vector3 scale, Quaternion rotation, Quaternion localRotation, Texture texture = null, Material material = null, Dictionary<string, Any> materialParameters = null)
         {
             var indexed = (mesh.EBO != -1);
 
@@ -53,6 +54,8 @@ namespace Whirlpool.Core.Render
                 { "Projection", sceneCamera.projection },
                 { "MVP", mvp }
             });
+
+            if (materialParameters != null) material?.SetVariables(materialParameters);
 
             GL.DrawArrays(PrimitiveType.Triangles, 0, mesh.vertexIndices.Count);
         }

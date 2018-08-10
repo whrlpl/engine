@@ -87,8 +87,11 @@ namespace Whirlpool.Core.Render
         public Matrix4 BuildBasis()
         {
             vAngle = FixDir(vAngle);
-            var forward = new Vector3((float)Math.Sin(vAngle), 0, (float)-Math.Cos(vAngle));
-            var side = new Vector3((float)Math.Cos(vAngle), 0, (float)Math.Sin(vAngle));
+            hAngle = FixDir(hAngle);
+            //var forward = new Vector3((float)Math.Sin(vAngle), 0, (float)-Math.Cos(vAngle));
+            //var side = new Vector3((float)Math.Cos(vAngle), 0, (float)Math.Sin(vAngle));
+            var forward = new Vector3((float)Math.Sin(vAngle) * (float)Math.Cos(hAngle), (float)-Math.Sin(hAngle), (float)-Math.Cos(vAngle));
+            var side = Vector3.Normalize(Vector3.Cross(cameraUp, forward));
             var basis = GramSchmidt(camNormal, side, forward);
             var tmp = basis[0];
             basis[0] = basis[1];

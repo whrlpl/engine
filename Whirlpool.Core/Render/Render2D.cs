@@ -34,7 +34,7 @@ namespace Whirlpool.Core.Render
 
             float[] vertices =
             {
-                /* Verts        Texcoords       Normals*/
+                /* Verts        Texcoords       Normals */
                 -1, 1, 0,       0, 1,           0, 0, 0,
                 -1, -1, 0,      0, 0,           0, 0, 0,
                 1, -1, 0,       1, 0,           0, 0, 0,
@@ -89,13 +89,13 @@ namespace Whirlpool.Core.Render
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
         
-        public static void DrawFramebuffer(Vector2 position, Vector2 scale, Texture texture = null)
+        public static void DrawFramebuffer(Vector2 position, Vector2 scale, Texture texture = null, Material material = null)
         {
             GL.BindVertexArray(QuadVAO);
             GL.BindBuffer(BufferTarget.ArrayBuffer, QuadVBO);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, QuadEBO);
-            Material material = defaultSpriteMaterial;
 
+            if (material == null) material = defaultSpriteMaterial;
             material.Use();
             texture?.Bind();
 
@@ -109,32 +109,33 @@ namespace Whirlpool.Core.Render
 
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
-        protected static Vector2 PixelsToNDCFBO(Vector2 pixels)
+
+        public static Vector2 PixelsToNDCFBO(Vector2 pixels)
         {
             return new Vector2((2.0f / BaseGame.Size.Width) * -pixels.X + 1, (2.0f / BaseGame.Size.Height) * pixels.Y - 1.0f);
         }
 
-        protected static Vector2 PixelsToNDCScaleFBO(Vector2 pixels)
+        public static Vector2 PixelsToNDCScaleFBO(Vector2 pixels)
         {
             return new Vector2((2.0f / BaseGame.Size.Width) * pixels.X / 2.0f, (2.0f / BaseGame.Size.Height) * pixels.Y / 2.0f);
         }
 
-        protected static Vector2 PixelsToNDC(Vector2 pixels)
+        public static Vector2 PixelsToNDC(Vector2 pixels)
         {
             return new Vector2((2 / renderResolution.X) * -pixels.X + 1, (2 / renderResolution.Y) * pixels.Y - 1);
         }
 
-        protected static Vector2 PixelsToNDCScale(Vector2 pixels)
+        public static Vector2 PixelsToNDCScale(Vector2 pixels)
         {
             return new Vector2((2 / renderResolution.X) * pixels.X / 2, (2 / renderResolution.Y) * pixels.Y / 2);
         }
 
-        protected static Vector2 PixelsToNDCImg(Vector2 pixels, Vector2 imgSize)
+        public static Vector2 PixelsToNDCImg(Vector2 pixels, Vector2 imgSize)
         {
             return new Vector2((2 / imgSize.X) * -pixels.X + 1, (2 / imgSize.Y) * pixels.Y - 1);
         }
 
-        protected static Vector2 PixelsToNDCImgSize(Vector2 pixels, Vector2 imgSize)
+        public static Vector2 PixelsToNDCImgSize(Vector2 pixels, Vector2 imgSize)
         {
             return new Vector2((2 / imgSize.X) * pixels.X / 2, (2 / imgSize.Y) * pixels.Y / 2);
         }

@@ -13,6 +13,7 @@ namespace Whirlpool.Core.Render
 {
     public class PostProcessing : Singleton<PostProcessing>
     {
+        public Material frameBufferMaterial = null;
         int framebuffer;
         Texture textureBufferTexture, depthBufferTexture;
 
@@ -100,7 +101,7 @@ namespace Whirlpool.Core.Render
             }
             depthBufferTexture.Bind();
             var scale = (float)BaseGame.Size.Height / GlobalSettings.Default.renderResolutionY;
-            Render2D.DrawFramebuffer(new Vector2(0.0f, 0.0f), new Vector2(GlobalSettings.Default.renderResolutionX * scale, GlobalSettings.Default.renderResolutionY * scale), textureBufferTexture);
+            Render2D.DrawFramebuffer(new Vector2(0.0f, 0.0f), new Vector2(GlobalSettings.Default.renderResolutionX * scale, GlobalSettings.Default.renderResolutionY * scale), textureBufferTexture, frameBufferMaterial);
         }
 
         public void Resize(Size windowSize)

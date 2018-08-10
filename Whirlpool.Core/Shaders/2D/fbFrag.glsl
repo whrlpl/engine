@@ -36,7 +36,9 @@ void main() {
 	/*if (outTexCoord.x < 0.5)*/
 
 	//frag_color = mix(vec4(texture(renderedTexture, outTexCoord.xy).xyz, 1.0), blur(renderedTexture, outTexCoord.xy, vec2(320, 240), 3), texture(depthTexture, outTexCoord.xy).x * 4);
-	frag_color = vec4(texture(renderedTexture, outTexCoord.xy));
+	vec4 col = texture(renderedTexture, outTexCoord.xy);
+	frag_color = vec4(max(max(col.x, col.y), col.z));
+	//frag_color = vec4(texture(renderedTexture, outTexCoord.xy));
 	
 	/*if (outTexCoord.x >= 0.4995 && outTexCoord.x <= 0.5005 || outTexCoord.y >= 0.4995 && outTexCoord.y <= 0.5005)
 		frag_color = vec4(1, 1, 1, 1);*/

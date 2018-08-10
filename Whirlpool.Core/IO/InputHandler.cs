@@ -11,6 +11,7 @@ namespace Whirlpool.Core.IO
     public class InputStatus
     {
         public Vector2 mousePosition = Vector2.Zero;
+        public Vector2 mouseDelta = Vector2.Zero;
         public bool mouseButtonLeft = false;
         public bool mouseButtonRight = false;
         public Dictionary<Key, bool> keyboardKeys = new Dictionary<Key, bool>();
@@ -70,7 +71,9 @@ namespace Whirlpool.Core.IO
             var instance = GetInstance();
             if (instance == null || instance.currentStatus == null)
                 instance.currentStatus = new InputStatus();
-            instance.currentStatus.mousePosition = new Vector2(mouseX, mouseY);
+            var newMousePos = new Vector2(mouseX, mouseY);
+            instance.currentStatus.mouseDelta = instance.currentStatus.mousePosition - newMousePos;
+            instance.currentStatus.mousePosition = newMousePos;
             instance.onMouseMoved?.Invoke(null, null);
         }
 

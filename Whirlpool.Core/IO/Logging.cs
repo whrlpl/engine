@@ -9,8 +9,14 @@ namespace Whirlpool.Core.IO
         General
     }
 
+    public class LogEventArgs : EventArgs
+    {
+        public string loggedStr { get; set; }
+    }
+
     public class Logging
     {
+        public static EventHandler<LogEventArgs> OnWrite;
         /// <summary>
         /// Write a message to the console.
         /// </summary>
@@ -27,6 +33,10 @@ namespace Whirlpool.Core.IO
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     break;
             }
+            OnWrite?.Invoke(null, new LogEventArgs()
+            {
+                loggedStr = "[" + status.ToString() + "] " + str
+            });
             Console.WriteLine("[" + status.ToString() + "] " + str);
 
             Console.ForegroundColor = ConsoleColor.Gray;

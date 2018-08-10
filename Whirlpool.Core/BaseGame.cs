@@ -56,9 +56,9 @@ namespace Whirlpool.Core
             Mouse.ButtonUp += Mouse_ButtonUp;
 
             lastFrameCollection = DateTime.Now;
-            Init();
 
             RenderShared.Init(new Vector2(GlobalSettings.Default.renderResolutionX, GlobalSettings.Default.renderResolutionY));
+            Init();
         } 
 
         private void HandleMouseEvent(MouseButtonEventArgs e)
