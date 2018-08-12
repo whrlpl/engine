@@ -139,6 +139,7 @@
     <Compile Include="Render\RenderTexture.cs" />
     <Compile Include="Render\Shader.cs" />
     <Compile Include="Render\Texture.cs" />
+    <Compile Include="Scene\Transform.cs" />
     <Compile Include="Type\Any.cs" />
     <Compile Include="Type\NeedsRefactoring.cs" />
     <Compile Include="Type\Rectangle.cs" />
