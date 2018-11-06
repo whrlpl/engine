@@ -12,12 +12,21 @@ namespace Whirlpool.Core
 {
     public abstract class BaseGame : OpenTK.GameWindow
     {
+        float ratio
+        {
+            get
+            {
+                return 1280.0f / Size.Width;
+            }
+        }
         int frameCap = -1;
         DateTime lastFrameCollection;
         public float framesLastSecond;
         public Thread updateThread;
 
         public bool initialized;
+
+        Shadows shadowMapTest;
 
         public static new System.Drawing.Size Size = new System.Drawing.Size(GlobalSettings.Default.resolutionX, GlobalSettings.Default.resolutionY);
 
@@ -28,6 +37,7 @@ namespace Whirlpool.Core
 #endregion
 
         public abstract void Render();
+        public abstract void Render2D();
         public abstract void Init();
         public abstract void Update();
         public abstract void OneSecondPassed();
@@ -58,6 +68,9 @@ namespace Whirlpool.Core
             lastFrameCollection = DateTime.Now;
 
             RenderShared.Init(new Vector2(GlobalSettings.Default.renderResolutionX, GlobalSettings.Default.renderResolutionY));
+
+            shadowMapTest = new Shadows();
+            shadowMapTest.Init();
             Init();
         } 
 
@@ -92,15 +105,8 @@ namespace Whirlpool.Core
             //PostProcessing.GetInstance().Resize(Size);
         }
 
-        protected override void OnKeyUp(KeyboardKeyEventArgs e)
-        {
-            InputHandler.SetKeyboardKey(e.Key, false);
-        }
-
-        protected override void OnKeyDown(KeyboardKeyEventArgs e)
-        {
-            InputHandler.SetKeyboardKey(e.Key, true);
-        }
+        protected override void OnKeyUp(KeyboardKeyEventArgs e) => InputHandler.SetKeyboardKey(e.Key, false);
+        protected override void OnKeyDown(KeyboardKeyEventArgs e) => InputHandler.SetKeyboardKey(e.Key, true);
 
         protected override void OnClosed(EventArgs e)
         {
@@ -114,12 +120,20 @@ namespace Whirlpool.Core
             Time.AddTime((float)e.Time);
             DateTime frameStart = DateTime.Now;
 
+            shadowMapTest.PrepShadowMap();
+            Render();
+            shadowMapTest.FinishShadowMap();
+
             PostProcessing.GetInstance().PreRender();
 
             Render();
-            
+
+            PostProcessing.GetInstance().Prepare2D();
+
+            Render2D();
+
             PostProcessing.GetInstance().PostRender();
-            
+
             this.SwapBuffers();
             if (GlobalSettings.Default.improvedLatency)
                 GL.Finish();
@@ -148,7 +162,7 @@ namespace Whirlpool.Core
             while (true)
             {
                 if (!initialized) continue;
-                InputHandler.UpdateMousePos(Mouse.X, Mouse.Y);
+                InputHandler.UpdateMousePos((int)(Mouse.X * ratio), (int)(Mouse.Y * ratio));
 
                 if (Time.GetMilliseconds() % 15000 == 0)
                 {

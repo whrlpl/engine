@@ -51,7 +51,7 @@ namespace Whirlpool.Core.Render
         {
             get
             {
-                return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(fieldOfView), windowRatio, 0.1f, 1000.0f);
+                return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(fieldOfView), windowRatio, 0.1f, 5000.0f);
             }
         }
 
@@ -88,9 +88,9 @@ namespace Whirlpool.Core.Render
         {
             vAngle = FixDir(vAngle);
             hAngle = FixDir(hAngle);
-            //var forward = new Vector3((float)Math.Sin(vAngle), 0, (float)-Math.Cos(vAngle));
+            var forward = new Vector3((float)Math.Sin(vAngle), 0, (float)-Math.Cos(vAngle));
             //var side = new Vector3((float)Math.Cos(vAngle), 0, (float)Math.Sin(vAngle));
-            var forward = new Vector3((float)Math.Sin(vAngle) * (float)Math.Cos(hAngle), (float)-Math.Sin(hAngle), (float)-Math.Cos(vAngle));
+            //var forward = new Vector3((float)Math.Sin(vAngle) * (float)Math.Cos(hAngle), (float)-Math.Sin(hAngle), (float)-Math.Cos(vAngle));
             var side = Vector3.Normalize(Vector3.Cross(cameraUp, forward));
             var basis = GramSchmidt(camNormal, side, forward);
             var tmp = basis[0];

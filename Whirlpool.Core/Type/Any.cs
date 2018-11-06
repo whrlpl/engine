@@ -25,5 +25,7 @@ namespace Whirlpool.Core.Type
         public static implicit operator Any(Color4 value) => new Any(value);
         public static implicit operator Any(Matrix4 value) => new Any(value);
         public static implicit operator Any(string value) => new Any(value);
+        public static implicit operator Any(Vector2[] value) => new Any(value);
+        public static implicit operator Any(Vector2[,] value) => new Any(value);
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Whirlpool.Core.Render
 {
-    public class Render2D
+    public class Renderer2D
     {
         public static Material defaultSpriteMaterial;
         private static int QuadVAO, QuadVBO, QuadEBO;
@@ -25,7 +25,7 @@ namespace Whirlpool.Core.Render
 
         public static void Init()
         {
-            renderResolution = new Vector2(320, 240);
+            renderResolution = new Vector2(1280, 720);
 
             GL.GenVertexArrays(1, out QuadVAO);
             GL.GenBuffers(1, out QuadVBO);
@@ -76,12 +76,14 @@ namespace Whirlpool.Core.Render
             if (material == null) material = defaultSpriteMaterial;
 
             material.Use();
-            texture?.Bind();
 
-            material.SetVariables(new Dictionary<string, Type.Any>(){
-                { "FlipX", false },
-                { "FlipY", false },
-                { "AlbedoTexture", 0 },
+            if (texture != null)
+            {
+                texture.Bind();
+                material.SetVariable("AlbedoTexture", 0);
+            }
+
+            material.SetVariables(new Dictionary<string, Type.Any>() {
                 { "Position", PixelsToNDC(position) },
                 { "Scale", PixelsToNDCScale(scale) }
             });
@@ -97,12 +99,15 @@ namespace Whirlpool.Core.Render
 
             if (material == null) material = defaultSpriteMaterial;
             material.Use();
-            texture?.Bind();
 
-            material.SetVariables(new Dictionary<string, Type.Any>(){
-                { "FlipX", false },
-                { "FlipY", false },
-                { "AlbedoTexture", 0 },
+            if (texture != null)
+            {
+                texture.Bind();
+                material.SetVariable("AlbedoTexture", 0);
+            }
+
+            material.SetVariables(new Dictionary<string, Type.Any>() {
+                //{ "LUTexture", 30 },
                 { "Position", position + new Vector2(PixelsToNDCScaleFBO(scale).X, -PixelsToNDCScaleFBO(scale).Y)},
                 { "Scale", PixelsToNDCScaleFBO(scale) }
             });

@@ -9,7 +9,7 @@ using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.Render
 {
-    public class Render3D
+    public class Renderer3D
     {
         public static Camera sceneCamera;
         public static Material defaultMaterial;
@@ -36,19 +36,23 @@ namespace Whirlpool.Core.Render
             GL.BindBuffer(BufferTarget.ArrayBuffer, mesh.VBO);
             if (indexed) GL.BindBuffer(BufferTarget.ElementArrayBuffer, mesh.EBO);
             if (material == null) material = defaultMaterial;
-
-            material?.Use();
-            texture?.Bind();
-
+                                   
             Matrix4 model = Matrix4.CreateTranslation(position + sceneCamera.worldPosition); // lol??? TODO: maybe dont do this
             model.Transpose();
             model = Matrix4.CreateFromQuaternion(rotation) * model * Matrix4.CreateFromQuaternion(localRotation) * Matrix4.CreateScale(scale);
             model.Transpose();
 
             Matrix4 mvp = model * sceneCamera.view * sceneCamera.projection;
+
+            material.Use();
+
+            if (texture != null)
+            {
+                texture.Bind();
+                material.SetVariable("AlbedoTexture", 0);
+            }
             
-            material?.SetVariables(new Dictionary<string, Type.Any>(){
-                { "AlbedoTexture", 0 },
+            material.SetVariables(new Dictionary<string, Type.Any>(){
                 { "Model", model },
                 { "View", sceneCamera.view },
                 { "Projection", sceneCamera.projection },

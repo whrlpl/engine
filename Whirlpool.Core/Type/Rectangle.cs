@@ -55,5 +55,10 @@ namespace Whirlpool.Core.Type
              * x0y100                      x200y100
              */
         }
+
+        public override string ToString()
+        {
+            return this.x + ", " + this.y + ", " + this.width + ", " + this.height;
+        }
     }
 }

@@ -18,8 +18,8 @@ namespace Whirlpool.Core.Render
             {
                 renderResolution = new Vector2(BaseGame.Size.Width, BaseGame.Size.Height);
             }
-            Render3D.Init();
-            Render2D.Init();
+            Renderer3D.Init();
+            Renderer2D.Init();
         }
     }
 }
