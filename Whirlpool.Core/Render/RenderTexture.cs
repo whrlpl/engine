@@ -17,7 +17,7 @@ namespace Whirlpool.Core.Render
 
             texture = new Texture()
             {
-                name = "renderTexture",
+                fileName = "renderTexture",
                 width = width,
                 height = height,
                 animated = false

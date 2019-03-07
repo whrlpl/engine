@@ -19,6 +19,7 @@ namespace Whirlpool.Core.Render
             float b1 = Lerp(p1, p2, t);
             return Lerp(b0, b1, t);
         }
+
         public static float BezierCurve(float p0, float p1, float p2, float p3, float t)
         {
             return Lerp(QuadraticBezierCurve(p0, p1, p2, t), QuadraticBezierCurve(p1, p2, p3, t), t);

@@ -23,8 +23,11 @@ namespace Whirlpool.Core.Render
             return ret / 255.0f;
         }
 
-        public static Color4 ColorFromHex(string hex)
+        public static Color4 ColorFromHex(string hex_)
         {
+            string hex = hex_;
+            if (hex.StartsWith("#"))
+                hex = hex.Substring(1);
             if (hex.Length != 6 && hex.Length != 8)
             {
                 throw new Exception("Invalid hex value '" + hex + "'");

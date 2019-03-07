@@ -17,7 +17,7 @@ namespace Whirlpool.Core.IO
             partyMax = 4,
             partyId = "partyid325892",
             joinSecret = "joinsecret23859",
-            largeImageKey = "main-menu"
+            largeImageKey = "default"
         };
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Whirlpool.Core.IO
                 spectateGame = OnSpectateGame,
                 ready = OnReady
             };
-            UnsafeNativeMethods.DiscordInitialize("446739162083622913", ref eventHandlers);
+            UnsafeNativeMethods.DiscordInitialize("0", ref eventHandlers);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Whirlpool.Core.IO
         {
             var instance = GetInstance();
             UnsafeNativeMethods.DiscordRunCallbacks();
-            UnsafeNativeMethods.DiscordUpdatePresence(currentPresence);
+            //UnsafeNativeMethods.DiscordUpdatePresence(currentPresence);
         }
 
         /// <summary>

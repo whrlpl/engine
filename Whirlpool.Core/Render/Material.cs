@@ -17,6 +17,9 @@ namespace Whirlpool.Core.Render
         public List<Shader> shaders = new List<Shader>();
         public string name = "Unnamed material";
 
+        List<string> errorredVariables = new List<string>();
+        Dictionary<string, int> variableLocations = new Dictionary<string, int>();
+
         public Material()
         {
             shaderProgram = GL.CreateProgram();
@@ -54,10 +57,28 @@ namespace Whirlpool.Core.Render
         /// <returns>The location of the variable</returns>
         protected int GetVariableLocation(string variable)
         {
-            var loc = GL.GetUniformLocation(shaderProgram, variable);
+            if (errorredVariables.Contains(variable)) return -1;
+            var loc = 0;
+            if (variableLocations.ContainsKey(variable))
+            {
+                loc = variableLocations[variable];
+            }
+            else
+            {
+                loc = GL.GetUniformLocation(shaderProgram, variable);
+                variableLocations.Add(variable, loc);
+            }
             if (loc < 0)
-                throw new Exception("Variable '" + variable + "' not found.");
+            {
+                Logging.Write("Variable '" + variable + "' not found.", LogStatus.Error); // play it safe, don't crash, but only log ONCE
+                errorredVariables.Add(variable);
+            }
             return loc;
+        }
+
+        public bool VariableExists(string variable)
+        {
+            return GL.GetUniformLocation(shaderProgram, variable) > -1;
         }
 
         public void SetVariables(Dictionary<string, Any> variables)
@@ -205,6 +226,12 @@ namespace Whirlpool.Core.Render
         public Material GetMaterial()
         {
             return instance;
+        }
+
+        // Generates JSON metadata from material data.
+        public string GetJSON()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(instance);
         }
     }
 

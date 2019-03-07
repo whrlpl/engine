@@ -43,7 +43,7 @@ namespace Whirlpool.Core.Audio
     public class Track
     {
         public AudioFileReader audioFileReader;
-        float pitch;
+        float pitch = 0;
         SmbPitchShiftingSampleProvider pitchShift;
         WaveOutEvent output;
 

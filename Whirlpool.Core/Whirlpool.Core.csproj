@@ -76,14 +76,48 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Console|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug Console\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Console|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug Console\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Console|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug Console\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="NAudio, Version=1.8.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\source\repos\DungeonGame\packages\NAudio.1.8.4\lib\net35\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\Downloads\midnight-drift-master\midnight-drift-master\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\source\repos\DungeonGame\packages\OpenTK.2.0.0\lib\net20\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="RSG.Promise, Version=3.0.1.0, Culture=neutral, PublicKeyToken=7019fe0722eef3a4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RSG.Promise.3.0.1\lib\net35\RSG.Promise.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\source\repos\DungeonGame\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
@@ -118,18 +152,17 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>GlobalSettings.settings</DependentUpon>
     </Compile>
-    <Compile Include="IO\Assets\MeshLoader.cs" />
     <Compile Include="IO\Assets\Texture3DLoader.cs" />
-    <Compile Include="IO\Assets\TextureLoader.cs" />
     <Compile Include="IO\Assets\TrackLoader.cs" />
+    <Compile Include="IO\Content.cs" />
     <Compile Include="IO\DiscordController.cs" />
     <Compile Include="IO\InputHandler.cs" />
     <Compile Include="IO\Logging.cs" />
     <Compile Include="Render\Bezier.cs" />
     <Compile Include="Render\Color4Ext.cs" />
+    <Compile Include="Render\GBuffer.cs" />
     <Compile Include="Render\Mesh.cs" />
     <Compile Include="IO\UnsafeNativeMethods.cs" />
-    <Compile Include="IO\FileBank.cs" />
     <Compile Include="IO\Time.cs" />
     <Compile Include="Pattern\Exceptions.cs" />
     <Compile Include="Pattern\Singleton.cs" />
@@ -180,17 +213,23 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\blurtexturetest.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\shadow.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="discord-rpc.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="Render\PostProcessing.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UI\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Whirlpool.Shared\Whirlpool.Shared.csproj">
+      <Project>{9dd0fd72-6811-468b-a42a-e32321850819}</Project>
+      <Name>Whirlpool.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Whirlpool.Content.Builder\Whirlpool.Content.Builder\Whirlpool.Content.Builder.csproj">
+      <Project>{f9efa896-f234-4460-8d3b-22e829afefad}</Project>
+      <Name>Whirlpool.Content.Builder</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

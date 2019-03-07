@@ -21,7 +21,7 @@ namespace Whirlpool.Core.Render
         {
             depthBufferTexture = new Texture()
             {
-                name = "shadowMapTexture",
+                fileName = "shadowMapTexture",
                 width = width,
                 height = height,
                 animated = false,

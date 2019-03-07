@@ -14,6 +14,11 @@ namespace Whirlpool.Core.Type
         public float y = 0;
         public float width = 0;
         public float height = 0;
+        
+        public Vector2 xy { get { return new Vector2(x, y); } set { x = value.X; y = value.Y; } }
+        public Vector2 wh { get { return new Vector2(width, height); } set { width = value.X; height = value.Y; } }
+        public Vector2 size { get { return wh; } set { wh = value; } }
+
 
         /// <summary>
         /// Initializes a rectangle.
@@ -28,6 +33,12 @@ namespace Whirlpool.Core.Type
             this.y = y;
             this.width = width;
             this.height = height;
+        }
+
+        public Rectangle(Vector2 xy, Vector2 wh)
+        {
+            this.xy = xy;
+            this.wh = wh;
         }
 
         /// <summary>
@@ -59,6 +70,16 @@ namespace Whirlpool.Core.Type
         public override string ToString()
         {
             return this.x + ", " + this.y + ", " + this.width + ", " + this.height;
+        }
+
+        public static Rectangle operator + (Rectangle a, Rectangle b)
+        {
+            return new Rectangle(a.x + b.x, a.y + b.y, a.width + b.width, a.height + b.height);
+        }
+
+        public static Rectangle operator +(Rectangle a, Vector2 b)
+        {
+            return new Rectangle(a.x + b.X, a.y + b.Y, a.width, a.height);
         }
     }
 }

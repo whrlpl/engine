@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using OpenTK;
 using OpenTK.Graphics;
@@ -10,45 +9,37 @@ using Whirlpool.Core.Render;
 
 namespace Whirlpool.Core
 {
+    public class GameProperties
+    {
+        public string gameName { get; set; }
+        public string gameVersion { get; set; }
+        public string windowTitle { get; set; }
+    }
+    
     public abstract class BaseGame : OpenTK.GameWindow
     {
-        float ratio
-        {
-            get
-            {
-                return 1280.0f / Size.Width;
-            }
-        }
-        int frameCap = -1;
-        DateTime lastFrameCollection;
+        public static GameProperties gameProperties;
+        private DateTime lastFrameCollection;
+        private float lastUpdate;
         public float framesLastSecond;
         public Thread updateThread;
-
-        public bool initialized;
-
-        Shadows shadowMapTest;
-
+        public bool firstFrameRendered;
         public static new System.Drawing.Size Size = new System.Drawing.Size(GlobalSettings.Default.resolutionX, GlobalSettings.Default.resolutionY);
-
-        #region "Game properties"
-        public static string gameName { get; set; }
-        public static string gameVersion { get; set; }
-        public static string windowTitle { get; set; }
-#endregion
+        public int[] frameRateGraph = new int[100];
 
         public abstract void Render();
         public abstract void Render2D();
         public abstract void Init();
-        public abstract void Update();
+        public abstract void Update(float deltaTime);
         public abstract void OneSecondPassed();
 
         public BaseGame() : base(
             Size.Width,
             Size.Height,
             GraphicsMode.Default,
-            windowTitle,
+            gameProperties.windowTitle,
             GlobalSettings.Default.fullscreenMode ? GameWindowFlags.Fullscreen : GameWindowFlags.FixedWindow,
-            DisplayDevice.Default,
+            DisplayDevice.GetDisplay((DisplayIndex)GlobalSettings.Default.monitor),
             4, 6,
             GraphicsContextFlags.ForwardCompatible) { }
 
@@ -58,9 +49,6 @@ namespace Whirlpool.Core
             updateThread = new Thread(UpdateThread);
             updateThread.Start();
 
-            FileBank.AddTexture("blank", Texture.FromData(new Color4[] { Color4.White }, 1, 1));
-            FileBank.LoadTexturesFromFolder("Content");
-
             DiscordController.Init();
             Mouse.ButtonDown += Mouse_ButtonDown;
             Mouse.ButtonUp += Mouse_ButtonUp;
@@ -69,8 +57,17 @@ namespace Whirlpool.Core
 
             RenderShared.Init(new Vector2(GlobalSettings.Default.renderResolutionX, GlobalSettings.Default.renderResolutionY));
 
-            shadowMapTest = new Shadows();
-            shadowMapTest.Init();
+            Logging.Write("Gamepad info:");
+            var capabilities = GamePad.GetCapabilities(0);
+            if (capabilities.IsConnected)
+            {
+                Logging.Write(capabilities.GamePadType.ToString());
+                GamePad.SetVibration(0, 1f, 1f);
+            }
+            else
+            {
+                Logging.Write("Gamepad not connected");
+            }
             Init();
         } 
 
@@ -101,12 +98,11 @@ namespace Whirlpool.Core
         {
             base.OnResize(e);
             GL.Viewport(Size);
-            //RenderShared.windowSize = new Vector2(Size.Width, Size.Height);
-            //PostProcessing.GetInstance().Resize(Size);
         }
 
         protected override void OnKeyUp(KeyboardKeyEventArgs e) => InputHandler.SetKeyboardKey(e.Key, false);
         protected override void OnKeyDown(KeyboardKeyEventArgs e) => InputHandler.SetKeyboardKey(e.Key, true);
+        protected override void OnMouseMove(MouseMoveEventArgs e) => InputHandler.UpdateMousePos(e.X, e.Y);
 
         protected override void OnClosed(EventArgs e)
         {
@@ -120,28 +116,21 @@ namespace Whirlpool.Core
             Time.AddTime((float)e.Time);
             DateTime frameStart = DateTime.Now;
 
-            shadowMapTest.PrepShadowMap();
-            Render();
-            shadowMapTest.FinishShadowMap();
-
             PostProcessing.GetInstance().PreRender();
-
             Render();
-
             PostProcessing.GetInstance().Prepare2D();
-
             Render2D();
-
             PostProcessing.GetInstance().PostRender();
 
             this.SwapBuffers();
+
             if (GlobalSettings.Default.improvedLatency)
                 GL.Finish();
 
             #region "Framerate logic"
             DateTime frameEnd = DateTime.Now;
-            if (frameCap > 0 && (frameEnd - frameStart).TotalMilliseconds < 1000.0f/frameCap)
-                Thread.Sleep((int)((1000.0f/frameCap) - (frameEnd - frameStart).TotalMilliseconds));
+            if (GlobalSettings.Default.frameCap > 0 && (frameEnd - frameStart).TotalMilliseconds < 1000.0f/GlobalSettings.Default.frameCap)
+                Thread.Sleep((int)((1000.0f/GlobalSettings.Default.frameCap) - (frameEnd - frameStart).TotalMilliseconds));
             ++framesLastSecond;
 
             Time.lastFrameTime = (frameEnd - frameStart).TotalSeconds;
@@ -150,26 +139,39 @@ namespace Whirlpool.Core
             {
                 OneSecondPassed();
                 //Logging.Write(1000.0f/(frameEnd-frameStart).TotalMilliseconds + "FPS");
+                for (int i = 0; i < 99; ++i)
+                {
+                    frameRateGraph[i + 1] = frameRateGraph[i];
+                }
+                frameRateGraph[99] = (int)(1000.0f / (frameEnd - frameStart).TotalMilliseconds);
                 framesLastSecond = 0;
                 lastFrameCollection = DateTime.Now;
             }
             #endregion
-            initialized = true; // everything is only fully initialized after first render call.
+            if (firstFrameRendered) return;
+            firstFrameRendered = true;
+        }
+
+        protected void HandleInput()
+        {
+            InputStatus lastInputStatus = InputHandler.GetStatus();
+            InputHandler.SetLastFrameStatus(lastInputStatus);
         }
 
         protected void UpdateThread()
         {
             while (true)
             {
-                if (!initialized) continue;
-                InputHandler.UpdateMousePos((int)(Mouse.X * ratio), (int)(Mouse.Y * ratio));
+                if (!firstFrameRendered) continue;
+                if (Time.currentTime * 1000 - lastUpdate < 1) continue;
 
-                if (Time.GetMilliseconds() % 15000 == 0)
-                {
-                    DiscordController.Update();
-                }
+                HandleInput();
 
-                Update();
+                if (Time.currentTime * 1000 % 15000 == 0) DiscordController.Update();
+
+                Update(1000 / (Time.GetMilliseconds() - lastUpdate));
+                lastUpdate = Time.GetMilliseconds();
+                Thread.Sleep(1000/60);
             }
         }
     }

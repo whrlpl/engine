@@ -33,11 +33,12 @@ namespace Whirlpool.Core.IO
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     break;
             }
+            string formattedStr = "[" + DateTime.Now.ToString() + "] [" + status.ToString() + "] " + str;
             OnWrite?.Invoke(null, new LogEventArgs()
             {
-                loggedStr = "[" + status.ToString() + "] " + str
+                loggedStr = formattedStr
             });
-            Console.WriteLine("[" + status.ToString() + "] " + str);
+            Console.WriteLine(formattedStr);
 
             Console.ForegroundColor = ConsoleColor.Gray;
         }

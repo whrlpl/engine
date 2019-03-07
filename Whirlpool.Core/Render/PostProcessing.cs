@@ -18,7 +18,7 @@ namespace Whirlpool.Core.Render
         public Material frameBufferMaterial = null;
         int framebuffer;
         Texture textureBufferTexture, depthBufferTexture;
-        Texture3D colorTexture;
+        Texture colorTexture;
 
         Vector2 windowSize;
 
@@ -37,21 +37,23 @@ namespace Whirlpool.Core.Render
                 height = (int)windowSize.Y;
             textureBufferTexture = new Texture()
             {
-                name = "fboTexture",
+                fileName = "fboTexture",
                 width = width,
                 height = height,
                 animated = false
             };
             depthBufferTexture = new Texture()
             {
-                name = "depthBufferTexture",
+                fileName = "depthBufferTexture",
                 width = width,
                 height = height,
                 animated = false,
                 textureUnit = TextureUnit.Texture31
             };
 
-            colorTexture = Texture3DLoader.LoadAsset("Content\\clut.png", 64, 64, 1);
+            colorTexture = IO.Content.GetTexture("clut.png");
+            colorTexture.textureMinFilter = TextureMinFilter.Nearest;
+            colorTexture.textureMagFilter = TextureMagFilter.Nearest;
             colorTexture.textureUnit = TextureUnit.Texture30;
 
             GL.GenFramebuffers(1, out framebuffer);
@@ -80,6 +82,14 @@ namespace Whirlpool.Core.Render
             GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, textureBufferTexture.glTexture, 0);
             GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthStencilAttachment, TextureTarget.Texture2D, depthBufferTexture.glTexture, 0);
 
+            frameBufferMaterial = new MaterialBuilder()
+                .Build()
+                .SetName("Default Sprite Material")
+                .Attach(new Shader("Shaders\\2D\\vert.glsl", ShaderType.VertexShader))
+                .Attach(new Shader("Shaders\\2D\\fbFrag.glsl", ShaderType.FragmentShader))
+                .Link()
+                .GetMaterial();
+
             if (GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer) != FramebufferErrorCode.FramebufferComplete)
                 Logging.Write("Framebuffer error: " + GL.GetError(), LogStatus.Error);
         }
@@ -92,6 +102,9 @@ namespace Whirlpool.Core.Render
             GL.Enable(EnableCap.Multisample);
             GL.Enable(EnableCap.Texture3DExt);
             GL.Enable(EnableCap.Blend);
+            //GL.Enable(EnableCap.CullFace);
+            //GL.FrontFace(FrontFaceDirection.Cw);
+            //GL.CullFace(CullFaceMode.Front);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             //GL.Enable(EnableCap.DepthClamp);
             GL.DepthRange(0.0f, 100.0f);

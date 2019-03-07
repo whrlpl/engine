@@ -3,11 +3,11 @@ using System.IO;
 using System.Runtime.InteropServices;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
-using Whirlpool.Core.Type;
+using Whirlpool.Shared;
 
-namespace Whirlpool.Core.Render
+namespace Whirlpool.Core.IO
 {
-    public class Texture3D
+    public class Texture3D : IAsset
     {
         public string name;
         public int glTexture = 0;
@@ -15,6 +15,7 @@ namespace Whirlpool.Core.Render
         public int animFrame = -1;
         public int width;
         public int height;
+        public int depth;
 
         public TextureWrapMode textureWrapMode = TextureWrapMode.Repeat;
         public TextureMagFilter textureMagFilter = TextureMagFilter.Nearest;
@@ -22,36 +23,27 @@ namespace Whirlpool.Core.Render
         public TextureUnit textureUnit = TextureUnit.Texture0;
         private byte[] data;
 
-        public static Texture3D FromData(Color4[] data, int width, int height, int depth, bool retainData = false)
-        {
-            Texture3D temp = new Texture3D()
-            {
-                name = "textureFromData_" + width + height
-            };
+        public Texture3D() { }
 
+        public string fileName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        byte[] IAsset.data { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public void LoadDataAsset(string fileName, byte[] fileData)
+        {
+            width = 512;
+            height = 512;
+            depth = 16;
+            name = "textureFromData_" + width + height;
             using (var stream = new MemoryStream())
             {
-                byte[] rawData;
-                GL.GenTextures(1, out temp.glTexture);
-                GL.BindTexture(TextureTarget.Texture3D, temp.glTexture);
-                rawData = new byte[data.Length * 4];
-                for (int i = 0; i < data.Length; ++i)
-                {
-                    rawData[i * 4 + 2] = (byte)(data[i].R * 255);
-                    rawData[i * 4 + 1] = (byte)(data[i].G * 255);
-                    rawData[i * 4] = (byte)(data[i].B * 255);
-                }
-                IntPtr ptr = Marshal.AllocHGlobal(rawData.Length);
-                Marshal.Copy(rawData, 0, ptr, rawData.Length);
-                GL.TexImage3D(TextureTarget.Texture3D, 0, PixelInternalFormat.Rgb, width, height, depth, 0, PixelFormat.Bgr, PixelType.UnsignedByte, ptr);
+                GL.GenTextures(1, out glTexture);
+                GL.BindTexture(TextureTarget.Texture3D, glTexture);
+                IntPtr ptr = Marshal.AllocHGlobal(fileData.Length);
+                PixelFormat imageFormat = PixelFormat.Bgra;
+                GL.TexImage3D(TextureTarget.Texture3D, 0, PixelInternalFormat.Rgba, width, height, depth, 0, imageFormat, PixelType.UnsignedByte, ptr);
                 GL.GenerateMipmap(GenerateMipmapTarget.Texture3D);
-                temp.width = width;
-                temp.height = height;
-                if (retainData)
-                    temp.data = rawData;
                 Marshal.FreeHGlobal(ptr);
             }
-            return temp;
         }
 
         public void Bind()
@@ -79,6 +71,11 @@ namespace Whirlpool.Core.Render
         public override string ToString()
         {
             return this.name;
+        }
+
+        public void LoadAsset(PackageFile file)
+        {
+            LoadDataAsset(file.fileName, file.fileData);
         }
     }
 }

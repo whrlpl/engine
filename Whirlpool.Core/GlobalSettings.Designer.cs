@@ -88,5 +88,29 @@ namespace Whirlpool.Core {
                 return ((int)(this["renderResolutionY"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int monitor {
+            get {
+                return ((int)(this["monitor"]));
+            }
+            set {
+                this["monitor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public float frameCap {
+            get {
+                return ((float)(this["frameCap"]));
+            }
+            set {
+                this["frameCap"] = value;
+            }
+        }
     }
 }

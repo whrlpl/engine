@@ -25,7 +25,7 @@ namespace Whirlpool.Core.Render
 
         public static void Init()
         {
-            renderResolution = new Vector2(1280, 720);
+            renderResolution = RenderShared.renderResolution;
 
             GL.GenVertexArrays(1, out QuadVAO);
             GL.GenBuffers(1, out QuadVBO);
@@ -107,7 +107,7 @@ namespace Whirlpool.Core.Render
             }
 
             material.SetVariables(new Dictionary<string, Type.Any>() {
-                //{ "LUTexture", 30 },
+                { "LUTexture", 30 },
                 { "Position", position + new Vector2(PixelsToNDCScaleFBO(scale).X, -PixelsToNDCScaleFBO(scale).Y)},
                 { "Scale", PixelsToNDCScaleFBO(scale) }
             });

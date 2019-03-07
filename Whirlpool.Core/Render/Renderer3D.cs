@@ -28,40 +28,51 @@ namespace Whirlpool.Core.Render
                 .GetMaterial();
         }
 
-        public static void DrawMesh(Mesh mesh, Vector3 position, Vector3 scale, Quaternion rotation, Quaternion localRotation, Texture texture = null, Material material = null, Dictionary<string, Any> materialParameters = null)
+        public static void TestOptimizedDraw(int indexCount, Vector3 position, Vector3 scale, Quaternion rotation, Quaternion localRotation, Texture texture, Material material)
         {
-            var indexed = (mesh.EBO != -1);
-
-            GL.BindVertexArray(mesh.VAO);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, mesh.VBO);
-            if (indexed) GL.BindBuffer(BufferTarget.ElementArrayBuffer, mesh.EBO);
-            if (material == null) material = defaultMaterial;
-                                   
-            Matrix4 model = Matrix4.CreateTranslation(position + sceneCamera.worldPosition); // lol??? TODO: maybe dont do this
+            Matrix4 model = Matrix4.CreateTranslation(position);
             model.Transpose();
             model = Matrix4.CreateFromQuaternion(rotation) * model * Matrix4.CreateFromQuaternion(localRotation) * Matrix4.CreateScale(scale);
             model.Transpose();
+            material.SetVariable("Model", model);
 
-            Matrix4 mvp = model * sceneCamera.view * sceneCamera.projection;
+            GL.DrawArrays(PrimitiveType.Triangles, 0, indexCount);
+        }
+
+        public static void DrawBatchedMesh(int indexCount, Vector3 position, Vector3 scale, Quaternion rotation, Texture texture = null, Material material = null, Dictionary<string, Any> materialParameters = null)
+        {
+            if (material == null) material = defaultMaterial;
+
+            Matrix4 model = Matrix4.CreateTranslation(position);
+            model.Transpose();
+            model = model * Matrix4.CreateFromQuaternion(rotation) * Matrix4.CreateScale(scale);
+            model.Transpose();
 
             material.Use();
 
             if (texture != null)
             {
                 texture.Bind();
-                material.SetVariable("AlbedoTexture", 0);
+                //material.SetVariable("AlbedoTexture", 0);
             }
-            
+
             material.SetVariables(new Dictionary<string, Type.Any>(){
                 { "Model", model },
                 { "View", sceneCamera.view },
                 { "Projection", sceneCamera.projection },
-                { "MVP", mvp }
             });
 
             if (materialParameters != null) material?.SetVariables(materialParameters);
 
-            GL.DrawArrays(PrimitiveType.Triangles, 0, mesh.vertexIndices.Count);
+            GL.DrawArrays(PrimitiveType.Triangles, 0, indexCount);
+        }
+
+        public static void DrawMesh(Mesh mesh, Vector3 position, Vector3 scale, Quaternion rotation, Texture texture = null, Material material = null, Dictionary<string, Any> materialParameters = null)
+        {
+            GL.BindVertexArray(mesh.VAO);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, mesh.VBO);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, mesh.EBO);
+            DrawBatchedMesh(mesh.vertexIndices.Count, position, scale, rotation, texture, material, materialParameters);
         }
     }
 }
