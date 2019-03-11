@@ -228,11 +228,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\Whirlpool.Shared\Whirlpool.Shared.csproj">
+    <ProjectReference Include="..\Whirlpool.Shared\Whirlpool.Shared.csproj">
       <Project>{9dd0fd72-6811-468b-a42a-e32321850819}</Project>
       <Name>Whirlpool.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Whirlpool.Content.Builder\Whirlpool.Content.Builder\Whirlpool.Content.Builder.csproj">
+    <ProjectReference Include="..\Whirlpool.Content.Builder\Whirlpool.Content.Builder\Whirlpool.Content.Builder.csproj">
       <Project>{f9efa896-f234-4460-8d3b-22e829afefad}</Project>
       <Name>Whirlpool.Content.Builder</Name>
     </ProjectReference>
