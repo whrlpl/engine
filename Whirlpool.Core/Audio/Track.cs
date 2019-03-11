@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Whirlpool.Core.IO;
-using NAudio; // openal SUCKS i go to BED
-using NAudio.Wave;
+﻿using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
+using System;
 
 namespace Whirlpool.Core.Audio
 {
@@ -43,7 +37,7 @@ namespace Whirlpool.Core.Audio
     public class Track
     {
         public AudioFileReader audioFileReader;
-        float pitch;
+        float pitch = 0;
         SmbPitchShiftingSampleProvider pitchShift;
         WaveOutEvent output;
 

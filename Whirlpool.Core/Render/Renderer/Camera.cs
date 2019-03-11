@@ -1,29 +1,32 @@
 ﻿using OpenTK;
-using OpenTK.Graphics.OpenGL4;
 using System;
-using Whirlpool.Core.IO;
 
-namespace Whirlpool.Core.Render
+
+namespace Whirlpool.Core.Render.Renderer
 {
     public class Camera
     {
         public Vector3 position = new Vector3(10, 2, 0);
         public Vector3 lookAtPos = new Vector3(-10, 0, 0);
         public Vector3 camNormal = new Vector3(0, 1, 0);
-        public Vector3 worldPosition = new Vector3(0, 0, 0);
 
         public Vector2 viewportSize;
         public float fieldOfView = 50;
         public float vAngle;
         public float hAngle;
 
+        float DegToRad(float a)
+        {
+            return a * 0.0174533f;
+        }
+
         Vector3 cameraFront
         {
             get
             {
-                return new Vector3((float)(Math.Cos(vAngle) * Math.Sin(hAngle)),
-                    (float)Math.Sin(vAngle),
-                    (float)(Math.Cos(vAngle) * Math.Cos(hAngle)));
+                return new Vector3((float)(Math.Cos(DegToRad(vAngle)) * Math.Sin(DegToRad(hAngle))),
+                    (float)Math.Sin(DegToRad(vAngle)),
+                    (float)(Math.Cos(DegToRad(vAngle)) * Math.Cos(DegToRad(hAngle))));
             }
         }
 
@@ -36,10 +39,10 @@ namespace Whirlpool.Core.Render
         {
             get
             {
-                var basis = BuildBasis();
-                var camPos = Vector3.TransformVector(position, basis);
-                var lookAtPos_ = Vector3.TransformVector(lookAtPos, basis);
-                return Matrix4.LookAt(camPos, lookAtPos_, cameraUp);
+                //var basis = BuildBasis();
+                //var camPos = Vector3.TransformVector(position, basis);
+                //var lookAtPos_ = Vector3.TransformVector(lookAtPos, basis);
+                return Matrix4.LookAt(position, position + cameraFront /* + lookAtPos*/, cameraUp);
                 //return Matrix4.LookAt(position, lookAtPos, cameraUp);
             }
         }
@@ -88,11 +91,11 @@ namespace Whirlpool.Core.Render
         {
             vAngle = FixDir(vAngle);
             hAngle = FixDir(hAngle);
-            //var forward = new Vector3((float)Math.Sin(vAngle), 0, (float)-Math.Cos(vAngle));
+            var forward = new Vector3((float)Math.Sin(vAngle), 0, (float)-Math.Cos(vAngle));
             //var side = new Vector3((float)Math.Cos(vAngle), 0, (float)Math.Sin(vAngle));
-            var forward = new Vector3((float)Math.Sin(vAngle) * (float)Math.Cos(hAngle), (float)-Math.Sin(hAngle), (float)-Math.Cos(vAngle));
+            //var forward = new Vector3((float)Math.Sin(vAngle) * (float)Math.Cos(hAngle), (float)-Math.Sin(hAngle), (float)-Math.Cos(vAngle));
             var side = Vector3.Normalize(Vector3.Cross(cameraUp, forward));
-            var basis = GramSchmidt(camNormal, side, forward);
+            var basis = GramSchmidt(camNormal, side + position, forward + position);
             var tmp = basis[0];
             basis[0] = basis[1];
             basis[1] = tmp;

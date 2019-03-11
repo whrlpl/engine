@@ -2,10 +2,9 @@
 using System.Runtime.InteropServices;
 using Whirlpool.Core.Type;
 
-namespace Whirlpool.Core.IO
+namespace Whirlpool.Core.IO.ThirdParty
 {
-    [NeedsRefactoring]
-    public unsafe class UnsafeNativeMethods
+    public unsafe class DiscordWrapper
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void ReadyHandler(ref DiscordUser request);
@@ -142,27 +141,6 @@ namespace Whirlpool.Core.IO
         public static void DiscordRespond(string userID, Reply reply)
         {
             Discord_Respond(userID, reply);
-        }
-
-        //--------------------------------------------------------------------------------
-
-        [DllImport("kernel32.dll")]
-        private static extern IntPtr GetConsoleWindow();
-
-        [DllImport("user32.dll")]
-        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        private const int SW_HIDE = 0;
-        private const int SW_SHOW = 5;
-
-        public static void ShowConsole()
-        {
-            ShowWindow(GetConsoleWindow(), SW_SHOW);
-        }
-
-        public static void HideConsole()
-        {
-            ShowWindow(GetConsoleWindow(), SW_HIDE);
         }
     }
 }

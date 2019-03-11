@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Whirlpool.Core.IO
 {
@@ -6,6 +7,7 @@ namespace Whirlpool.Core.IO
     {
         Warning,
         Error,
+        Critical,
         General
     }
 
@@ -24,10 +26,37 @@ namespace Whirlpool.Core.IO
         /// <param name="status">The severity / type of the message.</param>
         public static void Write(string str, LogStatus status = LogStatus.General)
         {
+            string formattedStr = "[" + DateTime.Now.ToString() + "] [" + status.ToString() + "] " + str;
             switch (status)
             {
                 case LogStatus.Error:
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    {
+                        StackTrace stackTrace = new StackTrace();
+                        string frameMethodName = "";
+                        for (int i = 0; i < stackTrace.FrameCount; ++i)
+                        {
+                            frameMethodName += stackTrace.GetFrame(i).GetMethod().Name;
+                            if (i != stackTrace.FrameCount - 1)
+                                frameMethodName += " --> ";
+                        }
+                        formattedStr += "\n\tFrom " + frameMethodName;
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    break;
+                case LogStatus.Critical:
+                    {
+                        StackTrace stackTrace = new StackTrace();
+                        string frameMethodName = "";
+                        for (int i = 0; i < stackTrace.FrameCount; ++i)
+                        {
+                            frameMethodName += stackTrace.GetFrame(i).GetMethod().Name;
+                            if (i != stackTrace.FrameCount - 1)
+                                frameMethodName += " --> ";
+                        }
+                        formattedStr += "\n\tFrom " + frameMethodName;
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        throw new Exception("Critical error - game cannot continue: " + formattedStr);
+                    }
                     break;
                 case LogStatus.Warning:
                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -35,9 +64,9 @@ namespace Whirlpool.Core.IO
             }
             OnWrite?.Invoke(null, new LogEventArgs()
             {
-                loggedStr = "[" + status.ToString() + "] " + str
+                loggedStr = formattedStr
             });
-            Console.WriteLine("[" + status.ToString() + "] " + str);
+            Console.WriteLine(formattedStr);
 
             Console.ForegroundColor = ConsoleColor.Gray;
         }

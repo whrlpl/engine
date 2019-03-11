@@ -1,9 +1,9 @@
-﻿using System;
+﻿using OpenTK.Graphics.OpenGL4;
+using System;
 using System.IO;
-using OpenTK.Graphics.OpenGL4;
 using Whirlpool.Core.IO;
 
-namespace Whirlpool.Core.Render
+namespace Whirlpool.Core.Render.Type
 {
     public class Shader
     {

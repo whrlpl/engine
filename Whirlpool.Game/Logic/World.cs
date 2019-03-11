@@ -53,8 +53,8 @@ namespace Whirlpool.Game.Logic
             };
 
 
-            model = new Model() { objName = "Content\\Models\\Hagrid.obj", rotation = new OpenTK.Vector3(0.0f, 270.0f, 0.0f) };
-            terrain = new Model() { objName = "Content\\Models\\floor.obj" };
+            model = new Model() { objName = "Models\\Hagrid.obj", rotation = new OpenTK.Vector3(0.0f, 270.0f, 0.0f) };
+            terrain = new Model() { objName = "Models\\floor.obj" };
             model.Init();
             terrain.Init();
             // We managed to connect to the server, lets update the discord presence with server data

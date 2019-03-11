@@ -1,21 +1,22 @@
 ﻿#define CACHELOCATIONS
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
+using System;
+using System.Collections.Generic;
+using Whirlpool.Core.IO;
 using Whirlpool.Core.Type;
 
-namespace Whirlpool.Core.Render
+namespace Whirlpool.Core.Render.Type
 {
     public unsafe class Material
     {
         private int shaderProgram;
-        private Dictionary<string, int> locations = new Dictionary<string, int>();
         public List<Shader> shaders = new List<Shader>();
         public string name = "Unnamed material";
+
+        List<string> errorredVariables = new List<string>();
+        Dictionary<string, int> variableLocations = new Dictionary<string, int>();
 
         public Material()
         {
@@ -37,13 +38,6 @@ namespace Whirlpool.Core.Render
         public void Link()
         {
             GL.LinkProgram(shaderProgram);
-            GL.GetProgram(shaderProgram, GetProgramParameterName.ActiveUniforms, out var uniformCount);
-            for (int i = 0; i < uniformCount; ++i)
-            {
-                StringBuilder uniformName = new StringBuilder();
-                GL.GetActiveUniform(shaderProgram, i, 2048, out var length, out var size, out var type, uniformName);
-                locations.Add(uniformName.ToString(), i);
-            }
         }
 
         /// <summary>
@@ -61,9 +55,28 @@ namespace Whirlpool.Core.Render
         /// <returns>The location of the variable</returns>
         protected int GetVariableLocation(string variable)
         {
-            if (locations.TryGetValue(variable, out var locationCached))
-                return locationCached;
-            return -1;
+            if (errorredVariables.Contains(variable)) return -1;
+            var loc = 0;
+            if (variableLocations.ContainsKey(variable))
+            {
+                loc = variableLocations[variable];
+            }
+            else
+            {
+                loc = GL.GetUniformLocation(shaderProgram, variable);
+                variableLocations.Add(variable, loc);
+            }
+            if (loc < 0)
+            {
+                Logging.Write("Variable '" + variable + "' not found.", LogStatus.Error); // play it safe, don't crash, but only log ONCE
+                errorredVariables.Add(variable);
+            }
+            return loc;
+        }
+
+        public bool VariableExists(string variable)
+        {
+            return GL.GetUniformLocation(shaderProgram, variable) > -1;
         }
 
         public void SetVariables(Dictionary<string, Any> variables)
@@ -73,6 +86,15 @@ namespace Whirlpool.Core.Render
                 SetVariable(v.Key, v.Value.GetValue());
             }
         }
+
+        public void SetVariables(params Tuple<string, Any>[] variables)
+        {
+            foreach (Tuple<string, Any> v in variables)
+            {
+                SetVariable(v.Item1, v.Item2.GetValue());
+            }
+        }
+
 
         /// <summary>
         /// Set the value of a uniform variable in any shader.
@@ -143,7 +165,21 @@ namespace Whirlpool.Core.Render
         {
             fixed (Vector3* ptr = &value[0])
             {
-                GL.ProgramUniform4(shaderProgram, GetVariableLocation(variable), value.Length, (float*)ptr);
+                GL.ProgramUniform3(shaderProgram, GetVariableLocation(variable), value.Length, (float*)ptr);
+            }
+        }
+        public void SetVariable(string variable, Vector2[] value)
+        {
+            fixed (Vector2* ptr = &value[0])
+            {
+                GL.ProgramUniform2(shaderProgram, GetVariableLocation(variable), value.Length, (float*)ptr);
+            }
+        }
+        public void SetVariable(string variable, Vector2[,] value)
+        {
+            fixed (Vector2* ptr = &value[0,0])
+            {
+                GL.ProgramUniform2(shaderProgram, GetVariableLocation(variable), value.Length, (float*)ptr);
             }
         }
 
@@ -188,6 +224,12 @@ namespace Whirlpool.Core.Render
         public Material GetMaterial()
         {
             return instance;
+        }
+
+        // Generates JSON metadata from material data.
+        public string GetJSON()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(instance);
         }
     }
 

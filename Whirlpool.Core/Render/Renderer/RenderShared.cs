@@ -1,11 +1,6 @@
 ﻿using OpenTK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Whirlpool.Core.Render
+namespace Whirlpool.Core.Render.Renderer
 {
     public class RenderShared
     {
@@ -18,8 +13,8 @@ namespace Whirlpool.Core.Render
             {
                 renderResolution = new Vector2(BaseGame.Size.Width, BaseGame.Size.Height);
             }
-            Render3D.Init();
-            Render2D.Init();
+            Renderer3D.Init();
+            Renderer2D.Init();
         }
     }
 }

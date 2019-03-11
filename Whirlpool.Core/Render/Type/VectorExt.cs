@@ -1,11 +1,7 @@
 ﻿using OpenTK;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Whirlpool.Core.Type
+namespace Whirlpool.Core.Render.Type
 {
     public static class VectorExt
     {

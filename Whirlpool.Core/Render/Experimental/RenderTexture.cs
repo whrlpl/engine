@@ -1,9 +1,9 @@
-﻿using System;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK;
-using Whirlpool.Core.Type;
+using System;
+using Whirlpool.Core.Render.Type;
 
-namespace Whirlpool.Core.Render
+namespace Whirlpool.Core.Render.Experimental
 {
     public class RenderTexture
     {
@@ -17,7 +17,7 @@ namespace Whirlpool.Core.Render
 
             texture = new Texture()
             {
-                name = "renderTexture",
+                fileName = "renderTexture",
                 width = width,
                 height = height,
                 animated = false
