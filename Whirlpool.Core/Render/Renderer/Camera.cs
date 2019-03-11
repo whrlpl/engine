@@ -1,10 +1,8 @@
 ﻿using OpenTK;
-using OpenTK.Graphics.OpenGL4;
 using System;
-using Whirlpool.Core.IO;
 
 
-namespace Whirlpool.Core.Render
+namespace Whirlpool.Core.Render.Renderer
 {
     public class Camera
     {

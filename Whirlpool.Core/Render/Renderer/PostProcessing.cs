@@ -1,17 +1,13 @@
-﻿#define POSTPROCESSING
-#define DEPTHTEXTURE
+﻿using OpenTK;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL4;
 using System;
 using System.Drawing;
-using OpenTK;
-using OpenTK.Graphics.OpenGL4;
-using Whirlpool.Core.Pattern;
 using Whirlpool.Core.IO;
-using Whirlpool.Core.Type;
-using OpenTK.Graphics;
-using System.Collections.Generic;
-using Whirlpool.Core.IO.Assets;
+using Whirlpool.Core.Pattern;
+using Whirlpool.Core.Render.Type;
 
-namespace Whirlpool.Core.Render
+namespace Whirlpool.Core.Render.Renderer
 {
     public class PostProcessing : Singleton<PostProcessing>
     {

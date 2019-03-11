@@ -1,12 +1,8 @@
 ﻿using OpenTK.Graphics.OpenGL4;
-using OpenTK.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Whirlpool.Core.Render.Renderer;
 
-namespace Whirlpool.Core.Render
+namespace Whirlpool.Core.Render.Experimental
 {
     public class GBuffer
     {

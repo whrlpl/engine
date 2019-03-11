@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Input;
+using System;
+using System.Collections.Generic;
 using Whirlpool.Core.Pattern;
-using Whirlpool.Core.Render;
 using Whirlpool.Core.Type;
 
 namespace Whirlpool.Core.IO

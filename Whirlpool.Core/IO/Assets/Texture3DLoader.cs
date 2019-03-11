@@ -1,9 +1,9 @@
-﻿using System;
+﻿using OpenTK.Graphics.OpenGL4;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
-using OpenTK.Graphics.OpenGL4;
-using Whirlpool.Core.Render;
+using Whirlpool.Core.Render.Type;
 
 namespace Whirlpool.Core.IO.Assets
 {

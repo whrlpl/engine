@@ -1,11 +1,12 @@
-﻿using System;
-using System.Threading;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
+using System;
+using System.Threading;
 using Whirlpool.Core.IO;
-using Whirlpool.Core.Render;
+using Whirlpool.Core.IO.ThirdParty;
+using Whirlpool.Core.Render.Renderer;
 
 namespace Whirlpool.Core
 {
@@ -14,6 +15,7 @@ namespace Whirlpool.Core
         public string gameName { get; set; }
         public string gameVersion { get; set; }
         public string windowTitle { get; set; }
+        public string discordClientID { get; set; }
     }
     
     public abstract class BaseGame : OpenTK.GameWindow
@@ -48,8 +50,6 @@ namespace Whirlpool.Core
             base.OnLoad(e);
             updateThread = new Thread(UpdateThread);
             updateThread.Start();
-
-            DiscordController.Init();
             Mouse.ButtonDown += Mouse_ButtonDown;
             Mouse.ButtonUp += Mouse_ButtonUp;
 
@@ -69,6 +69,7 @@ namespace Whirlpool.Core
                 Logging.Write("Gamepad not connected");
             }
             Init();
+            DiscordController.Init();
         } 
 
         private void HandleMouseEvent(MouseButtonEventArgs e)
@@ -106,6 +107,7 @@ namespace Whirlpool.Core
 
         protected override void OnClosed(EventArgs e)
         {
+            DiscordController.Shutdown();
             base.OnClosed(e);
             Environment.Exit(0);
         }
@@ -166,9 +168,7 @@ namespace Whirlpool.Core
                 if (Time.currentTime * 1000 - lastUpdate < 1) continue;
 
                 HandleInput();
-
-                if (Time.currentTime * 1000 % 15000 == 0) DiscordController.Update();
-
+                DiscordController.Update();
                 Update(1000 / (Time.GetMilliseconds() - lastUpdate));
                 lastUpdate = Time.GetMilliseconds();
                 Thread.Sleep(1000/60);

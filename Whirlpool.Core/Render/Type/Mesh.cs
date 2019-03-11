@@ -3,14 +3,10 @@ using OpenTK.Graphics.OpenGL4;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Whirlpool.Core.IO;
-using Whirlpool.Core.Type;
 using Whirlpool.Shared;
 
-namespace Whirlpool.Core.Render
+namespace Whirlpool.Core.Render.Type
 {
     public class Mesh : IAsset
     {

@@ -1,7 +1,7 @@
-﻿using System;
-using OpenTK.Graphics;
+﻿using OpenTK.Graphics;
+using System;
 
-namespace Whirlpool.Core.Render
+namespace Whirlpool.Core.Render.Utils
 {
     public static class Color4Ext
     {

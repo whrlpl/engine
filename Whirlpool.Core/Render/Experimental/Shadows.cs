@@ -1,14 +1,11 @@
-﻿using System;
-using System.Drawing;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL4;
-using Whirlpool.Core.Pattern;
+using System;
 using Whirlpool.Core.IO;
-using Whirlpool.Core.Type;
-using OpenTK.Graphics;
-using System.Collections.Generic;
+using Whirlpool.Core.Render.Renderer;
+using Whirlpool.Core.Render.Type;
 
-namespace Whirlpool.Core.Render
+namespace Whirlpool.Core.Render.Experimental
 {
     public class Shadows
     {

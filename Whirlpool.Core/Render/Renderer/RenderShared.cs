@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace Whirlpool.Core.Render
+namespace Whirlpool.Core.Render.Renderer
 {
     public class RenderShared
     {

@@ -1,14 +1,13 @@
-﻿using System;
+﻿using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL4;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL4;
 using Whirlpool.Core.IO;
-using Whirlpool.Core.Type;
 using Whirlpool.Shared;
 
-namespace Whirlpool.Core.Render
+namespace Whirlpool.Core.Render.Type
 {
     public class Texture : IAsset
     {

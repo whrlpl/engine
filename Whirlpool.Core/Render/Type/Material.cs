@@ -1,15 +1,13 @@
 ﻿#define CACHELOCATIONS
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
+using System;
+using System.Collections.Generic;
 using Whirlpool.Core.IO;
 using Whirlpool.Core.Type;
 
-namespace Whirlpool.Core.Render
+namespace Whirlpool.Core.Render.Type
 {
     public unsafe class Material
     {

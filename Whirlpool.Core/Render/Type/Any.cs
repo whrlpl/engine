@@ -2,7 +2,7 @@
 using OpenTK.Graphics;
 using System;
 
-namespace Whirlpool.Core.Type
+namespace Whirlpool.Core.Render.Type
 {
     public class Any
     {        

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using OpenTK;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL4;
+using System.Collections.Generic;
+using Whirlpool.Core.Render.Type;
 using Whirlpool.Core.Type;
 
-namespace Whirlpool.Core.Render
+namespace Whirlpool.Core.Render.Renderer
 {
     public class Renderer3D
     {

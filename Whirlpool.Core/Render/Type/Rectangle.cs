@@ -1,12 +1,6 @@
 ﻿using OpenTK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Whirlpool.Core.IO;
 
-namespace Whirlpool.Core.Type
+namespace Whirlpool.Core.Render.Type
 {
     public class Rectangle
     {

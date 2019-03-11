@@ -1,15 +1,11 @@
-﻿using System;
+﻿using RSG;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Whirlpool.Core.Pattern;
-using Whirlpool.Core.Render;
+using Whirlpool.Core.Render.Type;
 using Whirlpool.Shared;
-using RSG.Promises;
-using RSG;
 
 namespace Whirlpool.Core.IO
 {
@@ -52,6 +48,7 @@ namespace Whirlpool.Core.IO
     public class Content : Singleton<Content>
     {
         public List<IAsset> assets = new List<IAsset>();
+        Package package = new Package("Content.wpak");
 
 
         private System.Type GetAssetType(string fileName)
@@ -166,8 +163,7 @@ namespace Whirlpool.Core.IO
 
         public IAsset LoadPackageAsset(string packageFile)
         {
-            Package p = new Package("Content.wpak");
-            foreach (PackageFile file in p.files)
+            foreach (PackageFile file in package.files)
             {
                 object o = Activator.CreateInstance(GetAssetType(file.fileName));
                 if (file.fileName == packageFile)
@@ -183,9 +179,8 @@ namespace Whirlpool.Core.IO
         public Promise<IAsset> LoadPackageAssetAsync(string packageFile)
         {
             var promise = new Promise<IAsset>();
-            Package p = new Package("Content.wpak");
             bool fileFound = false;
-            foreach (PackageFile file in p.files)
+            foreach (PackageFile file in package.files)
             {
                 object o = Activator.CreateInstance(GetAssetType(file.fileName));
                 if (file.fileName == packageFile)
